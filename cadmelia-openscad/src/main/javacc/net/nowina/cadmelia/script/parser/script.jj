@@ -1,0 +1,510 @@
+/*
+ * Copyright 2017 David Naramski.
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ *      http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+options {
+    STATIC = false;
+    LOOKAHEAD = 4;
+    // FORCE_LA_CHECK = true;
+}
+
+PARSER_BEGIN(ScriptParser)
+package net.nowina.cadmelia.script.parser;
+
+import net.nowina.cadmelia.construction.Vector;
+import net.nowina.cadmelia.script.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ScriptParser {
+
+}
+PARSER_END(ScriptParser)
+
+SKIP: {
+  < " " | "\t" | "\r" | "\n" | "\r\n"
+  | "//" (~["\n","\r"])* ("\n"|"\r") >
+}
+
+TOKEN: {
+   < MODULE : "module" >
+ | < FUNCTION : "max" | "rand" | "rands" | "sin" | "cos" | "atan" | "round" | "tan" >
+ | < BOOLEAN : "true" | "false" >
+ | < FOR : "for" >
+ | < BOOLEAN_EQUAL : "==" >
+ | < BOOLEAN_NOT_EQUAL : "!=" >
+ | < BOOLEAN_NOT : "!" >
+ | < GT : ">" >
+ | < LT : "<" >
+ | < GTE : ">=" >
+ | < LTE : "<=" >
+ | < COLON : ":" >
+ | < LP : "(" >
+ | < RP : ")" >
+ | < LB : "[" >
+ | < RB : "]" >
+ | < LBRACE : "{" >
+ | < RBRACE : "}" >
+ | < EQ : "=" >
+ | < SEMICOLON : ";" >
+ | < COMMA : "," >
+ | < SP : " " | "\t" >
+ | < PLUS: "+" >
+ | < MINUS: "-" >
+ | < DIVIDE: "/" >
+ | < TIMES: "*" >
+ | < QUOTE: "\"" > : STRING_STATE
+ | < NUMBER : ((["0"-"9"])+)? ("." (["0"-"9"])+)?("e"("+"|"-")?(["0"-"9"])+)? >
+ | < NAME : (["0"-"9","a"-"z","A"-"Z","_","$"])+>
+}
+
+<STRING_STATE> MORE:
+{
+  "\\" : ESC_STATE
+}
+
+<STRING_STATE> TOKEN:
+{
+  <ENDQUOTE:<QUOTE>> : DEFAULT
+| <CHAR:~["\"","\\"]>
+}
+
+<ESC_STATE> TOKEN:
+{
+  <CNTRL_ESC:["\"","\\","/","b","f","n","r","t"]> : STRING_STATE
+}
+
+Iteration For() :
+{
+    String variable;
+    Expression start;
+    Expression end;
+    Iteration it;
+    Command c;
+}
+{
+    <FOR> <LP> variable = Name() <EQ> <LB> start = Expression() <COLON> end = Expression() <RB> <RP>
+    { it = new Iteration(variable, start, Expression.element(1d), end); }
+
+    (
+        (<LBRACE>
+            ( c = Chain()
+            { it.addOperation(c); })*
+        <RBRACE>)
+    |
+        ( c = Chain()
+        { it.addOperation(c); })
+    )
+
+    { return it; }
+}
+
+String Name() :
+{
+    Token t;
+}
+{
+    t=<NAME> { return t.image; }
+}
+
+Double Number() :
+{
+    Token t;
+}
+{
+    t=<NUMBER> { return new Double(t.image); }
+}
+
+Boolean Boolean() :
+{
+    Token t;
+}
+{
+    t=<BOOLEAN> { return new Boolean(t.image); }
+}
+
+Vector LiteralVector() :
+{
+    Double x,y,z = null;
+}
+{
+    <LB>
+        x = Number()
+    <COMMA>
+        y = Number()
+
+    // Optional could be vector 2D or vector 2D
+    (<COMMA>
+        z = Number())?
+
+    <RB>
+    { return new Vector(x,y,z); }
+}
+
+Expression Vector() :
+{
+    Expression x,y,z = null;
+}
+{
+    <LB>
+        x = Expression()
+    <COMMA>
+        y = Expression()
+
+    // Optional could be vector 2D or vector 2D
+    (<COMMA>
+        z = Expression())?
+
+    <RB>
+    { return Expression.element(x,y,z); }
+}
+
+List VectorList() :
+{
+    List l = null;
+    Expression v = null;
+}
+{
+    <LB>
+        v = Vector()
+        { l = new ArrayList(); l.add(v); }
+    (
+    <COMMA>
+        v = Vector()
+        { l.add(v); }
+        )*
+    <RB>
+
+    { return l; }
+}
+
+Argument Argument() :
+{
+    String name = null;
+    Expression value;
+}
+{
+    (LOOKAHEAD(3) name = Name() <EQ> )?
+    (value = Expression()| value = Vector())
+    {
+        return new Argument(name, value);
+    }
+}
+
+Parameter Parameter() :
+{
+    String name = null;
+    Object value = null;
+}
+{
+    name = Name() (
+        <EQ>
+        (value = Number() | value = LiteralVector() | value = Boolean())
+    )?
+    {
+        return new Parameter(name, value);
+    }
+}
+
+ Command Command() :
+ {
+    String name;
+    Command command;
+    Argument arg;
+ }
+ {
+    command = For()
+    { return command; }
+
+    |
+
+     name = Name()
+     { command = new Command(name); }
+     <LP>
+         ((arg = Argument()
+            { command.addArg(arg); } )?
+         (<COMMA> arg = Argument()
+            { command.addArg(arg); } )* )
+     <RP>
+    {
+        return command;
+    }
+ }
+
+Command Chain() :
+{
+    Command chain = null;
+    Command command = null;
+    Command previous = null;
+    Command internal = null;
+}
+{
+    ( command = Command()
+        { if(chain==null) chain = command;
+          if(previous!=null) previous.addOperation(command);
+          previous = command;
+        }
+    )+
+    (<LBRACE>
+        ( internal = Chain()
+        { command.addOperation(internal); }
+        )*
+    <RBRACE>)?
+    (<SEMICOLON>)?
+    {return chain;}
+
+}
+
+ Module Module() :
+ {
+    String name;
+    Module m;
+    Instruction instruction;
+    Parameter param;
+ }
+ {
+    <MODULE> name = Name()
+    { m = new Module(name); }
+    <LP>
+         ((param = Parameter()
+            { m.addParam(param); } )?
+         (<COMMA> param = Parameter()
+            { m.addParam(param); } )* )
+    <RP> <LBRACE>
+        ( instruction = Statement()
+        { m.addInstruction(instruction); }
+        )+
+    <RBRACE>
+    { return m; }
+ }
+
+Instruction Statement() :
+{
+    Module module;
+    Command op;
+    Define def;
+    Iteration it;
+}
+{
+    module = Module()
+    { return module; }
+
+    |
+
+    def = Assignment()
+    { return def; }
+
+    |
+
+    op = Chain()
+    { return op; }
+
+}
+
+Script Script() :
+{
+    Script script;
+    Instruction instruction;
+}
+{
+    { script = new Script(); }
+    (
+        instruction = Statement()
+        { script.add(instruction); }
+    )* <EOF>
+    { return script; }
+}
+
+Command Function() :
+{
+    Command command;
+    Token t;
+    Expression ex;
+}
+{
+    t = <FUNCTION>
+    { command = new Command(t.image); }
+    <LP>
+        (ex = Expression()
+        { command.addArg(ex); }
+        )?
+        (<COMMA> ex = Expression()
+        { command.addArg(ex); }
+        )*
+    <RP>
+    { return command; }
+}
+
+Expression Element() :
+{
+    Double value;
+    String name;
+    Boolean bool;
+    String text;
+    List list;
+    Command function;
+    Expression expression;
+}
+{
+    value = Number()
+    { return Expression.element(value); }
+    |
+    name = Name()
+    { return Expression.element(name); }
+    |
+    list = VectorList()
+    { return Expression.element(list); }
+    |
+    function = Function()
+    { return Expression.element(function); }
+    |
+    bool = Boolean()
+    { return Expression.element(bool); }
+    |
+    text = String()
+    { return Expression.elementText(text); }
+    |
+    <LP> expression = Expression() <RP>
+    { return expression; }
+}
+
+Expression Unary() :
+{
+    Expression expression;
+}
+{
+    <MINUS> expression = Element() { return expression.neg(); }
+    | expression = Element() { return expression; }
+}
+
+Expression Term() :
+{
+    Expression expression;
+    Expression term;
+}
+{
+    expression = Unary()
+    ( <TIMES> term = Term()
+    { expression = expression.times(term); }
+    | <DIVIDE> term = Term()
+    { expression = expression.divide(term);} )*
+    { return expression; }
+}
+
+Expression Factor() :
+{
+    Expression expression;
+    Expression exp2;
+}
+{
+    expression = Term()
+    (
+    <PLUS> exp2 = Term()
+    { expression = expression.plus(exp2); }
+    |
+    <MINUS> exp2 = Term()
+    { expression = expression.minus(exp2); }
+    )*
+    { return expression; }
+}
+
+Expression Expression() :
+{
+    Expression exp;
+    Expression exp2;
+}
+{
+    exp = Factor()
+    (
+        <BOOLEAN_EQUAL> exp2 = Factor()
+        { exp = exp.booleanEquals(exp2); }
+        |
+        <BOOLEAN_NOT_EQUAL> exp2 = Factor()
+        { exp = exp.booleanNotEquals(exp2); }
+        |
+        <GTE> exp2 = Factor()
+        { exp = exp.greaterOrEqualThan(exp2); }
+        |
+        <LTE> exp2 = Factor()
+        { exp = exp.lowerOrEqualThan(exp2); }
+        |
+        <LT> exp2 = Factor()
+        { exp = exp.lowerThan(exp2); }
+        |
+        <GT> exp2 = Factor()
+        { exp = exp.greaterThan(exp2); }
+    )?
+    { return exp; }
+}
+
+Define Assignment() :
+{
+    Token name = null;
+    Expression expression = null;
+}
+{
+    name = <NAME>
+    <EQ>
+    expression = Expression()
+    <SEMICOLON>
+    { return new Define(name.image, expression); }
+}
+
+/**
+ * Match a quoted string.
+ */
+String String() :
+{
+  StringBuilder builder = new StringBuilder();
+}
+{
+  <QUOTE> ( ConsumeChar(builder) )* <ENDQUOTE>
+  {
+    return builder.toString();
+  }
+}
+
+/**
+ * Match char inside quoted string.
+ */
+void ConsumeChar(StringBuilder builder):
+{
+  Token t;
+}
+{
+  ( t = <CHAR> | t = <CNTRL_ESC> )
+  {
+    if (t.image.length() < 2)
+    {
+      // CHAR
+      builder.append(t.image.charAt(0));
+    }
+    else if (t.image.length() < 6)
+    {
+      // ESC
+      char c = t.image.charAt(1);
+      switch (c)
+      {
+        case 'b': builder.append((char) 8); break;
+        case 'f': builder.append((char) 12); break;
+        case 'n': builder.append((char) 10); break;
+        case 'r': builder.append((char) 13); break;
+        case 't': builder.append((char) 9); break;
+        default: builder.append(c);
+      }
+    }
+  }
+}

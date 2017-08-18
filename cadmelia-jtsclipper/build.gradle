@@ -1,0 +1,26 @@
+/*
+ * Copyright 2017 David Naramski.
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ *      http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+dependencies {
+    compile project(':cadmelia-api')
+    compile project(':cadmelia-core') // For Transform only
+    compile 'org.locationtech.jts:jts-core:1.15.0-SNAPSHOT'
+    compile 'de.lighti.clipper:clipper-double:6.4.2.1-SNAPSHOT'
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile 'org.fxyz3d:fxyz3d:0.2-SNAPSHOT'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

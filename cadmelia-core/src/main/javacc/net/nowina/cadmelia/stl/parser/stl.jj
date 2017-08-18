@@ -1,0 +1,97 @@
+/*
+ * Copyright 2017 David Naramski.
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ *      http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+options {
+    STATIC = false ;
+}
+
+PARSER_BEGIN(STLParser)
+package net.nowina.cadmelia.stl.parser;
+
+import net.nowina.cadmelia.stl.*;
+
+public class STLParser {
+
+    private STLEventHandler handler;
+
+    public void setEventHandler(STLEventHandler handler) {
+        this.handler = handler;
+    }
+
+}
+PARSER_END(STLParser)
+
+SKIP: { " " | "\t" | "\n" | "\r" }
+
+TOKEN: {
+  < SOLID: "solid" >
+ | < FACET: "facet" >
+ | < NORMAL: "normal" >
+ | < OUTER: "outer" >
+ | < LOOP: "loop" >
+ | < VERTEX: "vertex" >
+ | < ENDLOOP: "endloop" >
+ | < ENDFACET: "endfacet" >
+ | < ENDSOLID: "endsolid" >
+ | < NUMBER : ("-"|"+")?(["0"-"9"])+ ("." (["0"-"9"])+)?("e"("+"|"-")?(["0"-"9"])+)? >
+ | < NAME : (["0"-"9","a"-"z","A"-"Z","_"])+> }
+
+double Number() :
+{
+    Token t;
+}
+{
+    t=<NUMBER> { return Double.parseDouble(t.image); }
+}
+
+String Name() :
+{
+    Token t;
+}
+{
+    t=<NAME> { return t.image; }
+}
+
+void Vertex() :
+{
+    double x, y, z;
+}
+{
+    <VERTEX> x=Number() y=Number() z=Number()
+    {if(handler!=null) handler.onVertex(x,y,z); }
+}
+
+void Facet() :
+{
+    double nx,ny,nz;
+}
+{
+    <FACET> <NORMAL> nx=Number() ny=Number() nz=Number()
+    {if(handler!=null) handler.onFacetStart(nx,ny,nz);}
+    <OUTER> <LOOP> (Vertex())+ <ENDLOOP> <ENDFACET>
+    {if(handler!=null) handler.onFacetEnd();}
+}
+
+void Solid() :
+{
+    String name;
+}
+{
+    <SOLID> name=Name()
+    {if(handler!=null) handler.onSolidStart(name);}
+    (Facet())+ <ENDSOLID> <NAME>
+    {if(handler!=null) handler.onSolidEnd();}
+}
