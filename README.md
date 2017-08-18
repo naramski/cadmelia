@@ -31,7 +31,7 @@ but should work as it is based on Java).
 
 # Download
 
-Download Windows 64-bits and MacOSX version from the [release page](./releases).
+Download Windows 64-bits and MacOSX version from the [release page](https://github.com/naramski/cadmelia/releases).
 
 # How to Build
 
