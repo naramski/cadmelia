@@ -15,14 +15,12 @@
  * limitations under the License.
  */
 
-rootProject.name = 'cadmelia'
-
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
-
+dependencies {
+    compile project(':cadmelia-api')
+    compile project(':cadmelia-core')
+    compile project(':cadmelia-tesselation')
+    compile 'com.github.quickhull3d:quickhull3d:1.0.0'
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    testCompile project(':cadmelia-jtsclipper')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.bspcsg;
 
-rootProject.name = 'cadmelia'
+public abstract class ClipNodeToNodeExecutor extends ClippingOperationExecutor {
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+    public ClipNodeToNodeExecutor(Factory factory) {
+        super(factory);
+    }
 
+    public abstract void execute(Node node, Node to);
+
+}

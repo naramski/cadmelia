@@ -32,10 +32,7 @@ dependencies {
     compile(project(':cadmelia-core')) {
         exclude group: 'org.slf4j';
     };
-    compile(project(':cadmelia-jcsg')) {
-        exclude group: 'eu.mihosoft.ext.org.fxyz';
-        exclude group: 'org.slf4j';
-    };
+    compile(project(':cadmelia-bspcsg'));
     compile(project(':cadmelia-jtsclipper')) {
         exclude group: 'org.slf4j';
     };

@@ -25,7 +25,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.nowina.cadmelia.construction.BuilderFactory;
 import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
-import net.nowina.cadmelia.solid.jcsg.JCSGSolidBuilder;
+import net.nowina.cadmelia.solid.bspcsg.FactoryBuilder;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ public class CADmeliaEditorApp extends Application {
 
     public static void main(String[] args) {
         BuilderFactory.registerShapeBuilder(new JTSClipperShapeBuilder());
-        BuilderFactory.registerSolidBuilder(new JCSGSolidBuilder());
+        BuilderFactory.registerSolidBuilder(new FactoryBuilder().build());
         launch(args);
     }
 

@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.cadmelia.solid.bspcsg;
 
-rootProject.name = 'cadmelia'
+import net.nowina.cadmelia.solid.SphereTesselation;
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+public class Sphere extends SphereTesselation<CSGSolid> {
 
+    public Sphere(CSGSolidBuilder builder, double radius, int numSlices, int numStacks) {
+        super(radius, numSlices, numStacks, new MeshToCSGSolid(builder));
+    }
+
+}

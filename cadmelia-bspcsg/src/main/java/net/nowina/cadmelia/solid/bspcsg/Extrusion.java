@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.cadmelia.solid.bspcsg;
 
-rootProject.name = 'cadmelia'
+import net.nowina.cadmelia.construction.Shape;
+import net.nowina.cadmelia.solid.ExtrusionTesselation;
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+public class Extrusion extends ExtrusionTesselation<CSGSolid> {
 
+    public Extrusion(CSGSolidBuilder builder, Shape shape, double height) {
+        super(shape, height, new MeshToCSGSolid(builder));
+    }
+
+}

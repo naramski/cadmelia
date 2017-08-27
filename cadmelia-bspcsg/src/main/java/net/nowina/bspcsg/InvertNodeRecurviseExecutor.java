@@ -14,15 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.bspcsg;
 
-rootProject.name = 'cadmelia'
+public class InvertNodeRecurviseExecutor extends InvertNodeExecutor {
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+    public void execute(Node node) {
 
+        if (node.getFront() != null) {
+            node.getFront().invert();
+        }
+
+        if (node.getBack() != null) {
+            node.getBack().invert();
+        }
+
+        invertNode(node);
+
+    }
+
+}

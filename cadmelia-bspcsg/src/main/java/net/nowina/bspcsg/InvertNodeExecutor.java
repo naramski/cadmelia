@@ -14,15 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.bspcsg;
 
-rootProject.name = 'cadmelia'
+import net.nowina.bspcsg.collection.PolygonListBrowser;
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+public abstract class InvertNodeExecutor extends BSPTreeOperationExecutor {
 
+    public abstract void execute(Node root);
+
+    protected void invertNode(Node node) {
+
+        for (PolygonListBrowser browser = node.polygons.browse(); browser.hasNext(); browser.next()) {
+            Polygon p = browser.get();
+            p.flip();
+        }
+
+        node.plane.flip();
+        node.inverted = !node.inverted;
+
+    }
+
+}

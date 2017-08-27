@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.cadmelia.solid.bspcsg;
 
-rootProject.name = 'cadmelia'
+import net.nowina.cadmelia.solid.CylinderTesselation;
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+public class Cylinder extends CylinderTesselation<CSGSolid> {
 
+    public Cylinder(CSGSolidBuilder builder, double bottomRadius, double topRadius, double height, int slices, boolean centered) {
+        super(bottomRadius, topRadius, height, slices, centered, new MeshToCSGSolid(builder));
+    }
+
+}

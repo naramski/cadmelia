@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.bspcsg.collection;
 
-rootProject.name = 'cadmelia'
+public interface Browser<T> {
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+    int size();
 
+    boolean hasNext();
+
+    void next();
+
+    T get();
+
+}

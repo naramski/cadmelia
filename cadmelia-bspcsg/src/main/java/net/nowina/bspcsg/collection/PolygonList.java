@@ -14,15 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.bspcsg.collection;
 
-rootProject.name = 'cadmelia'
+import net.nowina.bspcsg.Polygon;
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+public interface PolygonList {
 
+    int size();
+
+    Polygon getPolygon(int i);
+
+    void addPolygon(Polygon p);
+
+    void addAll(PolygonList list);
+
+    PolygonListBrowser browse();
+
+    default boolean isEmpty() {
+        return size() == 0;
+    }
+
+    PolygonList copy();
+
+}

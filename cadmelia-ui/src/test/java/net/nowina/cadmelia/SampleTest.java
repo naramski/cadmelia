@@ -16,9 +16,17 @@
  */
 package net.nowina.cadmelia;
 
+import javafx.embed.swing.JFXPanel;
 import org.junit.Test;
 
+import javax.swing.*;
+
 public class SampleTest {
+
+    @Test
+    public void testWheel() throws Exception {
+        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/wheel.scad", "build/wheel.stl"});
+    }
 
     @Test
     public void testSampleScript() throws Exception {
@@ -118,6 +126,16 @@ public class SampleTest {
     @Test
     public void testSurfacePenHolder() throws Exception {
         CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/surface-pro-2-pen-holder.scad", "build/surface-pro-2-pen-holder-script.stl"});
+    }
+
+    @Test
+    public void testUnionThreeSpheres() throws Exception {
+        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/union-three-spheres.scad", "build/union-three-spheres.stl"});
+    }
+
+    @Test
+    public void testHelloWorld() throws Exception {
+        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/helloworld.scad", "build/helloworld.stl"});
     }
 
 }

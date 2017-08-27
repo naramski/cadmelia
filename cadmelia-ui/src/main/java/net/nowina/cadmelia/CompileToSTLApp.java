@@ -22,7 +22,7 @@ import net.nowina.cadmelia.script.Script;
 import net.nowina.cadmelia.script.ScriptScene;
 import net.nowina.cadmelia.script.parser.ScriptParser;
 import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
-import net.nowina.cadmelia.solid.jcsg.JCSGSolidBuilder;
+import net.nowina.cadmelia.solid.bspcsg.FactoryBuilder;
 import net.nowina.cadmelia.stl.STLWriter;
 
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ public class CompileToSTLApp {
 
     public static void main(String[] argv) throws Exception {
         BuilderFactory.registerShapeBuilder(new JTSClipperShapeBuilder());
-        BuilderFactory.registerSolidBuilder(new JCSGSolidBuilder());
+        BuilderFactory.registerSolidBuilder(new FactoryBuilder().build());
         BuilderFactory factory = BuilderFactory.getInstance();
         ScriptScene scene = null;
         if (argv.length > 3 && argv[3].equals("-opt")) {

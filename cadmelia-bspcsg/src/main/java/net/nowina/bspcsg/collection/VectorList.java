@@ -14,15 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.bspcsg.collection;
 
-rootProject.name = 'cadmelia'
+import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.construction.Vector;
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+public interface VectorList {
 
+    int size();
+
+    Vector getVector(int i);
+
+    void reverse();
+
+    void addVector(Vector v);
+
+    void addVector(VectorListBrowser browser);
+
+    void applyTransformation(Transformation transformation);
+
+    VectorListBrowser browse();
+
+    VectorList copy();
+
+}

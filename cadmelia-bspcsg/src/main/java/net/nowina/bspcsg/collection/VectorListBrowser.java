@@ -14,15 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.bspcsg.collection;
 
-rootProject.name = 'cadmelia'
+import net.nowina.cadmelia.construction.Vector;
 
-include 'cadmelia-ui'
-include 'cadmelia-core'
-include 'cadmelia-jtsclipper'
-include 'cadmelia-api'
-include 'cadmelia-openscad'
-include 'cadmelia-tesselation'
-include 'cadmelia-model'
-include 'cadmelia-bspcsg'
+public interface VectorListBrowser extends Browser<Vector> {
 
+    VectorListBrowser index(int index);
+
+    double x();
+
+    double y();
+
+    double z();
+
+    int getIndex();
+
+    Vector getNext();
+
+    int getNextIndex();
+
+}
