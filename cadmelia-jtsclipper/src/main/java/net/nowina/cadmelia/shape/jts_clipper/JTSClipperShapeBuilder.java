@@ -16,8 +16,6 @@
  */
 package net.nowina.cadmelia.shape.jts_clipper;
 
-import de.lighti.clipper.*;
-import de.lighti.clipper.Point;
 import net.nowina.cadmelia.construction.*;
 import org.fxyz3d.geometry.Point3D;
 import org.fxyz3d.shapes.primitives.helper.LineSegment;
@@ -38,45 +36,9 @@ public class JTSClipperShapeBuilder implements ShapeBuilder {
     public Shape offset(Construction c, double offset) {
 
         Shape shape = (Shape) c;
+        JTSClipperShape jts = (JTSClipperShape) shape;
+        return new JTSClipperShape(jts.getGeometry().buffer(offset));
 
-        ClipperOffset clipper = new ClipperOffset();
-
-        for (PolygonWithHoles polygon : shape.getPolygons()) {
-
-            Path path = new Path();
-            for (Vector v : polygon.getExteriorRing().getPoints()) {
-                path.add(new Point(v.x(), v.y()));
-            }
-
-            clipper.addPath(path, Clipper.JoinType.MITER, Clipper.EndType.CLOSED_POLYGON);
-
-        }
-
-        Paths solution = new Paths();
-        clipper.execute(solution, offset);
-
-        GeometryFactory factory = new GeometryFactory();
-
-        Geometry union = null;
-
-        for (Path path : solution) {
-
-            List<Coordinate> shell = new ArrayList<>();
-            for (Point p : path) {
-                shell.add(new Coordinate(p.getX(), p.getY()));
-            }
-            shell.add(shell.get(0));
-
-            Geometry geometry = factory.createPolygon(shell.toArray(new Coordinate[shell.size()]));
-            if (union == null) {
-                union = geometry;
-            } else {
-                union = union.union(geometry);
-            }
-
-        }
-
-        return new JTSClipperShape(union);
     }
 
     @Override

@@ -44,17 +44,10 @@ repository.
 
 In order to build the project, make sure that:
 
-- Your local Maven repository contains version 6.4.2.1-SNAPSHOT of
-[clipper-java](https://github.com/naramski/clipper-java)
-- Your local Maven repository contains version 0.2-SNAPSHOT of 
+- Your local Maven repository contains version 0.2-SNAPSHOT of
 [FXyz](https://github.com/naramski/FXyz)
 
 ## Command Line
-
-Deploying clipper-java :
-
-    git clone https://github.com/naramski/clipper-java
-    mvn install
 
 Deploying fxyz
 

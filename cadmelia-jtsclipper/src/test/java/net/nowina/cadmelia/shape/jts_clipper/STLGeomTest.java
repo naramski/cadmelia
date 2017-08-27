@@ -16,8 +16,6 @@
  */
 package net.nowina.cadmelia.shape.jts_clipper;
 
-import de.lighti.clipper.*;
-import de.lighti.clipper.Point;
 import org.junit.Test;
 import org.locationtech.jts.geom.*;
 
@@ -32,65 +30,6 @@ public class STLGeomTest {
         points = union.getCoordinates();
         for (Coordinate c : points) {
             System.out.println("+++ " + c.x + " - " + c.y);
-        }
-
-    }
-
-    @Test
-    public void testOffset() {
-
-        ClipperOffset offset = new ClipperOffset();
-
-        Path rectangle = new Path();
-        Geometry geom = createGeometry();
-        for (int i = 0; i < geom.getNumPoints(); i++) {
-            Coordinate c = geom.getCoordinates()[i];
-            Point e = new Point();
-            e.setX(c.x * 10);
-            e.setY(c.y * 10);
-            rectangle.add(e);
-        }
-
-        offset.addPath(rectangle, Clipper.JoinType.MITER, Clipper.EndType.CLOSED_POLYGON);
-
-        Paths paths = new Paths();
-        offset.execute(paths, 2);
-
-        Paths result = paths;
-        System.out.println(result.size() + " path(s)");
-        Path path = result.get(0);
-        for (Point p : path) {
-            System.out.println("Result " + p.getX() + " - " + p.getY());
-        }
-
-    }
-
-
-    @Test
-    public void testOffset2() {
-
-        ClipperOffset offset = new ClipperOffset();
-
-        Path subj = new Path();
-        subj.add(new Point(348, 257));
-        subj.add(new Point(362, 148));
-        subj.add(new Point(326, 241));
-        subj.add(new Point(295, 219));
-        subj.add(new Point(258, 88));
-        subj.add(new Point(440, 129));
-        subj.add(new Point(370, 196));
-        subj.add(new Point(372, 275));
-
-        offset.addPath(subj, Clipper.JoinType.MITER, Clipper.EndType.CLOSED_POLYGON);
-
-        Paths solution = new Paths();
-        offset.execute(solution, -7.0);
-
-        Paths result = solution;
-        System.out.println(result.size() + " path(s)");
-        Path path = result.get(0);
-        for (Point p : path) {
-            System.out.println("Result " + p.getX() + " - " + p.getY());
         }
 
     }
@@ -126,35 +65,6 @@ public class STLGeomTest {
 
         GeometryCollection collection = new GeometryCollection(new Geometry[]{rectangle, polygon}, factory);
         return collection.union();
-    }
-
-    @Test
-    public void testOffset3() {
-
-        ClipperOffset offset = new ClipperOffset();
-
-        Path rectangle = new Path();
-        Geometry geom = createGeometry();
-        for (int i = 0; i < geom.getNumPoints(); i++) {
-            Coordinate c = geom.getCoordinates()[i];
-            Point e = new Point();
-            e.setX(c.x);
-            e.setY(c.y);
-            rectangle.add(e);
-        }
-
-        offset.addPath(rectangle, Clipper.JoinType.MITER, Clipper.EndType.CLOSED_POLYGON);
-
-        Paths paths = new Paths();
-        offset.execute(paths, +0.3);
-
-        Paths result = paths;
-        System.out.println(result.size() + " path(s)");
-        Path path = result.get(0);
-        for (Point p : path) {
-            System.out.println("Result " + p.getX() + " - " + p.getY());
-        }
-
     }
 
 }
