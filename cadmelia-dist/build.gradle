@@ -1,0 +1,20 @@
+apply plugin: 'distribution'
+
+distributions {
+    main {
+        contents {
+            from(project.configurations.runtime)
+        }
+    }
+}
+
+dependencies {
+    compile project(':cadmelia-api')
+    compile project(':cadmelia-bspcsg')
+    compile project(':cadmelia-core')
+    compile project(':cadmelia-jtsclipper')
+    compile project(':cadmelia-model')
+    compile project(':cadmelia-openscad')
+    compile project(':cadmelia-tesselation')
+}
+
