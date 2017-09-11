@@ -17,7 +17,6 @@
 
 rootProject.name = 'cadmelia'
 
-include 'cadmelia-ui'
 include 'cadmelia-core'
 include 'cadmelia-jtsclipper'
 include 'cadmelia-api'
