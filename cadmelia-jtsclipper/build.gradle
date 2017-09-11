@@ -20,6 +20,8 @@ dependencies {
     compile project(':cadmelia-core') // For Transform only
     compile 'org.locationtech.jts:jts-core:1.15.0-SNAPSHOT'
     compile 'org.slf4j:slf4j-api:1.7.7'
-    compile 'org.fxyz3d:fxyz3d:0.2-SNAPSHOT'
+    compile('org.fxyz3d:fxyz3d:0.2-SNAPSHOT') {
+        exclude(group:'eu.mihosoft.vrl.jcsg')
+    }
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
