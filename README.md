@@ -57,9 +57,9 @@ Deploying fxyz
 
 The project is managed with [Gradle](http://www.gradle.org/).
 
-    gradle jfxNative
+    gradle assemble
 
-Binaries of the software are in ./build/jfx/native
+The cadmelia-ide is built with Netbeans 8.2
 
 # License
 

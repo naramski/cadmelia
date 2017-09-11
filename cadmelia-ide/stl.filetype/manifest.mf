@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: net.nowina.cadmelia.ide.stl
+OpenIDE-Module-Localizing-Bundle: net/nowina/cadmelia/ide/stl/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
