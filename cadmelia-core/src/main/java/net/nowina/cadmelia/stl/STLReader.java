@@ -16,39 +16,25 @@
  */
 package net.nowina.cadmelia.stl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
+import net.nowina.cadmelia.stl.parser.ParseException;
+import net.nowina.cadmelia.stl.parser.STLParser;
+
+import java.io.*;
 
 public class STLReader {
 
     public static void parse(File f, STLEventHandler handler) throws IOException, ParseException {
-        parseAscii(f, handler);
-    }
-
-    private static void parseAscii(File f, STLEventHandler handler) throws IOException, ParseException {
-        try (BufferedReader in = new BufferedReader(new FileReader(f))) {
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                String[] numbers = line.trim().split("\\s+");
-                if (numbers[0].equals("vertex")) {
-                    float x = parseFloat(numbers[1]);
-                    float y = parseFloat(numbers[2]);
-                    float z = parseFloat(numbers[3]);
-                    handler.onVertex(x, y, z);
-                } else if (numbers[0].equals("facet") && numbers[1].equals("normal")) {
-                    float nx = parseFloat(numbers[2]);
-                    float ny = parseFloat(numbers[3]);
-                    float nz = parseFloat(numbers[4]);
-                }
-            }
+        try(FileInputStream in = new FileInputStream(f)) {
+            parseAscii(in, handler);
         }
     }
 
-    private static float parseFloat(String string) throws ParseException {
-        return Float.parseFloat(string);
+    public static void parseAscii(InputStream in, STLEventHandler handler) throws IOException, ParseException {
+        try (BufferedInputStream input = new BufferedInputStream(in)) {
+            STLParser parser = new STLParser(input);
+            parser.setEventHandler(handler);
+            parser.Solid();
+        }
     }
 
 }
