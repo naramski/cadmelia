@@ -19,7 +19,7 @@
     @TemplateRegistration(folder = "OpenSCAD Example", content = "logo.scad"),
     @TemplateRegistration(folder = "OpenSCAD Example", content = "mold.scad")
 })
-package net.nowina.cadmelia.openscad.filetype;
+package net.nowina.cadmelia.ide.openscad;
 
 import org.netbeans.api.templates.TemplateRegistration;
 import org.netbeans.api.templates.TemplateRegistrations;

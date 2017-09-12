@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.openscad.filetype;
+package net.nowina.cadmelia.ide.openscad;
 
 import java.io.IOException;
 import org.netbeans.core.spi.multiview.MultiViewElement;
@@ -42,7 +42,7 @@ import org.openide.windows.TopComponent;
 )
 @DataObject.Registration(
         mimeType = "application/x-openscad",
-        iconBase = "net/nowina/cadmelia/openscad/filetype/openscad_mimetype.png",
+        iconBase = "net/nowina/cadmelia/ide/openscad/openscad_mimetype.png",
         displayName = "#LBL_OpenSCAD_LOADER",
         position = 300
 )
@@ -120,7 +120,7 @@ public class OpenSCADDataObject extends MultiDataObject {
 
     @MultiViewElement.Registration(
             displayName = "#LBL_OpenSCAD_EDITOR",
-            iconBase = "net/nowina/cadmelia/openscad/filetype/openscad_mimetype.png",
+            iconBase = "net/nowina/cadmelia/ide/openscad/openscad_mimetype.png",
             mimeType = "application/x-openscad",
             persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED,
             preferredID = "OpenSCAD",

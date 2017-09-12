@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.openscad.lexer;
+package net.nowina.cadmelia.ide.openscad.lexer;
 
 import org.netbeans.api.lexer.Language;
 import org.netbeans.api.lexer.TokenId;

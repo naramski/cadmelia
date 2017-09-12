@@ -5,12 +5,12 @@
     <folder name="Editors">
         <folder name="application">
             <folder name="x-openscad">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.nowina.cadmelia.openscad.lexer.Bundle"/>
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.nowina.cadmelia.ide.openscad.lexer.Bundle"/>
                 <folder name="FontsColors">
                     <folder name="NetBeans">
                         <folder name="Defaults">
                             <file name="FontAndColors.xml" url="FontAndColors.xml">
-                                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.nowina.cadmelia.openscad.lexer.Bundle"/>
+                                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.nowina.cadmelia.ide.openscad.lexer.Bundle"/>
                             </file>
                         </folder>
                     </folder>
