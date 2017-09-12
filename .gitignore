@@ -1,0 +1,7 @@
+cadmelia-ide/dist
+*/build
+out
+build
+*.iml
+.*
+
