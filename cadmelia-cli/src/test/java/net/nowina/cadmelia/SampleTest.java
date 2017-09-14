@@ -17,11 +17,15 @@
 package net.nowina.cadmelia;
 
 import javafx.embed.swing.JFXPanel;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.swing.*;
-
 public class SampleTest {
+
+    @BeforeClass
+    public static void initJavaFX() {
+        new JFXPanel();
+    }
 
     @Test
     public void testWheel() throws Exception {

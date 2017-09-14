@@ -14,14 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.nowina.cadmelia;
 
-dependencies {
-    compile project(':cadmelia-api')
-    compile project(':cadmelia-core') // For Transform only
-    compile 'org.locationtech.jts:jts-core:1.15.0-SNAPSHOT'
-    compile 'org.slf4j:slf4j-api:1.7.7'
-    compile('org.fxyz3d:fxyz3d:0.2-SNAPSHOT') {
-        exclude(group:'eu.mihosoft.vrl.jcsg')
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.StringReader;
+
+public class OpenSCADSampleTest {
+
+    private CompileToSTLApp app;
+
+    @Before
+    public void setup() {
+        app = new CompileToSTLApp();
     }
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    @Test
+    public void testText() throws Exception {
+
+        app.setOutput(new File("build/base-text.stl"));
+        app.render(new StringReader("text(\"OpenSCAD\");"));
+
+    }
+
 }

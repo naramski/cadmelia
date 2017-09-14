@@ -18,8 +18,7 @@
 dependencies {
     compile project(':cadmelia-api')
     compile 'org.slf4j:slf4j-api:1.7.7'
-    compile 'org.orbisgis:poly2tri-core:0.1.2'
     compile 'javax.vecmath:vecmath:1.5.2'
-    testCompile project(':cadmelia-jtsclipper')
+    testCompile project(':cadmelia-shape')
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

@@ -14,18 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.construction;
+package net.nowina.cadmelia.shape.impl;
 
-public interface Solid extends Construction {
+import net.nowina.cadmelia.construction.ShapeBuilder;
 
-    @Override
-    default boolean isShape() {
-        return false;
-    }
+public class ShapeImplBuilderTest extends ShapeBuilderTestAbstract {
 
-    @Override
-    default boolean isSolid() {
-        return true;
+    protected ShapeBuilder createShapeBuilder() {
+        return new ShapeImplBuilder();
     }
 
 }

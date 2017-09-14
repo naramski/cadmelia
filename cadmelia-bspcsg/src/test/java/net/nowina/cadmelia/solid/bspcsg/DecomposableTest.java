@@ -19,13 +19,12 @@ package net.nowina.cadmelia.solid.bspcsg;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Solid;
 import net.nowina.cadmelia.construction.Vector;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
 import net.nowina.cadmelia.stl.STLWriter;
 import org.junit.Test;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DecomposableTest {
@@ -105,7 +104,7 @@ public class DecomposableTest {
     @Test
     public void testExtrude() throws IOException {
 
-        JTSClipperShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeImplBuilder shapeBuilder = new ShapeImplBuilder();
         CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
         Construction extrude1 = builder.extrude(shapeBuilder.square(5, 5, true), 5);
@@ -127,7 +126,7 @@ public class DecomposableTest {
     @Test
     public void testErrorDecomposable() throws IOException {
 
-        JTSClipperShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeImplBuilder shapeBuilder = new ShapeImplBuilder();
         CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
 

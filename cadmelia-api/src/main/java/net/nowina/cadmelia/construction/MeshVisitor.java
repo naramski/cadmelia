@@ -18,10 +18,10 @@ package net.nowina.cadmelia.construction;
 
 public interface MeshVisitor {
 
-    void startFacet(Vector normal);
+    default void startFacet(Vector normal) {};
 
     void triangle(Vector p1, Vector p2, Vector p3);
 
-    void endFacet();
+    default void endFacet() {};
 
 }

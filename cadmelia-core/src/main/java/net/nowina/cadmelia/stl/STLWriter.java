@@ -18,8 +18,8 @@ package net.nowina.cadmelia.stl;
 
 import net.nowina.cadmelia.Triangle;
 import net.nowina.cadmelia.TriangleMesh;
+import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.MeshVisitor;
-import net.nowina.cadmelia.construction.Solid;
 import net.nowina.cadmelia.construction.Vector;
 
 import java.io.IOException;
@@ -32,12 +32,12 @@ import java.nio.file.StandardOpenOption;
 
 public class STLWriter {
 
-    public static void writeToFile(String filePath, Solid solid) throws IOException {
+    public static void writeToFile(String filePath, Construction solid) throws IOException {
         Path p = Paths.get(filePath);
         writeToFile(p, solid);
     }
 
-    public static void writeToFile(Path p, Solid solid) throws IOException {
+    public static void writeToFile(Path p, Construction solid) throws IOException {
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(p, Charset.forName("UTF-8"),
                 StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))) {
             new STLWriter().write(solid, writer);
@@ -59,7 +59,7 @@ public class STLWriter {
         output.write("endsolid Solid\n");
     }
 
-    public void write(Solid solid, PrintWriter output) {
+    public void write(Construction solid, PrintWriter output) {
         output.write("solid Solid\n");
         solid.visit(new MeshVisitor() {
             @Override

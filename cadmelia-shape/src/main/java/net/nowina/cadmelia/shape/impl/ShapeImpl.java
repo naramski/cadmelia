@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.shape.jts_clipper;
+package net.nowina.cadmelia.shape.impl;
 
 import net.nowina.cadmelia.Transformation;
 import net.nowina.cadmelia.construction.*;
@@ -22,6 +22,9 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPolygon;
+import org.poly2tri.Poly2Tri;
+import org.poly2tri.geometry.polygon.PolygonPoint;
+import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,13 +32,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
+public class ShapeImpl implements Shape, PolygonWithHoles, Polygon {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JTSClipperShape.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShapeImpl.class);
 
     private final Geometry geometry;
 
-    public JTSClipperShape(Geometry geometry) {
+    public ShapeImpl(Geometry geometry) {
         if (geometry == null) {
             throw new NullPointerException("geometry must be defined");
         }
@@ -60,7 +63,7 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
             int numGeometries = mp.getNumGeometries();
             List<PolygonWithHoles> list = new ArrayList<>(numGeometries);
             for (int i = 0; i < numGeometries; i++) {
-                list.add(new JTSClipperShape(mp.getGeometryN(i)));
+                list.add(new ShapeImpl(mp.getGeometryN(i)));
             }
             return list;
         } else {
@@ -73,7 +76,7 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
 
         org.locationtech.jts.geom.Polygon p = (org.locationtech.jts.geom.Polygon) geometry;
 
-        return new JTSClipperShape(p.getExteriorRing());
+        return new ShapeImpl(p.getExteriorRing());
     }
 
     @Override
@@ -82,7 +85,7 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
 
         List<Polygon> polygons = new ArrayList<>();
         for (int i = 0; i < p.getNumInteriorRing(); i++) {
-            polygons.add(new JTSClipperShape(p.getInteriorRingN(i)));
+            polygons.add(new ShapeImpl(p.getInteriorRingN(i)));
         }
         return polygons;
     }
@@ -109,9 +112,9 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
             return this;
         }
 
-        JTSClipperShape shape = (JTSClipperShape) other;
+        ShapeImpl shape = (ShapeImpl) other;
         LOGGER.info("Union of " + this + " with " + other);
-        return new JTSClipperShape(getGeometry().union(shape.getGeometry()));
+        return new ShapeImpl(getGeometry().union(shape.getGeometry()));
     }
 
     @Override
@@ -120,9 +123,9 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
             return this;
         }
 
-        JTSClipperShape shape = (JTSClipperShape) other;
+        ShapeImpl shape = (ShapeImpl) other;
 
-        return new JTSClipperShape(getGeometry().difference(shape.getGeometry()));
+        return new ShapeImpl(getGeometry().difference(shape.getGeometry()));
     }
 
     @Override
@@ -131,9 +134,9 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
             return this;
         }
 
-        JTSClipperShape shape = (JTSClipperShape) other;
+        ShapeImpl shape = (ShapeImpl) other;
 
-        return new JTSClipperShape(getGeometry().intersection(shape.getGeometry()));
+        return new ShapeImpl(getGeometry().intersection(shape.getGeometry()));
     }
 
     @Override
@@ -176,7 +179,6 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
             for (Vector v : polygon.getExteriorRing().getPoints()) {
 
                 Vector tr = t.transform(v);
-                LOGGER.info("Transform " + v + " => " + tr);
                 shell.add(new Coordinate(tr.x(), tr.y()));
 
             }
@@ -193,7 +195,63 @@ public class JTSClipperShape implements Shape, PolygonWithHoles, Polygon {
 
         }
 
-        return new JTSClipperShape(union);
+        return new ShapeImpl(union);
+    }
+
+    @Override
+    public void visit(MeshVisitor visitor) {
+
+        List<PolygonWithHoles> polygons = getPolygons();
+
+        for (PolygonWithHoles polygon : polygons) {
+            triangulate(polygon, visitor);
+        }
+
+    }
+
+    void triangulate(PolygonWithHoles polygonWithHoles, MeshVisitor visitor) {
+
+        org.poly2tri.geometry.polygon.Polygon polygon = cameliaToPoly2Tri(polygonWithHoles);
+
+        Poly2Tri.triangulate(polygon);
+
+        for (DelaunayTriangle t : polygon.getTriangles()) {
+
+            Vector v1 = new Vector(t.points[0].getX(), t.points[0].getY(), 0);
+            Vector v2 = new Vector(t.points[1].getX(), t.points[1].getY(), 0);
+            Vector v3 = new Vector(t.points[2].getX(), t.points[2].getY(), 0);
+
+            Vector normal = v2.minus(v1).crossed(v3.minus(v1)).normalized();
+            visitor.startFacet(normal);
+            visitor.triangle(v1, v2, v3);
+            visitor.endFacet();
+
+        }
+
+    }
+
+    private org.poly2tri.geometry.polygon.Polygon cameliaToPoly2Tri(PolygonWithHoles polygonWithHoles) {
+
+        org.poly2tri.geometry.polygon.Polygon polygon = cameliaToPoly2Tri(polygonWithHoles.getExteriorRing());
+
+        for (Polygon p : polygonWithHoles.getHoles()) {
+            org.poly2tri.geometry.polygon.Polygon hole = cameliaToPoly2Tri(p);
+            polygon.addHole(hole);
+        }
+
+        return polygon;
+    }
+
+    private org.poly2tri.geometry.polygon.Polygon cameliaToPoly2Tri(Polygon polygon) {
+
+        List<PolygonPoint> points = new ArrayList<>();
+
+        for (Vector v : polygon.getPoints()) {
+            PolygonPoint vp = new PolygonPoint(v.x(), v.y(), v.z());
+            points.add(vp);
+        }
+
+        return new org.poly2tri.geometry.polygon.Polygon(points);
     }
 
 }

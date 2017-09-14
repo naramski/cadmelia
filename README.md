@@ -39,21 +39,7 @@ Download Windows 64-bits and MacOSX version from the [release page](https://gith
 
 The build requires Gradle and Java => 1.8.
 
-The project requires uses two dependecies that are not (yet) published on a Maven
-repository.
-
-In order to build the project, make sure that:
-
-- Your local Maven repository contains version 0.2-SNAPSHOT of
-[FXyz](https://github.com/naramski/FXyz)
-
 ## Command Line
-
-Deploying fxyz
-
-    git clone https://github.com/naramski/FXyz
-    git checkout develop
-    gradle publishToMavenLocal
 
 The project is managed with [Gradle](http://www.gradle.org/).
 
@@ -84,3 +70,5 @@ This software are all the components are licensed under the EUPL license.
  */
 ```
 
+This software include two classes from the project F(X)yz under BSD license (https://github.com/naramski/FXyz).
+The classes LineSegment and Text3DHelper contain the original header and package.

@@ -19,9 +19,6 @@ package net.nowina.cadmelia.solid;
 import net.nowina.cadmelia.Triangle;
 import net.nowina.cadmelia.construction.*;
 import net.nowina.cadmelia.shape.ShapeUtil;
-import org.poly2tri.Poly2Tri;
-import org.poly2tri.geometry.polygon.PolygonPoint;
-import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,15 +47,20 @@ public class ExtrusionTesselation<T extends Solid> extends Tesselation<T> {
         LOGGER.info("Extrude " + shape + " with height " + height);
         List<PolygonWithHoles> polygons = shape.getPolygons();
 
-        for (PolygonWithHoles polygon : polygons) {
+        shape.visit(new MeshVisitor() {
+            @Override
+            public void triangle(Vector p1, Vector p2, Vector p3) {
+                triangles.add(new Triangle(p3, p2, p1));
+                Vector top = new Vector(0, 0, height);
+                triangles.add(new Triangle(p1.plus(top), p2.plus(top), p3.plus(top)));
+            }
+        });
 
-            triangles.addAll(triangulate(polygon, true, 0));
+        for (PolygonWithHoles polygon : polygons) {
 
             List<Vector> bottom = toCCW(polygon.getExteriorRing());
             List<Vector> top = newRing(bottom);
             triangles.addAll(buildSides(bottom, top, true));
-
-            triangles.addAll(triangulate(polygon, false, height));
 
             for (Polygon hole : polygon.getHoles()) {
 
@@ -71,56 +73,6 @@ public class ExtrusionTesselation<T extends Solid> extends Tesselation<T> {
         }
 
         return triangles;
-    }
-
-    List<Triangle> triangulate(PolygonWithHoles polygonWithHoles, boolean invert, double height) {
-
-        org.poly2tri.geometry.polygon.Polygon polygon = cameliaToPoly2Tri(polygonWithHoles);
-
-        Poly2Tri.triangulate(polygon);
-
-        List<Triangle> triangles = new ArrayList<>();
-
-        for (DelaunayTriangle t : polygon.getTriangles()) {
-
-            Vector v1 = new Vector(t.points[0].getX(), t.points[0].getY(), height);
-            Vector v2 = new Vector(t.points[1].getX(), t.points[1].getY(), height);
-            Vector v3 = new Vector(t.points[2].getX(), t.points[2].getY(), height);
-
-            if (!invert) {
-                triangles.add(new Triangle(v1, v2, v3));
-            } else {
-                triangles.add(new Triangle(v3, v2, v1));
-            }
-
-        }
-
-        return triangles;
-
-    }
-
-    private org.poly2tri.geometry.polygon.Polygon cameliaToPoly2Tri(PolygonWithHoles polygonWithHoles) {
-
-        org.poly2tri.geometry.polygon.Polygon polygon = cameliaToPoly2Tri(polygonWithHoles.getExteriorRing());
-
-        for (Polygon p : polygonWithHoles.getHoles()) {
-            org.poly2tri.geometry.polygon.Polygon hole = cameliaToPoly2Tri(p);
-            polygon.addHole(hole);
-        }
-
-        return polygon;
-    }
-
-    private org.poly2tri.geometry.polygon.Polygon cameliaToPoly2Tri(Polygon polygon) {
-
-        List<PolygonPoint> points = new ArrayList<>();
-
-        for (Vector v : polygon.getPoints()) {
-            PolygonPoint vp = new PolygonPoint(v.x(), v.y(), v.z());
-            points.add(vp);
-        }
-
-        return new org.poly2tri.geometry.polygon.Polygon(points);
     }
 
     private List<Triangle> buildSides(List<Vector> bottom, List<Vector> top, boolean invert) {

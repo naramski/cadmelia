@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.shape;
+package net.nowina.cadmelia.shape.impl;
 
 import javafx.embed.swing.JFXPanel;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShape;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
 import org.fxyz3d.shapes.primitives.helper.LineSegment;
 import org.fxyz3d.shapes.primitives.helper.Text3DHelper;
 import org.junit.Assert;
@@ -116,8 +114,8 @@ public class TextTest {
     @Test
     public void testHelloWorld() throws Exception {
 
-        JTSClipperShapeBuilder builder = new JTSClipperShapeBuilder();
-        JTSClipperShape shape = (JTSClipperShape) builder.text("Hello World !", 12, "Arial");
+        ShapeImplBuilder builder = new ShapeImplBuilder();
+        ShapeImpl shape = (ShapeImpl) builder.text("Hello World !", 12, "Arial");
 
         Assert.assertEquals(12, shape.getPolygons().size());
         int holes = 0;

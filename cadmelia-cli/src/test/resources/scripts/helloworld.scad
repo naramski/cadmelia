@@ -3,7 +3,7 @@ difference() {
 
     cube([85,20,10]);
 
-    translate([15,14,-10])
+    translate([15,7,-10])
         linear_extrude(40)
             text("Hello World !");
 

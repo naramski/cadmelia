@@ -20,7 +20,7 @@ import javafx.embed.swing.JFXPanel;
 import net.nowina.cadmelia.TriangleMesh;
 import net.nowina.cadmelia.construction.Shape;
 import net.nowina.cadmelia.construction.ShapeBuilder;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
 import net.nowina.cadmelia.stl.STLWriter;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class ExtrusionTesselationTest {
     @Test
     public void testHelloWorld() throws Exception {
 
-        ShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeBuilder shapeBuilder = new ShapeImplBuilder();
         Shape shape = shapeBuilder.text("Hello World !", 12, "Arial");
 
         ExtrusionTesselation<?> extrusion = new ExtrusionTesselation<>(shape, 3, new MockMeshToSolid());

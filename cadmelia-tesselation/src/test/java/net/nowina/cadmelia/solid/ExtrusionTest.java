@@ -17,7 +17,7 @@
 package net.nowina.cadmelia.solid;
 
 import net.nowina.cadmelia.construction.*;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
 import net.nowina.cadmelia.stl.STLWriter;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class ExtrusionTest {
 
     @Test
     public void testSquare() throws Exception {
-        ShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeBuilder shapeBuilder = new ShapeImplBuilder();
         Shape shape = shapeBuilder.square(5, 5, true);
         ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
@@ -38,7 +38,7 @@ public class ExtrusionTest {
 
     @Test
     public void testCircle() throws Exception {
-        ShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeBuilder shapeBuilder = new ShapeImplBuilder();
         Shape shape = shapeBuilder.circle(4, 16);
         ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
@@ -49,7 +49,7 @@ public class ExtrusionTest {
     @Test
     public void testBatteryHolder() throws Exception {
 
-        ShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeBuilder shapeBuilder = new ShapeImplBuilder();
 
         double connectorDepth = 25;
 
@@ -103,7 +103,7 @@ public class ExtrusionTest {
 
     @Test
     public void testDonuts() throws Exception {
-        ShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeBuilder shapeBuilder = new ShapeImplBuilder();
         Shape shape1 = shapeBuilder.square(4, 4, true);
         Shape shape2 = shapeBuilder.square(2, 2, true);
 
@@ -116,7 +116,7 @@ public class ExtrusionTest {
 
     @Test
     public void testTwoHoles() throws Exception {
-        ShapeBuilder shapeBuilder = new JTSClipperShapeBuilder();
+        ShapeBuilder shapeBuilder = new ShapeImplBuilder();
         Shape shape1 = (Shape) shapeBuilder.square(6, 4, true);
         Shape shape2 = (Shape) shapeBuilder.square(2, 2, true).translate(new Vector(-1.5, 0, 0));
         Shape shape3 = (Shape) shapeBuilder.square(2, 2, true).translate(new Vector(1.5, 0, 0));

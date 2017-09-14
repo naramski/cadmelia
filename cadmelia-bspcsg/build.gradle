@@ -21,6 +21,6 @@ dependencies {
     compile project(':cadmelia-tesselation')
     compile 'com.github.quickhull3d:quickhull3d:1.0.0'
     compile 'org.slf4j:slf4j-api:1.7.7'
-    testCompile project(':cadmelia-jtsclipper')
+    testCompile project(':cadmelia-shape')
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

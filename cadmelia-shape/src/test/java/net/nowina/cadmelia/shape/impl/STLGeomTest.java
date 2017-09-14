@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.shape.jts_clipper;
+package net.nowina.cadmelia.shape.impl;
 
 import org.junit.Test;
 import org.locationtech.jts.geom.*;

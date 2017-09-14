@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.shape.jts_clipper;
+package net.nowina.cadmelia.shape.impl;
 
 import net.nowina.cadmelia.construction.BuilderFactory;
 import net.nowina.cadmelia.construction.Shape;
@@ -29,11 +29,11 @@ import org.locationtech.jts.geom.Polygon;
 
 import java.util.Arrays;
 
-public class JTSClipperShapeTest {
+public class ShapeImplTest {
 
     @BeforeClass
     public static void setUp() {
-        BuilderFactory.registerShapeBuilder(new JTSClipperShapeBuilder());
+        BuilderFactory.registerShapeBuilder(new ShapeImplBuilder());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class JTSClipperShapeTest {
         Shape square2 = (Shape) builder.square(2, 2, true).translate(Vector.X.times(2d));
         System.out.println(square2.getPolygons().get(0).getExteriorRing().getPoints());
 
-        JTSClipperShape shape = (JTSClipperShape) square1.union(square2);
+        ShapeImpl shape = (ShapeImpl) square1.union(square2);
 
         System.out.println(shape.getPoints());
 
@@ -67,7 +67,7 @@ public class JTSClipperShapeTest {
         Shape square2 = (Shape) builder.polygon(Arrays.asList(new Vector(1, -1), new Vector(-1, -1), new Vector(-1, 1), new Vector(1, 1))).translate(Vector.X.times(2d));
         System.out.println(square2.getPolygons().get(0).getExteriorRing().getPoints());
 
-        JTSClipperShape shape = (JTSClipperShape) square1.union(square2);
+        ShapeImpl shape = (ShapeImpl) square1.union(square2);
 
         System.out.println(shape.getPoints());
 
@@ -96,7 +96,7 @@ public class JTSClipperShapeTest {
         Shape square2 = builder.square(2, 2, true);
         System.out.println(square2.getPolygons().get(0).getExteriorRing().getPoints());
 
-        JTSClipperShape shape = (JTSClipperShape) square1.difference(square2);
+        ShapeImpl shape = (ShapeImpl) square1.difference(square2);
 
         System.out.println(shape.getPoints());
 
@@ -133,7 +133,7 @@ public class JTSClipperShapeTest {
         Shape square3 = (Shape) builder.square(2, 2, true).translate(Vector.X.times(5d));
         System.out.println(square3.getPolygons().get(0).getExteriorRing().getPoints());
 
-        JTSClipperShape shape = (JTSClipperShape) square1.union(square2).union(square3);
+        ShapeImpl shape = (ShapeImpl) square1.union(square2).union(square3);
 
         System.out.println(shape.getPoints());
 
@@ -166,9 +166,9 @@ public class JTSClipperShapeTest {
         System.out.println(bar.getPolygons().get(0).getExteriorRing().getPoints());
         Shape united = shape.union(bar);
         System.out.println(united.getPolygons().get(0).getExteriorRing().getPoints());
-        System.out.println(((JTSClipperShape) united).getGeometry().getGeometryType());
+        System.out.println(((ShapeImpl) united).getGeometry().getGeometryType());
 
-        Assert.assertEquals(1, ((JTSClipperShape) united).getGeometry().getNumGeometries());
+        Assert.assertEquals(1, ((ShapeImpl) united).getGeometry().getNumGeometries());
 
     }
 }

@@ -13,7 +13,7 @@ dependencies {
         exclude group: 'org.slf4j';
     }
     compile(project(':cadmelia-bspcsg'))
-    compile(project(':cadmelia-jtsclipper')) {
+    compile(project(':cadmelia-shape')) {
         exclude group: 'org.slf4j';
     }
     compile 'org.slf4j:slf4j-jdk14:1.7.7'

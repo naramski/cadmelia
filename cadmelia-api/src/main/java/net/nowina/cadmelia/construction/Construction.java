@@ -30,6 +30,8 @@ public interface Construction {
 
     Construction rotate(Vector angle);
 
+    void visit(MeshVisitor visitor);
+
     default Construction rotate(double x, double y, double z) {
         return rotate(new Vector(x, y, z));
     }

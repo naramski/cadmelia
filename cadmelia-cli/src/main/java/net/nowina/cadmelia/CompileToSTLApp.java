@@ -17,41 +17,72 @@
 package net.nowina.cadmelia;
 
 import net.nowina.cadmelia.construction.BuilderFactory;
-import net.nowina.cadmelia.construction.Solid;
 import net.nowina.cadmelia.script.Script;
 import net.nowina.cadmelia.script.ScriptScene;
+import net.nowina.cadmelia.script.parser.ParseException;
 import net.nowina.cadmelia.script.parser.ScriptParser;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
 import net.nowina.cadmelia.solid.bspcsg.FactoryBuilder;
 import net.nowina.cadmelia.stl.STLWriter;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class CompileToSTLApp {
 
+    private BuilderFactory builderFactory;
+    private File input;
+    private File output;
+
     public static void main(String[] argv) throws Exception {
-        BuilderFactory.registerShapeBuilder(new JTSClipperShapeBuilder());
-        BuilderFactory.registerSolidBuilder(new FactoryBuilder().build());
-        BuilderFactory factory = BuilderFactory.getInstance();
-        ScriptScene scene = null;
-        if (argv.length > 3 && argv[3].equals("-opt")) {
-            scene = new ScriptScene(true, factory);
-        } else {
-            scene = new ScriptScene(factory);
+
+        CompileToSTLApp app = new CompileToSTLApp();
+
+        File input = new File(argv[1]);
+        app.setInput(input);
+        File output = new File(argv[2]);
+        app.setOutput(output);
+
+        app.render();
+
+    }
+
+    public void render() throws IOException, ParseException {
+
+        try (InputStreamReader in = new InputStreamReader(new FileInputStream(input))) {
+            render(in);
         }
 
-        try (InputStream in = new FileInputStream(argv[1]);
-             PrintWriter out = new PrintWriter(new FileOutputStream(argv[2]))) {
-            ScriptParser parser = new ScriptParser(in);
-            Script script = parser.Script();
-            scene.executeScript(script);
+    }
 
+    public void render(Reader in) throws ParseException, IOException {
+        BuilderFactory factory = getBuilderFactory();
+        ScriptScene scene = new ScriptScene(factory);
+
+        ScriptParser parser = new ScriptParser(in);
+        Script script = parser.Script();
+        scene.executeScript(script);
+
+        try(PrintWriter out = new PrintWriter(new FileOutputStream(output))) {
             STLWriter writer = new STLWriter();
-            writer.write((Solid) scene.getRoot(), out);
+            writer.write(scene.getRoot(), out);
         }
+    }
+
+    private BuilderFactory getBuilderFactory() {
+        if(builderFactory == null) {
+            BuilderFactory.registerShapeBuilder(new ShapeImplBuilder());
+            BuilderFactory.registerSolidBuilder(new FactoryBuilder().build());
+            builderFactory = BuilderFactory.getInstance();
+        }
+        return builderFactory;
+    }
+
+    public void setInput(File input) {
+        this.input = input;
+    }
+
+    public void setOutput(File output) {
+        this.output = output;
     }
 
 }

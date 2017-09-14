@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.shape.jts_clipper;
+package net.nowina.cadmelia.shape.impl;
 
 import net.nowina.cadmelia.construction.*;
-import org.fxyz3d.geometry.Point3D;
 import org.fxyz3d.shapes.primitives.helper.LineSegment;
 import org.fxyz3d.shapes.primitives.helper.Text3DHelper;
 import org.locationtech.jts.geom.*;
@@ -28,16 +27,16 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JTSClipperShapeBuilder implements ShapeBuilder {
+public class ShapeImplBuilder implements ShapeBuilder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JTSClipperShapeBuilder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShapeImplBuilder.class);
 
     @Override
     public Shape offset(Construction c, double offset) {
 
         Shape shape = (Shape) c;
-        JTSClipperShape jts = (JTSClipperShape) shape;
-        return new JTSClipperShape(jts.getGeometry().buffer(offset));
+        ShapeImpl jts = (ShapeImpl) shape;
+        return new ShapeImpl(jts.getGeometry().buffer(offset));
 
     }
 
@@ -65,7 +64,7 @@ public class JTSClipperShapeBuilder implements ShapeBuilder {
 
         GeometryFactory factory = new GeometryFactory();
 
-        return new JTSClipperShape(factory.createPolygon(shell));
+        return new ShapeImpl(factory.createPolygon(shell));
     }
 
     @Override
@@ -88,11 +87,11 @@ public class JTSClipperShapeBuilder implements ShapeBuilder {
 
         GeometryFactory factory = new GeometryFactory();
 
-        return new JTSClipperShape(factory.createPolygon(shell));
+        return new ShapeImpl(factory.createPolygon(shell));
     }
 
     @Override
-    public Shape polygon(List<Vector> points) {
+    public Shape polygon(List<net.nowina.cadmelia.construction.Vector> points) {
 
         Coordinate[] shell = new Coordinate[points.size() + 1];
         for (int i = 0; i < points.size(); i++) {
@@ -102,7 +101,7 @@ public class JTSClipperShapeBuilder implements ShapeBuilder {
 
 
         GeometryFactory factory = new GeometryFactory();
-        return new JTSClipperShape(factory.createPolygon(shell));
+        return new ShapeImpl(factory.createPolygon(shell));
     }
 
     @Override
@@ -119,8 +118,8 @@ public class JTSClipperShapeBuilder implements ShapeBuilder {
         for (LineSegment segment : segments) {
 
             CoordinateList shell = new CoordinateList();
-            for (Point3D p : segment.getPoints()) {
-                shell.add(new Coordinate(p.x, p.y));
+            for (Vector p : segment.getPoints()) {
+                shell.add(new Coordinate(p.x(), - p.y()));
             }
 
             LinearRing polygon = factory.createLinearRing(shell.toCoordinateArray());
@@ -129,8 +128,8 @@ public class JTSClipperShapeBuilder implements ShapeBuilder {
             for (LineSegment holeSegment : segment.getHoles()) {
 
                 CoordinateList hole = new CoordinateList();
-                for (Point3D p : holeSegment.getPoints()) {
-                    hole.add(new Coordinate(p.x, p.y));
+                for (Vector p : holeSegment.getPoints()) {
+                    hole.add(new Coordinate(p.x(), - p.y()));
                 }
 
                 holes.add(factory.createLinearRing(hole.toCoordinateArray()));
@@ -146,7 +145,7 @@ public class JTSClipperShapeBuilder implements ShapeBuilder {
         }
 
         MultiPolygon text = factory.createMultiPolygon(polygons.toArray(new Polygon[polygons.size()]));
-        return new JTSClipperShape(text);
+        return new ShapeImpl(text);
 
     }
 

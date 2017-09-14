@@ -14,14 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.shape.jts_clipper;
 
-import net.nowina.cadmelia.construction.ShapeBuilder;
-
-public class JTSClipperShapeBuilderTest extends ShapeBuilderTestAbstract {
-
-    protected ShapeBuilder createShapeBuilder() {
-        return new JTSClipperShapeBuilder();
-    }
-
+dependencies {
+    compile project(':cadmelia-api')
+    compile project(':cadmelia-core') // For Transform only
+    compile 'org.locationtech.jts:jts-core:1.15.0-SNAPSHOT'
+    compile 'org.orbisgis:poly2tri-core:0.1.2'
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

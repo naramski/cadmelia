@@ -19,7 +19,7 @@ package net.nowina.cadmelia.shape;
 import net.nowina.cadmelia.construction.BuilderFactory;
 import net.nowina.cadmelia.construction.ShapeBuilder;
 import net.nowina.cadmelia.construction.Vector;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class ShapeUtilTest {
 
     @BeforeClass
     public static void setUp() {
-        BuilderFactory.registerShapeBuilder(new JTSClipperShapeBuilder());
+        BuilderFactory.registerShapeBuilder(new ShapeImplBuilder());
     }
 
     @Test
