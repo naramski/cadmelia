@@ -17,12 +17,12 @@
 package net.nowina.cadmelia.script.module;
 
 import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.script.Command;
-import net.nowina.cadmelia.script.Expression;
-import net.nowina.cadmelia.script.Iteration;
-import net.nowina.cadmelia.script.ScriptContext;
+import net.nowina.cadmelia.script.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ForModule extends UnionModule {
 
@@ -37,7 +37,7 @@ public class ForModule extends UnionModule {
     @Override
     public Construction execute(Command _op, ScriptContext context) {
 
-        Iteration op = (Iteration) _op;
+        ForCommand op = (ForCommand) _op;
 
         double start = (Double) op.getStart().evaluate(context);
         Expression endExpr = op.getEnd();
@@ -53,26 +53,72 @@ public class ForModule extends UnionModule {
         for (double i = start; i <= end; i += increment) {
             ScriptContext childContext = new ScriptContext(context);
             childContext.defineVariableValue(op.getVariable(), i);
-            LOGGER.info("Iteration " + op.getVariable() + "=" + i);
+            LOGGER.info("ForCommand " + op.getVariable() + "=" + i);
 
-            for (Command internal : op.getOperations()) {
+            Instruction instruction = op.getInstruction();
 
-                Construction element = operation(internal, childContext);
-                if (element == null) {
-                    LOGGER.warn("Null returned by " + internal);
-                } else {
-                    if (iteration == null) {
-                        iteration = element;
-                    } else {
-                        iteration = iteration.union(element);
-                    }
-                }
-
+            switch (instruction.getType()) {
+                case SCOPE:
+                    iteration = executeScope(iteration, childContext, (Scope) instruction);
+                    break;
+                case COMMAND:
+                    iteration = executeCommand(iteration, childContext, (Command) instruction);
+                    break;
             }
 
             LOGGER.info("Result of this iteration " + iteration);
 
         }
+        return iteration;
+    }
+
+    private Construction executeScope(Construction iteration, ScriptContext childContext, Scope instruction) {
+        Scope scope = instruction;
+        List<Command> operations = new ArrayList<>();
+        for(Instruction instr : scope.getInstructions()) {
+            switch (instr.getType()) {
+                case DEFINE:
+                    Define define = (Define) instr;
+                    childContext.defineVariableValue(define.getName(), define.getExpression());
+                    break;
+                case COMMAND:
+                    operations.add((Command) instr);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected type " + instr.getType());
+            }
+        }
+
+        for (Command internal : operations) {
+
+            Construction element = operation(internal, childContext);
+            if (element == null) {
+                LOGGER.warn("Null returned by " + internal);
+            } else {
+                if (iteration == null) {
+                    iteration = element;
+                } else {
+                    iteration = iteration.union(element);
+                }
+            }
+
+        }
+        return iteration;
+    }
+
+    private Construction executeCommand(Construction iteration, ScriptContext childContext, Command internal) {
+
+        Construction element = operation(internal, childContext);
+        if (element == null) {
+            LOGGER.warn("Null returned by " + internal);
+        } else {
+            if (iteration == null) {
+                iteration = element;
+            } else {
+                iteration = iteration.union(element);
+            }
+        }
+
         return iteration;
     }
 

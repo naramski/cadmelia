@@ -54,6 +54,9 @@ public class ScriptContext {
     }
 
     public void defineVariableValue(String variable, Object valueOrExpr) {
+        if(variables.containsKey(variable)) {
+            throw new IllegalStateException("Variable '" + variable + "' already defined");
+        }
         variables.put(variable, valueOrExpr);
     }
 

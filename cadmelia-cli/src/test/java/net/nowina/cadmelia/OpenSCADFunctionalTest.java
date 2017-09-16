@@ -14,40 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script;
+package net.nowina.cadmelia;
 
-public class Iteration extends Command {
+import org.junit.Before;
+import org.junit.Test;
 
-    private String variable;
+import java.io.StringReader;
 
-    private Expression start;
+public class OpenSCADFunctionalTest {
 
-    private Expression end;
+    private CompileToSTLApp app;
 
-    private Expression increment;
-
-    public Iteration(String variable, Expression start, Expression increment, Expression end) {
-        super("for");
-        this.variable = variable;
-        this.start = start;
-        this.increment = increment;
-        this.end = end;
+    @Before
+    public void setup() {
+        app = new CompileToSTLApp();
     }
 
-    public Expression getStart() {
-        return start;
+    @Test(expected = IllegalStateException.class)
+    public void testTwoBinding() throws Exception {
+
+        app.render(new StringReader("a = 1; a = 2;"));
     }
 
-    public Expression getEnd() {
-        return end;
+    @Test(expected = IllegalStateException.class)
+    public void testTwoBindingSameScope() throws Exception {
+
+        app.render(new StringReader("a = 1; if(a==1) a = 2;"));
     }
 
-    public Expression getIncrement() {
-        return increment;
-    }
+    @Test
+    public void testTwoBindingInnerScope() throws Exception {
 
-    public String getVariable() {
-        return variable;
+        app.render(new StringReader("b = 1; if(b==1) { b = 2; }"));
     }
 
 }

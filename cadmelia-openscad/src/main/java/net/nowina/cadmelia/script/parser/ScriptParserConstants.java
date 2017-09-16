@@ -11,85 +11,100 @@ public interface ScriptParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int MODULE = 2;
+  int MODULE = 6;
   /** RegularExpression Id. */
-  int FUNCTION = 3;
+  int FUNCTION = 7;
   /** RegularExpression Id. */
-  int BOOLEAN = 4;
+  int BOOLEAN = 8;
   /** RegularExpression Id. */
-  int FOR = 5;
+  int FOR = 9;
   /** RegularExpression Id. */
-  int BOOLEAN_EQUAL = 6;
+  int IF = 10;
   /** RegularExpression Id. */
-  int BOOLEAN_NOT_EQUAL = 7;
+  int THEN = 11;
   /** RegularExpression Id. */
-  int BOOLEAN_NOT = 8;
+  int ELSE = 12;
   /** RegularExpression Id. */
-  int GT = 9;
+  int BOOLEAN_EQUAL = 13;
   /** RegularExpression Id. */
-  int LT = 10;
+  int BOOLEAN_NOT_EQUAL = 14;
   /** RegularExpression Id. */
-  int GTE = 11;
+  int BOOLEAN_NOT = 15;
   /** RegularExpression Id. */
-  int LTE = 12;
+  int GT = 16;
   /** RegularExpression Id. */
-  int COLON = 13;
+  int LT = 17;
   /** RegularExpression Id. */
-  int LP = 14;
+  int GTE = 18;
   /** RegularExpression Id. */
-  int RP = 15;
+  int LTE = 19;
   /** RegularExpression Id. */
-  int LB = 16;
+  int COLON = 20;
   /** RegularExpression Id. */
-  int RB = 17;
+  int LP = 21;
   /** RegularExpression Id. */
-  int LBRACE = 18;
+  int RP = 22;
   /** RegularExpression Id. */
-  int RBRACE = 19;
+  int LB = 23;
   /** RegularExpression Id. */
-  int EQ = 20;
+  int RB = 24;
   /** RegularExpression Id. */
-  int SEMICOLON = 21;
+  int LBRACE = 25;
   /** RegularExpression Id. */
-  int COMMA = 22;
+  int RBRACE = 26;
   /** RegularExpression Id. */
-  int SP = 23;
+  int EQ = 27;
   /** RegularExpression Id. */
-  int PLUS = 24;
+  int SEMICOLON = 28;
   /** RegularExpression Id. */
-  int MINUS = 25;
+  int COMMA = 29;
   /** RegularExpression Id. */
-  int DIVIDE = 26;
+  int SP = 30;
   /** RegularExpression Id. */
-  int TIMES = 27;
+  int PLUS = 31;
   /** RegularExpression Id. */
-  int QUOTE = 28;
+  int MINUS = 32;
   /** RegularExpression Id. */
-  int NUMBER = 29;
+  int DIVIDE = 33;
   /** RegularExpression Id. */
-  int NAME = 30;
+  int TIMES = 34;
   /** RegularExpression Id. */
-  int ENDQUOTE = 32;
+  int QUOTE = 35;
   /** RegularExpression Id. */
-  int CHAR = 33;
+  int NUMBER = 36;
   /** RegularExpression Id. */
-  int CNTRL_ESC = 34;
+  int NAME = 37;
+  /** RegularExpression Id. */
+  int ENDQUOTE = 39;
+  /** RegularExpression Id. */
+  int CHAR = 40;
+  /** RegularExpression Id. */
+  int CNTRL_ESC = 41;
 
   /** Lexical state. */
   int DEFAULT = 0;
   /** Lexical state. */
-  int STRING_STATE = 1;
+  int ML_COMMENT_STATE = 1;
   /** Lexical state. */
-  int ESC_STATE = 2;
+  int STRING_STATE = 2;
+  /** Lexical state. */
+  int ESC_STATE = 3;
 
   /** Literal token values. */
   String[] tokenImage = {
     "<EOF>",
     "<token of kind 1>",
+    "<token of kind 2>",
+    "\"/*\"",
+    "\"*/\"",
+    "<token of kind 5>",
     "\"module\"",
     "<FUNCTION>",
     "<BOOLEAN>",
     "\"for\"",
+    "\"if\"",
+    "\"then\"",
+    "\"else\"",
     "\"==\"",
     "\"!=\"",
     "\"!\"",

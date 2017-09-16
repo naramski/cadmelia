@@ -62,4 +62,86 @@ public class ExpressionTest {
         Assert.assertEquals("Error evaluating '" + expression + "'", expected, value);
     }
 
+    @Test
+    public void testIf() throws Exception {
+        ScriptParser parser = new ScriptParser(new StringReader("if(true) {cube(1); }; if(true) {sphere(1);};"));
+        Script script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("if(true) {cube(1); } if(true) {sphere(1);}"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("if(true) cube(1); if(true) {sphere(1);}"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("translate([1,1,1]) { if(true) cube(1); if(true) {sphere(1);}}"));
+        script = parser.Script();
+
+        Assert.assertEquals(1, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("translate([1,1,1]) if(true) cube(1) else if(true) {sphere(1);}"));
+        script = parser.Script();
+
+        Assert.assertEquals(1, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("translate([1,1,1]) if(true) cube(1); if(true) {sphere(1);}"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("echo(theta);\n\nif(part==2) sleeve(2);"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+    }
+
+    @Test
+    public void testChain() throws Exception {
+        ScriptParser parser = new ScriptParser(new StringReader("sphere(1); cube(2);"));
+        Script script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("translate([1,1,1]) cube(1); sphere(2);"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("cube(3); translate([1,1,1]) cube(1);"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("cube(3); translate([1,1,1]) cube(1)"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("cube(1); translate([1,1,1]) rotate([1,1,1]) sphere(2); cube(3);"));
+        script = parser.Script();
+
+        Assert.assertEquals(3, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("cube(1); translate([1,1,1]) rotate([1,1,1]) { sphere(2); cube(3); }"));
+        script = parser.Script();
+
+        Assert.assertEquals(2, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("cube(1); translate([1,1,1]) rotate([1,1,1]) { sphere(2); cube(3); }; cube(1); "));
+        script = parser.Script();
+
+        Assert.assertEquals(3, script.getInstructions().size());
+
+        parser = new ScriptParser(new StringReader("cube(1); translate([1,1,1]) rotate([1,1,1]) { sphere(2); cube(3); } cube(1); "));
+        script = parser.Script();
+
+        Assert.assertEquals(3, script.getInstructions().size());
+
+    }
 }

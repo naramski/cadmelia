@@ -16,8 +16,40 @@
  */
 package net.nowina.cadmelia.script;
 
-public enum InstructionType {
+public class IfCommand extends Command {
 
-    DEFINE, COMMAND, MODULE, SCOPE
+    private Expression condition;
+
+    private Instruction thenScope;
+
+    private Instruction elseScope;
+
+    public IfCommand() {
+        super("if");
+    }
+
+    public Expression getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Expression condition) {
+        this.condition = condition;
+    }
+
+    public Instruction getThenScope() {
+        return thenScope;
+    }
+
+    public void setThenScope(Instruction thenScope) {
+        this.thenScope = thenScope;
+    }
+
+    public Instruction getElseScope() {
+        return elseScope;
+    }
+
+    public void setElseScope(Instruction elseScope) {
+        this.elseScope = elseScope;
+    }
 
 }

@@ -87,6 +87,21 @@ public class ScriptTest {
     }
 
     @Test
+    public void testSphere2() throws Exception {
+
+        try (FileInputStream in = new FileInputStream("src/test/resources/scripts/sphere.scad")) {
+            ScriptParser parser = new ScriptParser(in);
+            parser.Command();
+        }
+
+        try (FileInputStream in = new FileInputStream("src/test/resources/scripts/sphere.scad")) {
+            ScriptParser parser = new ScriptParser(in);
+            parser.Chain();
+        }
+
+    }
+
+    @Test
     public void testTerminalCommand() throws Exception {
 
         ScriptParser parser = new ScriptParser(new StringReader("translate(v=[1,2,3]) sphere(2)"));

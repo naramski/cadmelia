@@ -16,8 +16,23 @@
  */
 package net.nowina.cadmelia.script;
 
-public enum InstructionType {
+import java.util.ArrayList;
+import java.util.List;
 
-    DEFINE, COMMAND, MODULE, SCOPE
+public class Scope extends Instruction {
+
+    public Scope() {
+        super(InstructionType.SCOPE);
+    }
+
+    private List<Instruction> instructions = new ArrayList<>();
+
+    public void addInstruction(Instruction instruction) {
+        instructions.add(instruction);
+    }
+
+    public List<Instruction> getInstructions() {
+        return instructions;
+    }
 
 }

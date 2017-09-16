@@ -17,11 +17,12 @@
 package net.nowina.cadmelia.script.module;
 
 import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.script.Command;
-import net.nowina.cadmelia.script.Expression;
-import net.nowina.cadmelia.script.ScriptContext;
+import net.nowina.cadmelia.script.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IfModule extends UnionModule {
 
@@ -36,14 +37,56 @@ public class IfModule extends UnionModule {
     @Override
     public Construction execute(Command op, ScriptContext context) {
 
-        Expression conditionExpr = op.getFirstUnamedArg();
+        if(!(op instanceof IfCommand)) {
+            System.out.println("Gni?");
+        }
+        IfCommand ifCommand = (IfCommand) op;
+        Expression conditionExpr = ifCommand.getCondition();
         boolean condition = conditionExpr.evaluateAsBoolean(context);
 
         if (condition) {
-            return super.execute(op, context);
+            return executeInstruction(ifCommand.getThenScope(), context);
+        } else {
+            if(ifCommand.getElseScope() != null) {
+                return executeInstruction(ifCommand.getElseScope(), context);
+            }
         }
 
         return null;
+    }
+
+    Construction executeInstruction(Instruction instruction, ScriptContext context) {
+
+        switch (instruction.getType()) {
+            case COMMAND:
+                Command command = (Command) instruction;
+                return operation(command, context);
+            case SCOPE:
+                Scope scope = (Scope) instruction;
+                ScriptContext thisScope = new ScriptContext(context);
+
+                List<Command> operations = new ArrayList<>();
+                for(Instruction i : scope.getInstructions()) {
+                    switch (i.getType()) {
+                        case DEFINE:
+                            Define define = (Define) i;
+                            thisScope.defineVariableValue(define.getName(), define.getExpression());
+                            break;
+                        case COMMAND:
+                            operations.add((Command) i);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unexpected type " + i.getType());
+                    }
+                }
+
+                return super.union(operations, thisScope);
+
+            default:
+                throw new IllegalStateException();
+
+        }
+
     }
 
 }

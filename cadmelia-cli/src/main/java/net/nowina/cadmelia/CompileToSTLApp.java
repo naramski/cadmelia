@@ -32,6 +32,7 @@ public class CompileToSTLApp {
     private BuilderFactory builderFactory;
     private File input;
     private File output;
+    private ScriptScene scriptScene;
 
     public static void main(String[] argv) throws Exception {
 
@@ -55,17 +56,26 @@ public class CompileToSTLApp {
     }
 
     public void render(Reader in) throws ParseException, IOException {
-        BuilderFactory factory = getBuilderFactory();
-        ScriptScene scene = new ScriptScene(factory);
+
+        ScriptScene scene = getScene();
 
         ScriptParser parser = new ScriptParser(in);
         Script script = parser.Script();
         scene.executeScript(script);
 
-        try(PrintWriter out = new PrintWriter(new FileOutputStream(output))) {
-            STLWriter writer = new STLWriter();
-            writer.write(scene.getRoot(), out);
+        if(output != null) {
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(output))) {
+                STLWriter writer = new STLWriter();
+                writer.write(scene.getRoot(), out);
+            }
         }
+    }
+
+    public ScriptScene getScene() {
+        if(scriptScene == null) {
+            scriptScene = new ScriptScene(getBuilderFactory());
+        }
+        return scriptScene;
     }
 
     private BuilderFactory getBuilderFactory() {

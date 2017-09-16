@@ -58,7 +58,6 @@ public class ScriptScene extends CommandInterpreter {
 
         for (Module module : script.getModules()) {
             getContext().registerModule(new ScriptModule(module, isPreview(), factory));
-            ;
         }
 
         for (Instruction instruction : script.getInstructions()) {

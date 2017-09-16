@@ -9,7 +9,7 @@ if(1 == 1) {
 text("Three");
 
 if(false) {
-    cylinder("Should not appear");
+    cylinder(2);
 };
 
 text("Four");

@@ -35,8 +35,15 @@ public class ScriptParser {
 PARSER_END(ScriptParser)
 
 SKIP: {
-  < " " | "\t" | "\r" | "\n" | "\r\n"
-  | "//" (~["\n","\r"])* ("\n"|"\r") >
+   < " " | "\t" | "\r" | "\n" | "\r\n" >
+ | < "//" (~["\r", "\n"])* >
+ | < "/*" > : ML_COMMENT_STATE
+}
+
+<ML_COMMENT_STATE> SKIP :
+{
+   < "*/" > : DEFAULT
+ | < ~[] >
 }
 
 TOKEN: {
@@ -44,6 +51,9 @@ TOKEN: {
  | < FUNCTION : "max" | "rand" | "rands" | "sin" | "cos" | "atan" | "round" | "tan" >
  | < BOOLEAN : "true" | "false" >
  | < FOR : "for" >
+ | < IF : "if" >
+ | < THEN : "then" >
+ | < ELSE : "else" >
  | < BOOLEAN_EQUAL : "==" >
  | < BOOLEAN_NOT_EQUAL : "!=" >
  | < BOOLEAN_NOT : "!" >
@@ -78,8 +88,8 @@ TOKEN: {
 
 <STRING_STATE> TOKEN:
 {
-  <ENDQUOTE:<QUOTE>> : DEFAULT
-| <CHAR:~["\"","\\"]>
+  < ENDQUOTE : <QUOTE> > : DEFAULT
+| < CHAR : ~["\"","\\"]>
 }
 
 <ESC_STATE> TOKEN:
@@ -87,26 +97,75 @@ TOKEN: {
   <CNTRL_ESC:["\"","\\","/","b","f","n","r","t"]> : STRING_STATE
 }
 
-Iteration For() :
+Scope scope() :
+{
+    Instruction instruction;
+    Scope scope;
+}
+{
+    <LBRACE>
+    { scope = new Scope(); }
+    (
+        instruction = scopeStatement()
+        { scope.addInstruction(instruction); }
+    )*
+    <RBRACE>
+    { return scope; }
+}
+
+IfCommand IfCommand() :
+{
+    IfCommand ifCommand;
+    Expression condition;
+    Instruction instruction;
+}
+{
+    <IF> <LP> condition = Expression() <RP>
+    { ifCommand = new IfCommand(); ifCommand.setCondition(condition); }
+
+    (
+        instruction = scope()
+        { ifCommand.setThenScope(instruction); }
+    |
+        instruction = scopeStatement()
+        { ifCommand.setThenScope(instruction); }
+    )
+
+    ( <ELSE>
+
+        (
+            instruction = scope()
+            { ifCommand.setElseScope(instruction); }
+        |
+            instruction = scopeStatement()
+            { ifCommand.setElseScope(instruction); }
+        )
+
+    )?
+
+    { return ifCommand; }
+
+}
+
+
+ForCommand For() :
 {
     String variable;
     Expression start;
     Expression end;
-    Iteration it;
-    Command c;
+    ForCommand it;
+    Instruction instruction;
 }
 {
     <FOR> <LP> variable = Name() <EQ> <LB> start = Expression() <COLON> end = Expression() <RB> <RP>
-    { it = new Iteration(variable, start, Expression.element(1d), end); }
+    { it = new ForCommand(variable, start, Expression.element(1d), end); }
 
     (
-        (<LBRACE>
-            ( c = Chain()
-            { it.addOperation(c); })*
-        <RBRACE>)
+        instruction = scope()
+        { it.setInstruction(instruction); }
     |
-        ( c = Chain()
-        { it.addOperation(c); })
+        instruction = scopeStatement()
+        { it.setInstruction(instruction); }
     )
 
     { return it; }
@@ -219,30 +278,40 @@ Parameter Parameter() :
     }
 }
 
- Command Command() :
- {
-    String name;
+Command control() :
+{
     Command command;
-    Argument arg;
- }
- {
-    command = For()
+}
+{
+    command = For() (<SEMICOLON>)?
     { return command; }
 
     |
 
-     name = Name()
-     { command = new Command(name); }
-     <LP>
-         ((arg = Argument()
-            { command.addArg(arg); } )?
-         (<COMMA> arg = Argument()
-            { command.addArg(arg); } )* )
-     <RP>
+    command = IfCommand() (<SEMICOLON>)?
+    { return command; }
+}
+
+Command Command() :
+{
+    String name;
+    Command command;
+    Argument arg;
+}
+{
+
+    name = Name()
+    { command = new Command(name); }
+    <LP>
+        ((arg = Argument()
+        { command.addArg(arg); } )?
+        (<COMMA> arg = Argument()
+        { command.addArg(arg); } )* )
+    <RP>
     {
         return command;
     }
- }
+}
 
 Command Chain() :
 {
@@ -250,6 +319,7 @@ Command Chain() :
     Command command = null;
     Command previous = null;
     Command internal = null;
+    Scope scope = null;
 }
 {
     ( command = Command()
@@ -258,11 +328,30 @@ Command Chain() :
           previous = command;
         }
     )+
-    (<LBRACE>
-        ( internal = Chain()
-        { command.addOperation(internal); }
-        )*
-    <RBRACE>)?
+
+    (
+        ( command = control()
+            { if(chain==null) chain = command;
+              if(previous!=null) previous.addOperation(command);
+              previous = command;
+            }
+        )
+        |
+        (<LBRACE>
+
+            (
+                internal = Chain()
+                { command.addOperation(internal); }
+
+                |
+
+                internal = control()
+                { command.addOperation(internal); }
+            )*
+
+        <RBRACE>)
+    )?
+
     (<SEMICOLON>)?
     {return chain;}
 
@@ -291,19 +380,12 @@ Command Chain() :
     { return m; }
  }
 
-Instruction Statement() :
+Instruction scopeStatement() :
 {
-    Module module;
-    Command op;
     Define def;
-    Iteration it;
+    Command op;
 }
 {
-    module = Module()
-    { return module; }
-
-    |
-
     def = Assignment()
     { return def; }
 
@@ -312,6 +394,25 @@ Instruction Statement() :
     op = Chain()
     { return op; }
 
+    |
+
+    op = control()
+    { return op; }
+}
+
+Instruction Statement() :
+{
+    Instruction instruction;
+    Module module;
+}
+{
+    instruction = scopeStatement()
+    { return instruction; }
+
+    |
+
+    module = Module()
+    { return module; }
 }
 
 Script Script() :

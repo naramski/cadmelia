@@ -44,7 +44,7 @@ public class UnionModule extends CompositionModule {
         return union(operations, context);
     }
 
-    private Construction union(List<Command> operations, ScriptContext context) {
+    Construction union(List<Command> operations, ScriptContext context) {
         Construction composition = null;
         for (Command op : operations) {
             Construction element = operation(op, context);

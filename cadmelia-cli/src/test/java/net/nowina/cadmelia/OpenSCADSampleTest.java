@@ -16,6 +16,7 @@
  */
 package net.nowina.cadmelia;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,6 +30,53 @@ public class OpenSCADSampleTest {
     @Before
     public void setup() {
         app = new CompileToSTLApp();
+    }
+
+    @Test
+    public void testComment1() throws Exception {
+
+        app.render(new StringReader("// should do nothing"));
+
+        // Should not have any polygon
+        Assert.assertNull(app.getScene().getRoot());
+
+    }
+
+    @Test
+    public void testComment2() throws Exception {
+
+        app.render(new StringReader("/* should do nothing */"));
+
+        // Should not have any polygon
+        Assert.assertNull(app.getScene().getRoot());
+
+    }
+
+    @Test
+    public void testComment3() throws Exception {
+
+        app.render(new StringReader("/* \n should do nothing \n */"));
+
+        // Should not have any polygon
+        Assert.assertNull(app.getScene().getRoot());
+
+    }
+
+    @Test
+    public void testComment4() throws Exception {
+
+        app.render(new StringReader("/* \n should \n do /* nothing \n */"));
+
+        // Should not have any polygon
+        Assert.assertNull(app.getScene().getRoot());
+
+    }
+
+    @Test
+    public void testEcho() throws Exception {
+
+        app.render(new StringReader("echo(\"The quick brown fox \\tjumps \\\"over\\\" the lazy dog.\\rThe quick brown fox.\\nThe \\\\lazy\\\\ dog.\");"));
+
     }
 
     @Test
