@@ -103,8 +103,8 @@ public class SphereTest {
 
         CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).withoutRecursion(true).build();
 
-        Construction sphere = factory.sphere(2, 160, 80).translate(0, 0, -1);
-        Construction small = factory.sphere(1.5, 160, 80);
+        Construction sphere = factory.sphere(2, 80, 40).translate(0, 0, -1);
+        Construction small = factory.sphere(1.5, 80, 40);
 
         Solid difference = (Solid) sphere.difference(small);
 

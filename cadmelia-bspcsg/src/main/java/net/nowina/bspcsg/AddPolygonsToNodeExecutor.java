@@ -32,8 +32,11 @@ public abstract class AddPolygonsToNodeExecutor extends BSPTreeOperationExecutor
 
     private Factory factory;
 
+    private final boolean discardingInvalidPolygon;
+
     public AddPolygonsToNodeExecutor(Factory factory) {
         this.factory = factory;
+        this.discardingInvalidPolygon = factory.isDiscardingInvalidPolygon();
     }
 
     public abstract void execute(PolygonList polygonsToAdd, Node node);
@@ -43,6 +46,13 @@ public abstract class AddPolygonsToNodeExecutor extends BSPTreeOperationExecutor
         if (polygon == null) {
             throw new NullPointerException();
         }
+
+        /*
+        if(discardingInvalidPolygon) {
+            if(!polygon.isValid()) {
+                return;
+            }
+        }*/
 
         if(node.getPlane() == null) {
             node.addFirstPolygon(polygon);

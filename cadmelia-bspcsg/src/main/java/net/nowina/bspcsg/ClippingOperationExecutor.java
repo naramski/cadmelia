@@ -28,8 +28,11 @@ public class ClippingOperationExecutor extends BSPTreeOperationExecutor {
 
     private Factory factory;
 
+    private final boolean discardingInvalidPolygon;
+
     public ClippingOperationExecutor(Factory factory) {
         this.factory = factory;
+        this.discardingInvalidPolygon = factory.isDiscardingInvalidPolygon();
     }
 
     protected void splitPolygon(Polygon polygon, PolygonList front, PolygonList back, Node thisNode) {
@@ -113,11 +116,29 @@ public class ClippingOperationExecutor extends BSPTreeOperationExecutor {
         }
 
         if (f.size() >= 3) {
-            front.addPolygon(factory.newChildPolygon(f, polygon));
+            Vector normal = Polygon.buildNormal(f);
+            if(discardingInvalidPolygon) {
+                if (Polygon.isValid(normal)) {
+                    Polygon p = factory.newChildPolygon(f, polygon);
+                    front.addPolygon(p);
+                }
+            } else {
+                Polygon p = factory.newChildPolygon(f, polygon);
+                front.addPolygon(p);
+            }
         }
 
         if (b.size() >= 3) {
-            back.addPolygon(factory.newChildPolygon(b, polygon));
+            Vector normal = Polygon.buildNormal(b);
+            if(discardingInvalidPolygon) {
+                if (Polygon.isValid(normal)) {
+                    Polygon p = factory.newChildPolygon(b, polygon);
+                    back.addPolygon(p);
+                }
+            } else {
+                Polygon p = factory.newChildPolygon(b, polygon);
+                back.addPolygon(p);
+            }
         }
 
     }

@@ -88,16 +88,4 @@ public class OpenSCADSampleTest {
 
     }
 
-    @Test
-    public void union1() throws Exception {
-        app.setOutput(new File("build/testCup-union.stl"));
-        app.render(new StringReader("union() { cylinder(r1=4,r2=66.4633,h=63.5,$fn=6); translate([0,0,-.05]) cylinder(r1=0,r2=62.4633,h=63.6,$fn=6); }"));
-    }
-
-    @Test
-    public void difference2() throws Exception {
-        app.setOutput(new File("build/testCup-difference.stl"));
-        app.render(new StringReader("difference() { cylinder(r1=4,r2=66.4633,h=63.5,$fn=6); translate([0,0,-.05]) cylinder(r1=1,r2=62.4633,h=63.6,$fn=6); }"));
-    }
-
 }

@@ -32,7 +32,7 @@ public class Factory {
 
     private boolean usingComposite = true;
 
-    private boolean nodeWithoutRecursion = true;
+    private boolean discardingInvalidPolygon = true;
 
     private AddPolygonsToNodeExecutor addPolygonsToNodeExecutor;
 
@@ -47,7 +47,6 @@ public class Factory {
     public Factory(boolean usingComposite, boolean usingDecomposablePolygon, boolean withoutRecursion) {
         this.usingComposite = usingComposite;
         this.usingDecomposablePolygon = usingDecomposablePolygon;
-        this.nodeWithoutRecursion = withoutRecursion;
 
         if(withoutRecursion) {
             addPolygonsToNodeExecutor = new AddPolygonsToNodeIterativeExecutor(this);
@@ -124,8 +123,8 @@ public class Factory {
         return usingDecomposablePolygon;
     }
 
-    public boolean isNodeWithoutRecursion() {
-        return nodeWithoutRecursion;
+    public boolean isDiscardingInvalidPolygon() {
+        return discardingInvalidPolygon;
     }
 
     public AddPolygonsToNodeExecutor getAddPolygonsToNodeExecutor() {

@@ -96,7 +96,7 @@ public class Polygon {
         return polygon;
     }
 
-    private Vector buildNormal(VectorList vertices) {
+    public static Vector buildNormal(VectorList vertices) {
         /* Let a,b,c the three first vertices. The normal is b.minus(a).crossed(c.minus(a)).normalized(). Those
            computation are made with the Browser for performance.
          */
@@ -146,6 +146,15 @@ public class Polygon {
             normal = buildNormal(vertices);
         }
         return normal;
+    }
+
+    public boolean isValid() {
+        Vector normal = getNormal();
+        return isValid(normal);
+    }
+
+    public static boolean isValid(Vector normal) {
+        return normal.x() != Double.NaN && normal.y() != Double.NaN && normal.z() != Double.NaN;
     }
 
     public Factory getBuilder() {
