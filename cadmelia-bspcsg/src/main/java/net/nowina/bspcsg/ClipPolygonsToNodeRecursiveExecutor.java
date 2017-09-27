@@ -41,7 +41,7 @@ public class ClipPolygonsToNodeRecursiveExecutor extends ClipPolygonsToNodeExecu
     @Override
     public PolygonList execute(Node node, PolygonList polygons) {
 
-        if (node.plane == null) {
+        if (node.getPlane() == null) {
             throw new IllegalStateException("Node should not be used before creating the first Plane");
         }
 

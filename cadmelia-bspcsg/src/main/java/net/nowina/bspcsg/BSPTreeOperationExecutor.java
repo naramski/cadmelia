@@ -157,9 +157,9 @@ public class BSPTreeOperationExecutor {
 
          */
 
-        double back = node.plane.getDist() - Plane.EPSILON;
-        double front = node.plane.getDist() + Plane.EPSILON;
-        Vector normal = node.plane.getNormal();
+        double back = node.getPlane().getDist() - Plane.EPSILON;
+        double front = node.getPlane().getDist() + Plane.EPSILON;
+        Vector normal = node.getPlane().getNormal();
         for (VectorListBrowser browser = vertices.browse(); browser.hasNext(); browser.next()) {
             double t = normal.dot(browser.x(), browser.y(), browser.z());
             int type = (t < back) ? Node.BACK : (t > front) ? Node.FRONT : Node.COPLANAR;

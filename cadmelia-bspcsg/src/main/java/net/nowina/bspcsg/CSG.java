@@ -22,10 +22,14 @@ import net.nowina.bspcsg.collection.PolygonListBrowser;
 import net.nowina.bspcsg.collection.VectorListBrowser;
 import net.nowina.cadmelia.Transformation;
 import net.nowina.cadmelia.construction.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Future;
 
 public class CSG {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSG.class);
 
     private Factory factory;
 
@@ -84,6 +88,7 @@ public class CSG {
 
     public CSG difference(CSG csg) {
 
+        LOGGER.info("Difference with " + csg);
         if (getPolygons().isEmpty()) {
             return this;
         }
@@ -103,7 +108,8 @@ public class CSG {
         b.invert();
         b.clipTo(a);
         b.invert();
-        a.addAll(b.allPolygons());
+        PolygonList list = b.allPolygons();
+        a.addAll(list);
         a.invert();
 
         return factory.newCSG(a);

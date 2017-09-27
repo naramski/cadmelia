@@ -25,7 +25,7 @@ import net.nowina.cadmelia.construction.Solid;
 import net.nowina.cadmelia.script.Script;
 import net.nowina.cadmelia.script.ScriptScene;
 import net.nowina.cadmelia.script.parser.ScriptParser;
-import net.nowina.cadmelia.shape.jts_clipper.JTSClipperShapeBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
 import net.nowina.cadmelia.solid.bspcsg.FactoryBuilder;
 import net.nowina.cadmelia.stl.STLWriter;
 import org.netbeans.api.progress.ProgressHandle;
@@ -75,7 +75,7 @@ public final class RenderOpenSCADAction implements ActionListener {
             try {
                 FileObject outFile = o.getParent().createData(o.getName() + ".stl");
 
-                BuilderFactory.registerShapeBuilder(new JTSClipperShapeBuilder());
+                BuilderFactory.registerShapeBuilder(new ShapeImplBuilder());
                 BuilderFactory.registerSolidBuilder(new FactoryBuilder().build());
                 BuilderFactory factory = BuilderFactory.getInstance();
                 ScriptScene scene = new ScriptScene(factory);

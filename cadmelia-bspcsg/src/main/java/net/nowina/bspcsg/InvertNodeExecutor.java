@@ -29,7 +29,7 @@ public abstract class InvertNodeExecutor extends BSPTreeOperationExecutor {
             p.flip();
         }
 
-        node.plane.flip();
+        node.getPlane().flip();
         node.inverted = !node.inverted;
 
     }

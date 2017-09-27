@@ -43,7 +43,7 @@ public class ClipPolygonsToNodeIterativeExecutor extends ClipPolygonsToNodeExecu
 
         preOrderTraversal(root, node -> {
 
-            if (node.plane == null) {
+            if (node.getPlane() == null) {
                 throw new IllegalStateException("Node should not be used before creating the first Plane");
             }
 

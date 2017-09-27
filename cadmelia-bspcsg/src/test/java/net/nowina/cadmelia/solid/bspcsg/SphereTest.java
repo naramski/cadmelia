@@ -22,6 +22,8 @@ import net.nowina.cadmelia.stl.STLWriter;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.StringReader;
+
 public class SphereTest {
 
     @Test
@@ -95,6 +97,7 @@ public class SphereTest {
 
     }
 
+    // This one takes time, it is normal. The intended purpose is to see if we survive with a huge mesh
     @Test
     public void testDifference3() throws Exception {
 
@@ -106,6 +109,20 @@ public class SphereTest {
         Solid difference = (Solid) sphere.difference(small);
 
         STLWriter.writeToFile("build/difference-spheres-3.stl", difference);
+
+    }
+
+    @Test
+    public void testDifference4() throws Exception {
+
+        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).withoutRecursion(true).build();
+
+        Construction cyl1 = factory.cylinder(4, 66.4633, 63.50, 6, false);
+        Construction cyl2 = factory.cylinder(1, 62.4633, 63.6, 6, false).translate(0, 0, -0.05);
+
+        Solid difference = (Solid) cyl1.difference(cyl2);
+
+        STLWriter.writeToFile("build/difference-cone.stl", difference);
 
     }
 

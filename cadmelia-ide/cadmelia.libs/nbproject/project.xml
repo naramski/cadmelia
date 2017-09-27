@@ -7,8 +7,6 @@
             <suite-component/>
             <module-dependencies/>
             <public-packages>
-                <package>com.github.quickhull3d</package>
-                <package>javax.vecmath</package>
                 <package>net.nowina.bspcsg</package>
                 <package>net.nowina.bspcsg.collection</package>
                 <package>net.nowina.cadmelia</package>
@@ -18,151 +16,71 @@
                 <package>net.nowina.cadmelia.script.module</package>
                 <package>net.nowina.cadmelia.script.parser</package>
                 <package>net.nowina.cadmelia.shape</package>
-                <package>net.nowina.cadmelia.shape.jts_clipper</package>
+                <package>net.nowina.cadmelia.shape.impl</package>
                 <package>net.nowina.cadmelia.solid</package>
                 <package>net.nowina.cadmelia.solid.bspcsg</package>
                 <package>net.nowina.cadmelia.stl</package>
                 <package>net.nowina.cadmelia.stl.parser</package>
-                <package>org.fxyz3d.collections</package>
-                <package>org.fxyz3d.concurrent</package>
-                <package>org.fxyz3d.event</package>
-                <package>org.fxyz3d.geometry</package>
-                <package>org.fxyz3d.io</package>
-                <package>org.fxyz3d.scene</package>
-                <package>org.fxyz3d.scene.paint</package>
-                <package>org.fxyz3d.shapes</package>
-                <package>org.fxyz3d.shapes.complex.cloth</package>
-                <package>org.fxyz3d.shapes.composites</package>
-                <package>org.fxyz3d.shapes.containers</package>
-                <package>org.fxyz3d.shapes.primitives</package>
-                <package>org.fxyz3d.shapes.primitives.helper</package>
-                <package>org.fxyz3d.tools</package>
-                <package>org.fxyz3d.utils</package>
-                <package>org.locationtech.jts</package>
-                <package>org.locationtech.jts.algorithm</package>
-                <package>org.locationtech.jts.algorithm.distance</package>
-                <package>org.locationtech.jts.algorithm.locate</package>
-                <package>org.locationtech.jts.algorithm.match</package>
-                <package>org.locationtech.jts.awt</package>
-                <package>org.locationtech.jts.densify</package>
-                <package>org.locationtech.jts.dissolve</package>
-                <package>org.locationtech.jts.edgegraph</package>
-                <package>org.locationtech.jts.geom</package>
-                <package>org.locationtech.jts.geom.impl</package>
-                <package>org.locationtech.jts.geom.prep</package>
-                <package>org.locationtech.jts.geom.util</package>
-                <package>org.locationtech.jts.geomgraph</package>
-                <package>org.locationtech.jts.geomgraph.index</package>
-                <package>org.locationtech.jts.index</package>
-                <package>org.locationtech.jts.index.bintree</package>
-                <package>org.locationtech.jts.index.chain</package>
-                <package>org.locationtech.jts.index.intervalrtree</package>
-                <package>org.locationtech.jts.index.kdtree</package>
-                <package>org.locationtech.jts.index.quadtree</package>
-                <package>org.locationtech.jts.index.strtree</package>
-                <package>org.locationtech.jts.index.sweepline</package>
-                <package>org.locationtech.jts.io</package>
-                <package>org.locationtech.jts.io.gml2</package>
-                <package>org.locationtech.jts.io.kml</package>
-                <package>org.locationtech.jts.linearref</package>
-                <package>org.locationtech.jts.math</package>
-                <package>org.locationtech.jts.noding</package>
-                <package>org.locationtech.jts.noding.snapround</package>
-                <package>org.locationtech.jts.operation</package>
-                <package>org.locationtech.jts.operation.buffer</package>
-                <package>org.locationtech.jts.operation.buffer.validate</package>
-                <package>org.locationtech.jts.operation.distance</package>
-                <package>org.locationtech.jts.operation.distance3d</package>
-                <package>org.locationtech.jts.operation.linemerge</package>
-                <package>org.locationtech.jts.operation.overlay</package>
-                <package>org.locationtech.jts.operation.overlay.snap</package>
-                <package>org.locationtech.jts.operation.overlay.validate</package>
-                <package>org.locationtech.jts.operation.polygonize</package>
-                <package>org.locationtech.jts.operation.predicate</package>
-                <package>org.locationtech.jts.operation.relate</package>
-                <package>org.locationtech.jts.operation.union</package>
-                <package>org.locationtech.jts.operation.valid</package>
-                <package>org.locationtech.jts.planargraph</package>
-                <package>org.locationtech.jts.planargraph.algorithm</package>
-                <package>org.locationtech.jts.precision</package>
-                <package>org.locationtech.jts.shape</package>
-                <package>org.locationtech.jts.shape.fractal</package>
-                <package>org.locationtech.jts.shape.random</package>
-                <package>org.locationtech.jts.simplify</package>
-                <package>org.locationtech.jts.triangulate</package>
-                <package>org.locationtech.jts.triangulate.quadedge</package>
-                <package>org.locationtech.jts.util</package>
-                <package>org.poly2tri</package>
-                <package>org.poly2tri.geometry.polygon</package>
-                <package>org.poly2tri.geometry.primitives</package>
-                <package>org.poly2tri.transform.coordinate</package>
-                <package>org.poly2tri.triangulation</package>
-                <package>org.poly2tri.triangulation.delaunay</package>
-                <package>org.poly2tri.triangulation.delaunay.sweep</package>
-                <package>org.poly2tri.triangulation.point</package>
-                <package>org.poly2tri.triangulation.sets</package>
-                <package>org.poly2tri.triangulation.util</package>
-                <package>org.slf4j</package>
-                <package>org.slf4j.event</package>
-                <package>org.slf4j.helpers</package>
-                <package>org.slf4j.impl</package>
-                <package>org.slf4j.spi</package>
             </public-packages>
-            <class-path-extension>
-                <runtime-relative-path>ext/cadmelia-model-0.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/cadmelia-model-0.3.0.jar</binary-origin>
-            </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/quickhull3d-1.0.0.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/quickhull3d-1.0.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/fxyz3d-0.2-SNAPSHOT.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/fxyz3d-0.2-SNAPSHOT.jar</binary-origin>
+                <runtime-relative-path>ext/cadmelia-core-0.4.0-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/cadmelia-core-0.4.0-SNAPSHOT.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jts-core-1.15.0-SNAPSHOT.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/jts-core-1.15.0-SNAPSHOT.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/cadmelia-core-0.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/cadmelia-core-0.3.0.jar</binary-origin>
+                <runtime-relative-path>ext/cadmelia-tesselation-0.4.0-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/cadmelia-tesselation-0.4.0-SNAPSHOT.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/cadmelia-jtsclipper-0.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/cadmelia-jtsclipper-0.3.0.jar</binary-origin>
+                <runtime-relative-path>ext/cadmelia-bspcsg-0.4.0-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/cadmelia-bspcsg-0.4.0-SNAPSHOT.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/commons-cli-1.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/commons-cli-1.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/cadmelia-shape-0.4.0-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/cadmelia-shape-0.4.0-SNAPSHOT.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/slf4j-jdk14-1.7.7.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/slf4j-jdk14-1.7.7.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/vecmath-1.5.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/vecmath-1.5.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/cadmelia-tesselation-0.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/cadmelia-tesselation-0.3.0.jar</binary-origin>
+                <runtime-relative-path>ext/cadmelia-api-0.4.0-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/cadmelia-api-0.4.0-SNAPSHOT.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/slf4j-jdk14-1.7.25.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/slf4j-jdk14-1.7.25.jar</binary-origin>
+                <runtime-relative-path>ext/cadmelia-model-0.4.0-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/cadmelia-model-0.4.0-SNAPSHOT.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/cadmelia-openscad-0.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/cadmelia-openscad-0.3.0.jar</binary-origin>
+                <runtime-relative-path>ext/commons-io-2.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/commons-io-2.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/cadmelia-api-0.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/cadmelia-api-0.3.0.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/cadmelia-bspcsg-0.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/cadmelia-bspcsg-0.3.0.jar</binary-origin>
+                <runtime-relative-path>ext/cadmelia-openscad-0.4.0-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/cadmelia-openscad-0.4.0-SNAPSHOT.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/poly2tri-core-0.1.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/poly2tri-core-0.1.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/slf4j-api-1.7.25.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/slf4j-api-1.7.25.jar</binary-origin>
+                <runtime-relative-path>ext/slf4j-api-1.7.7.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/slf4j-api-1.7.7.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

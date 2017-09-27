@@ -40,13 +40,20 @@ public class UnionModule extends CompositionModule {
 
     @Override
     public Construction execute(Command op, ScriptContext context) {
+        LOGGER.info("Execute operation " + op);
         List<Command> operations = op.getOperations();
+        if(operations != null && !operations.isEmpty()) {
+            LOGGER.debug("Contains " + operations.size() + " operations");
+        } else {
+            LOGGER.warn("The Union don't contains operations");
+        }
         return union(operations, context);
     }
 
     Construction union(List<Command> operations, ScriptContext context) {
         Construction composition = null;
         for (Command op : operations) {
+            LOGGER.info("Union of operation " + op);
             Construction element = operation(op, context);
             if (element != null) {
                 composition = union(composition, element);

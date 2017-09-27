@@ -32,10 +32,6 @@ public class IntersectionModule extends CompositionModule {
         super(MODULE_NAME);
     }
 
-    protected IntersectionModule(String name) {
-        super(name);
-    }
-
     @Override
     public Construction execute(Command op, ScriptContext context) {
         return intersection(op, context);

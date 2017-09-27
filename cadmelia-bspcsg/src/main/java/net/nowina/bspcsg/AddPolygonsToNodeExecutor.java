@@ -20,11 +20,15 @@ import net.nowina.bspcsg.collection.PolygonList;
 import net.nowina.bspcsg.collection.VectorList;
 import net.nowina.bspcsg.collection.VectorListBrowser;
 import net.nowina.cadmelia.construction.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AddPolygonsToNodeExecutor extends BSPTreeOperationExecutor {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddPolygonsToNodeExecutor.class);
 
     private Factory factory;
 
@@ -40,8 +44,9 @@ public abstract class AddPolygonsToNodeExecutor extends BSPTreeOperationExecutor
             throw new NullPointerException();
         }
 
-        if (node.plane == null) {
-            node.plane = new Plane(polygon);
+        if(node.getPlane() == null) {
+            node.addFirstPolygon(polygon);
+            return;
         }
 
         List<Integer> vertexTypes = new ArrayList<>();
@@ -49,15 +54,19 @@ public abstract class AddPolygonsToNodeExecutor extends BSPTreeOperationExecutor
 
         switch (polygonType) {
             case Node.COPLANAR:
+                LOGGER.debug("Polygon is co-planar");
                 addCoplanarPolygon(polygon, node);
                 break;
             case Node.FRONT:
+                LOGGER.debug("Polygon is front");
                 addFrontPolygon(polygon, node);
                 break;
             case Node.BACK:
+                LOGGER.debug("Polygon is back");
                 addBackPolygon(polygon, node);
                 break;
             case Node.SPANNING:
+                LOGGER.debug("Polygon is spanning");
                 splitAndAddPolygon(polygon, vertexTypes, node);
                 break;
         }
@@ -100,14 +109,14 @@ public abstract class AddPolygonsToNodeExecutor extends BSPTreeOperationExecutor
                 /* (ti FRONT and tj BACK) or (ti BACK and tj FRONT) */
 
                 /* Distance between vi and the plane, projected on the normal of the plane */
-                double distI = node.plane.getDist() - node.plane.getNormal().dot(browser.x(), browser.y(), browser.z());
+                double distI = node.getPlane().getDist() - node.getPlane().getNormal().dot(browser.x(), browser.y(), browser.z());
 
                 /* Vector between IJ */
                 Vector vj = browser.getNext();
                 double vectorIJx = vj.x() - browser.x();
                 double vectorIJy = vj.y() - browser.y();
                 double vectorIJz = vj.z() - browser.z();
-                double distIJ = node.plane.getNormal().dot(vectorIJx, vectorIJy, vectorIJz);
+                double distIJ = node.getPlane().getNormal().dot(vectorIJx, vectorIJy, vectorIJz);
 
                 double t = distI / distIJ;
 

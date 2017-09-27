@@ -37,7 +37,7 @@ public class Node {
 
     PolygonList polygons;
 
-    Plane plane;
+    private Plane plane;
 
     Node left;
 
@@ -65,6 +65,27 @@ public class Node {
         }
 
         addAll(polygons);
+    }
+
+    public int polygonsCount() {
+        if(polygons == null) {
+            return 0;
+        } else {
+            return polygons.size();
+        }
+    }
+
+    public void addFirstPolygon(Polygon polygon) {
+        if(polygons != null || plane != null) {
+            throw new IllegalStateException();
+        }
+        polygons = factory.newPolygonList();
+        polygons.addPolygon(polygon);
+        plane = new Plane(polygon);
+    }
+
+    public Plane getPlane() {
+        return plane;
     }
 
     public void addAll(PolygonList polygons) {

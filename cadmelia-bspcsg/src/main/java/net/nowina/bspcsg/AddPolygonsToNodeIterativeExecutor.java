@@ -18,11 +18,15 @@ package net.nowina.bspcsg;
 
 import net.nowina.bspcsg.collection.PolygonList;
 import net.nowina.bspcsg.collection.PolygonListBrowser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddPolygonsToNodeIterativeExecutor extends AddPolygonsToNodeExecutor {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddPolygonsToNodeIterativeExecutor.class);
 
     private List<PolygonFragment> fragments = new ArrayList<>();
 
@@ -39,6 +43,7 @@ public class AddPolygonsToNodeIterativeExecutor extends AddPolygonsToNodeExecuto
             while(!fragments.isEmpty()) {
 
                 PolygonFragment f = fragments.remove(0);
+                LOGGER.debug("Still one fragment of polygon " + f);
                 addPolygonToNode(f.polygon, f.node);
 
             }
@@ -48,17 +53,25 @@ public class AddPolygonsToNodeIterativeExecutor extends AddPolygonsToNodeExecuto
     }
 
     protected void addFrontPolygon(Polygon polygon, Node node) {
-        if (node.getFront() == null) {
-            node.setFront(new Node(getFactory()));
+        Node front = node.getFront();
+        if (front == null) {
+            front = new Node(getFactory());
+            front.addFirstPolygon(polygon);
+            node.setFront(front);
+        } else {
+            fragments.add(new PolygonFragment(polygon, front));
         }
-        fragments.add(new PolygonFragment(polygon, node.getFront()));
     }
 
     protected void addBackPolygon(Polygon polygon, Node node) {
-        if (node.getBack() == null) {
-            node.setBack(new Node(getFactory()));
+        Node back = node.getBack();
+        if (back == null) {
+            back = new Node(getFactory());
+            back.addFirstPolygon(polygon);
+            node.setBack(back);
+        } else {
+            fragments.add(new PolygonFragment(polygon, back));
         }
-        fragments.add(new PolygonFragment(polygon, node.getBack()));
     }
 
     static class PolygonFragment {
@@ -70,6 +83,14 @@ public class AddPolygonsToNodeIterativeExecutor extends AddPolygonsToNodeExecuto
         public PolygonFragment(Polygon polygon, Node node) {
             this.polygon = polygon;
             this.node = node;
+        }
+
+        @Override
+        public String toString() {
+            return "PolygonFragment{" +
+                    "polygon=" + polygon +
+                    ", node=" + node +
+                    '}';
         }
 
     }

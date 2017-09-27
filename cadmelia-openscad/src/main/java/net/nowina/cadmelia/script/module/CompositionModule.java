@@ -31,6 +31,13 @@ public abstract class CompositionModule extends ModuleExec {
         super(name);
     }
 
+    /**
+     * Execute one operation using the provided context
+     * @param op The operation to execute
+     * @param context The context in which the execution occurs
+     * @return The resulting Construction
+     * @throws RuntimeException if the operation is not recognized in this context
+     */
     protected Construction operation(Command op, ScriptContext context) {
         LOGGER.info("Execute operation " + op);
         Construction result = null;

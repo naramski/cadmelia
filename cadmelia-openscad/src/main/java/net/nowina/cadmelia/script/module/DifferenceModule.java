@@ -32,10 +32,6 @@ public class DifferenceModule extends CompositionModule {
         super(MODULE_NAME);
     }
 
-    protected DifferenceModule(String name) {
-        super(name);
-    }
-
     @Override
     public Construction execute(Command op, ScriptContext context) {
         return difference(op, context);
@@ -44,13 +40,16 @@ public class DifferenceModule extends CompositionModule {
     private Construction difference(Command transformation, ScriptContext context) {
         Construction composition = null;
         for (Command op : transformation.getOperations()) {
+            LOGGER.info("Operation is " + op);
             Construction element = operation(op, context);
             if (element == null) {
                 LOGGER.warn("Null returned by " + op);
             } else {
                 if (composition == null) {
+                    LOGGER.info("First element of difference");
                     composition = element;
                 } else {
+                    LOGGER.info("Difference of composition");
                     composition = composition.difference(element);
                 }
             }

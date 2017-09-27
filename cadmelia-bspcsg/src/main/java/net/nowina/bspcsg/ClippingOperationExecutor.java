@@ -40,7 +40,7 @@ public class ClippingOperationExecutor extends BSPTreeOperationExecutor {
 
         switch (polygonType) {
             case Node.COPLANAR:
-                double orientation = thisNode.plane.getNormal().dot(polygon.getNormal());
+                double orientation = thisNode.getPlane().getNormal().dot(polygon.getNormal());
                 if (orientation > 0) {
                     front.addPolygon(polygon);
                 } else {
@@ -88,14 +88,14 @@ public class ClippingOperationExecutor extends BSPTreeOperationExecutor {
                 /* (ti FRONT and tj BACK) or (ti BACK and tj FRONT) */
 
                 /* Distance between vi and the plane, projected on the normal of the plane */
-                double distI = thisNode.plane.getDist() - thisNode.plane.getNormal().dot(browser.x(), browser.y(), browser.z());
+                double distI = thisNode.getPlane().getDist() - thisNode.getPlane().getNormal().dot(browser.x(), browser.y(), browser.z());
 
                 /* Vector between IJ */
                 Vector vj = browser.getNext();
                 double vectorIJx = vj.x() - browser.x();
                 double vectorIJy = vj.y() - browser.y();
                 double vectorIJz = vj.z() - browser.z();
-                double distIJ = thisNode.plane.getNormal().dot(vectorIJx, vectorIJy, vectorIJz);
+                double distIJ = thisNode.getPlane().getNormal().dot(vectorIJx, vectorIJy, vectorIJz);
 
                 double t = distI / distIJ;
 
