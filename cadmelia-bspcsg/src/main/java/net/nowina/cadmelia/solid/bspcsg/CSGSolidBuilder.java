@@ -32,8 +32,8 @@ import java.util.List;
 
 public class CSGSolidBuilder extends Factory implements SolidBuilder {
 
-    public CSGSolidBuilder(boolean usingComposite, boolean usingDecomposablePolygon, boolean withoutRecursion) {
-        super(usingComposite, usingDecomposablePolygon, withoutRecursion);
+    public CSGSolidBuilder(boolean usingComposite, boolean usingDecomposablePolygon, boolean withoutRecursion, boolean discardingInvalidPolygon) {
+        super(usingComposite, usingDecomposablePolygon, withoutRecursion, discardingInvalidPolygon);
     }
 
     public CSGSolid newCSGSolid(CSG csg) {

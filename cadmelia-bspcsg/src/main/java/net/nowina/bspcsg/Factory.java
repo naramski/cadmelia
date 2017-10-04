@@ -44,9 +44,11 @@ public class Factory {
 
     private GetAllPolygonsExecutor getAllPolygonsExecutor;
 
-    public Factory(boolean usingComposite, boolean usingDecomposablePolygon, boolean withoutRecursion) {
+    public Factory(boolean usingComposite, boolean usingDecomposablePolygon, boolean withoutRecursion,
+                   boolean discardingInvalidPolygon) {
         this.usingComposite = usingComposite;
         this.usingDecomposablePolygon = usingDecomposablePolygon;
+        this.discardingInvalidPolygon = discardingInvalidPolygon;
 
         if(withoutRecursion) {
             addPolygonsToNodeExecutor = new AddPolygonsToNodeIterativeExecutor(this);

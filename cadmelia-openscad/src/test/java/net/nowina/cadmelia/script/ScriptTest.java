@@ -219,4 +219,13 @@ public class ScriptTest {
 
     }
 
+    @Test
+    public void testMul() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("95/100*135"));
+
+        Expression op = parser.Expression();
+
+    }
+
 }

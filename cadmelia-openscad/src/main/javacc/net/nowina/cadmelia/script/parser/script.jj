@@ -498,10 +498,10 @@ Expression Term() :
 }
 {
     expression = Unary()
-    ( <TIMES> term = Term()
-    { expression = expression.times(term); }
-    | <DIVIDE> term = Term()
-    { expression = expression.divide(term);} )*
+    ( <TIMES> term = Element()
+    { System.out.println("Mul " + expression + " by " + term); expression = expression.times(term); }
+    | <DIVIDE> term = Element()
+    { System.out.println("Dev " + expression + " by " + term); expression = expression.divide(term);} )*
     { return expression; }
 }
 

@@ -18,6 +18,7 @@ package net.nowina.cadmelia.script.module;
 
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
+import net.nowina.cadmelia.script.Expression;
 import net.nowina.cadmelia.script.ModuleExec;
 import net.nowina.cadmelia.script.ScriptContext;
 
@@ -30,7 +31,8 @@ public class EchoModule extends ModuleExec {
     @Override
     public Construction execute(Command op, ScriptContext context) {
 
-        System.out.println("ECHO: " + op.getArg(0));
+        Expression arg = op.getArg(0);
+        System.out.println("ECHO: " + arg.evaluate(context));
         return null;
 
     }

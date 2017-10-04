@@ -505,12 +505,12 @@ command.addArg(ex);
       }
       if (jj_2_54(4)) {
         jj_consume_token(TIMES);
-        term = Term();
-expression = expression.times(term);
+        term = Element();
+System.out.println("Mul " + expression + " by " + term); expression = expression.times(term);
       } else if (jj_2_55(4)) {
         jj_consume_token(DIVIDE);
-        term = Term();
-expression = expression.divide(term);
+        term = Element();
+System.out.println("Dev " + expression + " by " + term); expression = expression.divide(term);
       } else {
         jj_consume_token(-1);
         throw new ParseException();
@@ -1493,7 +1493,7 @@ if (t.image.length() < 2)
   private boolean jj_3_55()
  {
     if (jj_scan_token(DIVIDE)) return true;
-    if (jj_3R_35()) return true;
+    if (jj_3R_34()) return true;
     return false;
   }
 
@@ -1524,7 +1524,7 @@ if (t.image.length() < 2)
   private boolean jj_3_54()
  {
     if (jj_scan_token(TIMES)) return true;
-    if (jj_3R_35()) return true;
+    if (jj_3R_34()) return true;
     return false;
   }
 

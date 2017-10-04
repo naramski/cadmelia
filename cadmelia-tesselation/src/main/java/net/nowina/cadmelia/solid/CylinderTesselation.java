@@ -25,6 +25,8 @@ import java.util.List;
 
 public class CylinderTesselation<T extends Solid> extends Tesselation<T> {
 
+    public static double EPSILON = 1e-8;
+
     private double bottomRadius;
     private double topRadius;
     private double height;
@@ -53,29 +55,37 @@ public class CylinderTesselation<T extends Solid> extends Tesselation<T> {
             int t0 = i;
             int t1 = (i + 1) % slices;
 
-            polygons.add(new Triangle(
-                    centerBottom,
-                    vertex(false, t1),
-                    vertex(false, t0)
-            ));
+            Vector t0_bottom = null;
+            Vector t1_bottom = null;
+            if(bottomRadius > EPSILON) {
+                t0_bottom = vertex(false, t0);
+                t1_bottom = vertex(false, t1);
+            } else {
+                t0_bottom = centerBottom;
+                t1_bottom = centerBottom;
+            }
 
-            polygons.add(new Triangle(
-                    vertex(false, t0),
-                    vertex(false, t1),
-                    vertex(true, t1)
-            ));
+            Vector t0_top = null;
+            Vector t1_top = null;
+            if(topRadius > EPSILON) {
+                t0_top = vertex(true, t0);
+                t1_top = vertex(true, t1);
+            } else {
+                t0_top = centerTop;
+                t1_top = centerTop;
+            }
 
-            polygons.add(new Triangle(
-                    vertex(false, t0),
-                    vertex(true, t1),
-                    vertex(true, t0)
-            ));
+            /* If there is no bottom part */
+            if(bottomRadius > EPSILON) {
+                polygons.add(new Triangle(centerBottom, t1_bottom, t0_bottom));
+                polygons.add(new Triangle(t0_bottom,t1_bottom,t1_top));
+            }
 
-            polygons.add(new Triangle(
-                    centerTop,
-                    vertex(true, t0),
-                    vertex(true, t1)
-            ));
+            /* If there is no top part */
+            if(topRadius > EPSILON) {
+                polygons.add(new Triangle(centerTop,t0_top,t1_top));
+                polygons.add(new Triangle(t0_bottom,t1_top,t0_top));
+            }
 
         }
 

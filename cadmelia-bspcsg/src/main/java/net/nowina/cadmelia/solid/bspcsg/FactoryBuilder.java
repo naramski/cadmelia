@@ -28,8 +28,10 @@ public class FactoryBuilder {
 
     private boolean withoutRecursion = true;
 
+    private boolean discardingInvalidPolygon = true;
+
     public CSGSolidBuilder build() {
-        return new CSGSolidBuilder(usingComposite, usingDecomposablePolygon, withoutRecursion);
+        return new CSGSolidBuilder(usingComposite, usingDecomposablePolygon, withoutRecursion, discardingInvalidPolygon);
     }
 
     public FactoryBuilder usingDecomposablePolygon(boolean value) {
@@ -44,6 +46,11 @@ public class FactoryBuilder {
 
     public FactoryBuilder withoutRecursion(boolean value) {
         withoutRecursion = value;
+        return this;
+    }
+
+    public FactoryBuilder discardingInvalidPolygon(boolean value) {
+        discardingInvalidPolygon = value;
         return this;
     }
 
