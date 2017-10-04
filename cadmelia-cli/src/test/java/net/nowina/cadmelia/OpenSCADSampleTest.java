@@ -88,4 +88,20 @@ public class OpenSCADSampleTest {
 
     }
 
+    @Test
+    public void testCube() throws Exception {
+
+        app.setOutput(new File("build/base-cube.stl"));
+        app.render(new StringReader("cube([18,28,8],true);"));
+
+    }
+
+    @Test
+    public void testRotation() throws Exception {
+
+        app.setOutput(new File("build/base-rotation.stl"));
+        app.render(new StringReader("cylinder(h=10); translate([10,0,0]) rotate([90,0,0]) cylinder(h=10);translate([20,0,0]) rotate([0,90,0]) cylinder(h=10); translate([35,0,0]) rotate([0,0,90]) cylinder(h=10); translate([50,0,0]) rotate([0,0,90]) rotate([0,90,0]) cylinder(h=10); "));
+
+    }
+
 }

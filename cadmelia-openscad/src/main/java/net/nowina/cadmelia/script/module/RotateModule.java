@@ -46,9 +46,9 @@ public class RotateModule extends UnionModule {
         }
 
         Vector rotation = rotationExpr.evaluateAsVector(context);
-
-        LOGGER.info("Rotate composition of " + rotation);
-        composition = composition.rotate(rotation);
+        Vector openScadRotation = new Vector( -rotation.x(), -rotation.y(), -rotation.z());
+        LOGGER.info("Rotate composition of " + openScadRotation);
+        composition = composition.rotate(openScadRotation);
         return composition;
     }
 
