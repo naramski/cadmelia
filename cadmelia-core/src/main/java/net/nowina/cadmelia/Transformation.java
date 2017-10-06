@@ -59,11 +59,11 @@ public class Transformation {
     }
 
     public Transformation rot(double x, double y, double z) {
-        return rotX(x).rotY(y).rotZ(z);
+        return rotZ(z).rotY(y).rotX(x);
     }
 
     public Transformation rot(Vector vec) {
-        return rotX(vec.x()).rotY(vec.y()).rotZ(vec.z());
+        return rot(vec.x(),vec.y(),vec.z());
     }
 
     public Transformation translate(Vector vec) {

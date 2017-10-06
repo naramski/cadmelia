@@ -152,4 +152,14 @@ public class SampleTest {
         CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/gears_helical.scad", "build/gears_helical.stl"});
     }
 
+    @Test
+    public void testPerspective2() throws Exception {
+        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/perspective2.scad", "build/perspective2.stl"});
+    }
+
+    @Test
+    public void testRotation() throws Exception {
+        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/rotation.scad", "build/rotation.stl"});
+    }
+
 }
