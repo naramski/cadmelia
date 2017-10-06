@@ -21,13 +21,13 @@ import net.nowina.cadmelia.solid.CubeTesselation;
 
 public class Cube extends CubeTesselation<CSGSolid> {
 
-    public Cube(CSGSolidBuilder builder, double sizeX, double sizeY, double sizeZ, boolean centered) {
-        this(builder, new Vector(centered ? -sizeX / 2 : 0, centered ? -sizeY / 2 : 0, centered ? -sizeZ / 2 : 0),
+    public Cube(CSGSolidFactory factory, double sizeX, double sizeY, double sizeZ, boolean centered) {
+        this(factory, new Vector(centered ? -sizeX / 2 : 0, centered ? -sizeY / 2 : 0, centered ? -sizeZ / 2 : 0),
                 new Vector(centered ? sizeX / 2 : sizeX, centered ? sizeY / 2 : sizeY, centered ? sizeZ / 2 : sizeZ));
     }
 
-    public Cube(CSGSolidBuilder builder, Vector min, Vector max) {
-        super(min, max, new MeshToCSGSolid(builder));
+    public Cube(CSGSolidFactory factory, Vector min, Vector max) {
+        super(min, max, new MeshToCSGSolid(factory));
     }
 
 }

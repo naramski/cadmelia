@@ -16,12 +16,12 @@
  */
 package net.nowina.cadmelia.shape.impl;
 
-import net.nowina.cadmelia.construction.ShapeBuilder;
+import net.nowina.cadmelia.construction.ShapeFactory;
 
-public class ShapeImplBuilderTest extends ShapeBuilderTestAbstract {
+public class ShapeImplFactoryTest extends ShapeFactoryTestAbstract {
 
-    protected ShapeBuilder createShapeBuilder() {
-        return new ShapeImplBuilder();
+    protected ShapeFactory createShapeBuilder() {
+        return new ShapeImplFactory();
     }
 
 }

@@ -16,9 +16,9 @@
  */
 package net.nowina.cadmelia.shape.impl;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Shape;
-import net.nowina.cadmelia.construction.ShapeBuilder;
+import net.nowina.cadmelia.construction.ShapeFactory;
 import net.nowina.cadmelia.construction.Vector;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -33,12 +33,12 @@ public class ShapeImplTest {
 
     @BeforeClass
     public static void setUp() {
-        BuilderFactory.registerShapeBuilder(new ShapeImplBuilder());
+        FactoryBuilder.registerShapeFactory(new ShapeImplFactory());
     }
 
     @Test
     public void testUnion() {
-        ShapeBuilder builder = BuilderFactory.getInstance().createShapeBuilder();
+        ShapeFactory builder = FactoryBuilder.getInstance().createShapeFactory();
         Shape square1 = (Shape) builder.square(2, 2, true).translate(Vector.X.times(-2d));
         System.out.println(square1.getPolygons().get(0).getExteriorRing().getPoints());
         Shape square2 = (Shape) builder.square(2, 2, true).translate(Vector.X.times(2d));
@@ -61,7 +61,7 @@ public class ShapeImplTest {
 
     @Test
     public void testPolygon() {
-        ShapeBuilder builder = BuilderFactory.getInstance().createShapeBuilder();
+        ShapeFactory builder = FactoryBuilder.getInstance().createShapeFactory();
         Shape square1 = (Shape) builder.polygon(Arrays.asList(new Vector(-1, 1), new Vector(-1, -1), new Vector(1, -1), new Vector(1, 1))).translate(Vector.X.times(-2d));
         System.out.println(square1.getPolygons().get(0).getExteriorRing().getPoints());
         Shape square2 = (Shape) builder.polygon(Arrays.asList(new Vector(1, -1), new Vector(-1, -1), new Vector(-1, 1), new Vector(1, 1))).translate(Vector.X.times(2d));
@@ -90,7 +90,7 @@ public class ShapeImplTest {
 
     @Test
     public void testDifference() {
-        ShapeBuilder builder = BuilderFactory.getInstance().createShapeBuilder();
+        ShapeFactory builder = FactoryBuilder.getInstance().createShapeFactory();
         Shape square1 = builder.square(4, 4, true);
         System.out.println(square1.getPolygons().get(0).getExteriorRing().getPoints());
         Shape square2 = builder.square(2, 2, true);
@@ -116,7 +116,7 @@ public class ShapeImplTest {
 
     @Test
     public void testSquare() {
-        ShapeBuilder builder = BuilderFactory.getInstance().createShapeBuilder();
+        ShapeFactory builder = FactoryBuilder.getInstance().createShapeFactory();
         Shape square1 = (Shape) builder.square(2, 2, true).translate(Vector.X.times(-2d));
 
         System.out.println(square1.getPolygons().get(0).getExteriorRing().getPoints());
@@ -125,7 +125,7 @@ public class ShapeImplTest {
 
     @Test
     public void testUnion3SeparatedShapes() {
-        ShapeBuilder builder = BuilderFactory.getInstance().createShapeBuilder();
+        ShapeFactory builder = FactoryBuilder.getInstance().createShapeFactory();
         Shape square1 = (Shape) builder.square(2, 2, true).translate(Vector.X.times(-2d));
         System.out.println(square1.getPolygons().get(0).getExteriorRing().getPoints());
         Shape square2 = (Shape) builder.square(2, 2, true).translate(Vector.X.times(2d));

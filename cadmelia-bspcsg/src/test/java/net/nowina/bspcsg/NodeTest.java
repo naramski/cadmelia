@@ -22,7 +22,7 @@ import net.nowina.cadmelia.Triangle;
 import net.nowina.cadmelia.TriangleMesh;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.solid.bspcsg.CSGSolid;
-import net.nowina.cadmelia.solid.bspcsg.CSGSolidBuilder;
+import net.nowina.cadmelia.solid.bspcsg.CSGSolidFactory;
 import net.nowina.cadmelia.solid.bspcsg.Cube;
 import net.nowina.cadmelia.solid.bspcsg.FactoryBuilder;
 import net.nowina.cadmelia.stl.STLWriter;
@@ -39,7 +39,7 @@ public class NodeTest {
     @Test
     public void testRecursion() throws Exception {
 
-        CSGSolidBuilder builder = new FactoryBuilder().withoutRecursion(false).usingComposite(false).usingDecomposablePolygon(false).build();
+        CSGSolidFactory builder = new FactoryBuilder().withoutRecursion(false).usingComposite(false).usingDecomposablePolygon(false).build();
 
         CSGSolid cube1 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(1, 1, 1));
         CSGSolid cube2 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(2, 2, 2));
@@ -78,7 +78,7 @@ public class NodeTest {
     @Test
     public void testIteration() throws Exception {
 
-        CSGSolidBuilder builder = new FactoryBuilder().withoutRecursion(true).usingComposite(false).usingDecomposablePolygon(false).build();
+        CSGSolidFactory builder = new FactoryBuilder().withoutRecursion(true).usingComposite(false).usingDecomposablePolygon(false).build();
 
         CSGSolid cube1 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(1, 1, 1));
         CSGSolid cube2 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(2, 2, 2));
@@ -117,7 +117,7 @@ public class NodeTest {
     @Test
     public void testRecursionRecomposablePolygons() throws Exception {
 
-        CSGSolidBuilder builder = new FactoryBuilder().withoutRecursion(false).usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory builder = new FactoryBuilder().withoutRecursion(false).usingComposite(false).usingDecomposablePolygon(true).build();
 
         CSGSolid cube1 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(1, 1, 1));
         CSGSolid cube2 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(2, 2, 2));
@@ -156,7 +156,7 @@ public class NodeTest {
     @Test
     public void testIterationRecomposablePolygons() throws Exception {
 
-        CSGSolidBuilder builder = new FactoryBuilder().withoutRecursion(true).usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory builder = new FactoryBuilder().withoutRecursion(true).usingComposite(false).usingDecomposablePolygon(true).build();
 
         CSGSolid cube1 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(1, 1, 1));
         CSGSolid cube2 = (CSGSolid) new Cube(builder, 2, 2, 2, true).buildSolid().translate(new Vector(2, 2, 2));

@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.module.UnionModule;
 import org.slf4j.Logger;
@@ -32,9 +32,9 @@ public class CommandInterpreter extends UnionModule {
 
     private Construction root;
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public CommandInterpreter(boolean preview, ScriptContext context, BuilderFactory factory) {
+    public CommandInterpreter(boolean preview, ScriptContext context, FactoryBuilder factory) {
         this.factory = factory;
         this.preview = preview;
         this.context = context;

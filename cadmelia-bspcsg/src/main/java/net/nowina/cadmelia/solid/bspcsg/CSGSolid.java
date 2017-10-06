@@ -42,16 +42,16 @@ public class CSGSolid implements Solid {
 
     private int instanceNumber;
 
-    private CSGSolidBuilder builder;
+    private CSGSolidFactory factory;
 
-    public CSGSolid(CSGSolidBuilder builder, CSG csg) {
+    public CSGSolid(CSGSolidFactory factory, CSG csg) {
 
-        usingComposite = builder.isUsingComposite();
+        usingComposite = factory.isUsingComposite();
 
-        if (builder == null) {
+        if (factory == null) {
             throw new NullPointerException();
         }
-        this.builder = builder;
+        this.factory = factory;
 
         if (csg == null) {
             throw new RuntimeException("csg must be defined");
@@ -75,7 +75,7 @@ public class CSGSolid implements Solid {
             if (csg instanceof CompositeCSG) {
                 return csg;
             } else {
-                return new CompositeCSG(builder, csg);
+                return new CompositeCSG(factory, csg);
             }
         } else {
             return csg;
@@ -97,7 +97,7 @@ public class CSGSolid implements Solid {
         CSG thisCSG = getCSG();
         CSG unionCSG = thisCSG.union(csg);
         LOGGER.info("Union of Solid " + this + " and " + other + " resulting in " + unionCSG);
-        return new CSGSolid(builder, unionCSG);
+        return new CSGSolid(factory, unionCSG);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class CSGSolid implements Solid {
         }
 
         CSGSolid solid = (CSGSolid) other;
-        return builder.newCSGSolid(getCSG().difference(solid.getCSG()));
+        return factory.newCSGSolid(getCSG().difference(solid.getCSG()));
     }
 
     @Override
@@ -117,28 +117,28 @@ public class CSGSolid implements Solid {
         }
 
         CSGSolid solid = (CSGSolid) other;
-        return new CSGSolid(builder, getCSG().intersect(solid.getCSG()));
+        return new CSGSolid(factory, getCSG().intersect(solid.getCSG()));
     }
 
     @Override
     public Construction rotate(Vector angle) {
 
         Transformation t = Transformation.unity().rot(angle);
-        return new CSGSolid(builder, getCSG().transformed(t));
+        return new CSGSolid(factory, getCSG().transformed(t));
     }
 
     @Override
     public Construction translate(Vector vector) {
 
         Transformation t = Transformation.unity().translate(vector);
-        return new CSGSolid(builder, getCSG().transformed(t));
+        return new CSGSolid(factory, getCSG().transformed(t));
     }
 
     @Override
     public Construction scale(Vector scale) {
 
         Transformation t = Transformation.unity().scale(scale);
-        return new CSGSolid(builder, getCSG().transformed(t));
+        return new CSGSolid(factory, getCSG().transformed(t));
     }
 
     @Override

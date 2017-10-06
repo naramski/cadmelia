@@ -16,9 +16,9 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.construction.ShapeBuilder;
+import net.nowina.cadmelia.construction.ShapeFactory;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
 import net.nowina.cadmelia.script.ModuleExec;
@@ -26,9 +26,9 @@ import net.nowina.cadmelia.script.ScriptContext;
 
 public class TextModule extends ModuleExec {
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public TextModule(BuilderFactory factory) {
+    public TextModule(FactoryBuilder factory) {
         super("text");
         this.factory = factory;
     }
@@ -36,7 +36,7 @@ public class TextModule extends ModuleExec {
     @Override
     public Construction execute(Command op, ScriptContext context) {
 
-        ShapeBuilder builder = factory.createShapeBuilder();
+        ShapeFactory builder = factory.createShapeFactory();
 
         String text = null;
         Expression textExpr = op.getFirstUnamedArg();

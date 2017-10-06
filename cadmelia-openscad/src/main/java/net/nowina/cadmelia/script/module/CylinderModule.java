@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
@@ -27,9 +27,9 @@ public class CylinderModule extends ModuleExec {
 
     public static final String MODULE_NAME = "cylinder";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public CylinderModule(BuilderFactory factory) {
+    public CylinderModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -75,7 +75,7 @@ public class CylinderModule extends ModuleExec {
             fragment = fragmentParam.evaluateAsInteger(context);
         }
 
-        return factory.createSolidBuilder().cylinder(bottomRadius, topRadius, height, fragment, center);
+        return factory.createSolidFactory().cylinder(bottomRadius, topRadius, height, fragment, center);
 
     }
 

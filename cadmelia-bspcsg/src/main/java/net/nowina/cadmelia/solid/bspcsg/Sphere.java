@@ -20,8 +20,8 @@ import net.nowina.cadmelia.solid.SphereTesselation;
 
 public class Sphere extends SphereTesselation<CSGSolid> {
 
-    public Sphere(CSGSolidBuilder builder, double radius, int numSlices, int numStacks) {
-        super(radius, numSlices, numStacks, new MeshToCSGSolid(builder));
+    public Sphere(CSGSolidFactory factory, double radius, int numSlices, int numStacks) {
+        super(radius, numSlices, numStacks, new MeshToCSGSolid(factory));
     }
 
 }

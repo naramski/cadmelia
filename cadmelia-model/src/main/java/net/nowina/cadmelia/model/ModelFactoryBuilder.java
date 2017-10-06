@@ -14,20 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.construction;
+package net.nowina.cadmelia.model;
 
-import java.util.List;
+import net.nowina.cadmelia.construction.FactoryBuilder;
+import net.nowina.cadmelia.construction.ShapeFactory;
+import net.nowina.cadmelia.construction.SolidFactory;
 
-public interface ShapeBuilder {
+public class ModelFactoryBuilder extends FactoryBuilder {
 
-    Shape offset(Construction c, double offset);
+    @Override
+    public ShapeFactory createShapeFactory() {
+        return new ModelShapeFactory();
+    }
 
-    Shape circle(double radius, int slices);
-
-    Shape square(double sizeX, double sizeY, boolean centered);
-
-    Shape polygon(List<Vector> points);
-
-    Shape text(String text, int size, String font);
+    @Override
+    public SolidFactory createSolidFactory() {
+        return new ModelSolidFactory();
+    }
 
 }

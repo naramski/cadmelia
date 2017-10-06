@@ -19,41 +19,41 @@ package net.nowina.cadmelia.construction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuilderFactory {
+public class FactoryBuilder {
 
-    private static BuilderFactory INSTANCE = null;
+    private static FactoryBuilder INSTANCE = null;
 
-    private List<ShapeBuilder> shapeBuilders = new ArrayList<>();
+    private List<ShapeFactory> shapeFactories = new ArrayList<>();
 
-    private List<SolidBuilder> solidBuilders = new ArrayList<>();
+    private List<SolidFactory> solidFactories = new ArrayList<>();
 
-    public static BuilderFactory getInstance() {
+    public static FactoryBuilder getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new BuilderFactory();
+            INSTANCE = new FactoryBuilder();
         }
         return INSTANCE;
     }
 
-    public ShapeBuilder createShapeBuilder() {
-        if (shapeBuilders.isEmpty()) {
+    public ShapeFactory createShapeFactory() {
+        if (shapeFactories.isEmpty()) {
             throw new RuntimeException("No shapeBuilder defined");
         }
-        return shapeBuilders.get(0);
+        return shapeFactories.get(0);
     }
 
-    public SolidBuilder createSolidBuilder() {
-        if (solidBuilders.isEmpty()) {
+    public SolidFactory createSolidFactory() {
+        if (solidFactories.isEmpty()) {
             throw new RuntimeException("No solidBuilder defined");
         }
-        return solidBuilders.get(0);
+        return solidFactories.get(0);
     }
 
-    public static void registerShapeBuilder(ShapeBuilder shapeBuilder) {
-        getInstance().shapeBuilders.add(shapeBuilder);
+    public static void registerShapeFactory(ShapeFactory factory) {
+        getInstance().shapeFactories.add(factory);
     }
 
-    public static void registerSolidBuilder(SolidBuilder solidBuilder) {
-        getInstance().solidBuilders.add(solidBuilder);
+    public static void registerSolidFactory(SolidFactory factory) {
+        getInstance().solidFactories.add(factory);
     }
 
 }

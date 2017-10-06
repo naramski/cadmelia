@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
@@ -27,9 +27,9 @@ public class CircleModule extends ModuleExec {
 
     public static final String MODULE_NAME = "circle";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public CircleModule(BuilderFactory factory) {
+    public CircleModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -49,7 +49,7 @@ public class CircleModule extends ModuleExec {
         }
         double radius = (double) size.evaluate(context);
 
-        return factory.createShapeBuilder().circle(radius, resolution);
+        return factory.createShapeFactory().circle(radius, resolution);
     }
 
 }

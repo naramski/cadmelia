@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Shape;
 import net.nowina.cadmelia.script.Command;
@@ -31,9 +31,9 @@ public class OffsetModule extends UnionModule {
 
     public static final String MODULE_NAME = "offset";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public OffsetModule(BuilderFactory factory) {
+    public OffsetModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -48,7 +48,7 @@ public class OffsetModule extends UnionModule {
 
         Shape shape = (Shape) composition;
 
-        return factory.createShapeBuilder().offset(shape, delta);
+        return factory.createShapeFactory().offset(shape, delta);
 
     }
 

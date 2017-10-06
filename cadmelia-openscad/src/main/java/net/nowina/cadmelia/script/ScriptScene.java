@@ -16,18 +16,18 @@
  */
 package net.nowina.cadmelia.script;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.script.module.*;
 
 public class ScriptScene extends CommandInterpreter {
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public ScriptScene(BuilderFactory factory) {
+    public ScriptScene(FactoryBuilder factory) {
         this(false, factory);
     }
 
-    public ScriptScene(boolean preview, BuilderFactory factory) {
+    public ScriptScene(boolean preview, FactoryBuilder factory) {
         super(preview, new ScriptContext(), factory);
 
         this.factory = factory;

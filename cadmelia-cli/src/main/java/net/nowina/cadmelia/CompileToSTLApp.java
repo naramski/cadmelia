@@ -16,20 +16,19 @@
  */
 package net.nowina.cadmelia;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.script.Script;
 import net.nowina.cadmelia.script.ScriptScene;
 import net.nowina.cadmelia.script.parser.ParseException;
 import net.nowina.cadmelia.script.parser.ScriptParser;
-import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
-import net.nowina.cadmelia.solid.bspcsg.FactoryBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplFactory;
 import net.nowina.cadmelia.stl.STLWriter;
 
 import java.io.*;
 
 public class CompileToSTLApp {
 
-    private BuilderFactory builderFactory;
+    private FactoryBuilder factoryBuilder;
     private File input;
     private File output;
     private ScriptScene scriptScene;
@@ -73,18 +72,18 @@ public class CompileToSTLApp {
 
     public ScriptScene getScene() {
         if(scriptScene == null) {
-            scriptScene = new ScriptScene(getBuilderFactory());
+            scriptScene = new ScriptScene(getFactoryBuilder());
         }
         return scriptScene;
     }
 
-    private BuilderFactory getBuilderFactory() {
-        if(builderFactory == null) {
-            BuilderFactory.registerShapeBuilder(new ShapeImplBuilder());
-            BuilderFactory.registerSolidBuilder(new FactoryBuilder().build());
-            builderFactory = BuilderFactory.getInstance();
+    private FactoryBuilder getFactoryBuilder() {
+        if(factoryBuilder == null) {
+            FactoryBuilder.registerShapeFactory(new ShapeImplFactory());
+            FactoryBuilder.registerSolidFactory(new net.nowina.cadmelia.solid.bspcsg.FactoryBuilder().build());
+            factoryBuilder = FactoryBuilder.getInstance();
         }
-        return builderFactory;
+        return factoryBuilder;
     }
 
     public void setInput(File input) {

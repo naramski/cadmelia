@@ -114,7 +114,7 @@ public class TextTest {
     @Test
     public void testHelloWorld() throws Exception {
 
-        ShapeImplBuilder builder = new ShapeImplBuilder();
+        ShapeImplFactory builder = new ShapeImplFactory();
         ShapeImpl shape = (ShapeImpl) builder.text("Hello World !", 12, "Arial");
 
         Assert.assertEquals(12, shape.getPolygons().size());

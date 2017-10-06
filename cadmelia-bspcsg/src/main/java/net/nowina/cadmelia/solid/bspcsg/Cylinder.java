@@ -20,8 +20,8 @@ import net.nowina.cadmelia.solid.CylinderTesselation;
 
 public class Cylinder extends CylinderTesselation<CSGSolid> {
 
-    public Cylinder(CSGSolidBuilder builder, double bottomRadius, double topRadius, double height, int slices, boolean centered) {
-        super(bottomRadius, topRadius, height, slices, centered, new MeshToCSGSolid(builder));
+    public Cylinder(CSGSolidFactory factory, double bottomRadius, double topRadius, double height, int slices, boolean centered) {
+        super(bottomRadius, topRadius, height, slices, centered, new MeshToCSGSolid(factory));
     }
 
 }

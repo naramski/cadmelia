@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.ScriptContext;
@@ -29,9 +29,9 @@ public class HullModule extends UnionModule {
 
     public static final String MODULE_NAME = "hull";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public HullModule(BuilderFactory factory) {
+    public HullModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -49,7 +49,7 @@ public class HullModule extends UnionModule {
             }
         }
 
-        return factory.createSolidBuilder().hull(composition);
+        return factory.createSolidFactory().hull(composition);
 
     }
 

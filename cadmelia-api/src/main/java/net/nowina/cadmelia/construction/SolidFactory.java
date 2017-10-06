@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.construction;
 
-public interface SolidBuilder {
+public interface SolidFactory {
 
     default Solid cube(double size) {
         return cube(size, size, size, true);

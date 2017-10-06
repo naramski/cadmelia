@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
@@ -31,9 +31,9 @@ public class LinearExtrudeModule extends UnionModule {
     public static final String MODULE_NAME = "linear_extrude";
     public static final String HEIGHT_PARAM = "height";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public LinearExtrudeModule(BuilderFactory factory) {
+    public LinearExtrudeModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -54,7 +54,7 @@ public class LinearExtrudeModule extends UnionModule {
             }
             double height = expH.evaluateAsDouble(context);
 
-            return factory.createSolidBuilder().extrude(composition, height);
+            return factory.createSolidFactory().extrude(composition, height);
         }
     }
 

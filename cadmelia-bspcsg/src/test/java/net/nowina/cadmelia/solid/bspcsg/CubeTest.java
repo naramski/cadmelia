@@ -26,7 +26,7 @@ public class CubeTest {
     @Test
     public void test1() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().build();
+        CSGSolidFactory factory = new FactoryBuilder().build();
         Cube cube = new Cube(factory, 1, 1, 1, true);
 
         STLWriter.writeToFile("build/test-cube.stl", cube.buildSolid());
@@ -36,7 +36,7 @@ public class CubeTest {
     @Test
     public void testDifference1() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).build();
 
         Construction cube1 = factory.cube(2, 2, 2, false);
         Construction cube2 = factory.cube(2, 2, 2, true);
@@ -50,7 +50,7 @@ public class CubeTest {
     @Test
     public void testDifference2() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
         Construction cube1 = factory.cube(2, 2, 2, false);
         Construction cube2 = factory.cube(2, 2, 2, true);
@@ -64,7 +64,7 @@ public class CubeTest {
     @Test
     public void testDifference3() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
         Construction cube1 = factory.cube(2, 2, 2, true).translate(1.5, 1.5, 1.5);
         Construction cube2 = factory.cube(2, 2, 2, true).translate(-1.5, -1.5, -1.5);
@@ -82,7 +82,7 @@ public class CubeTest {
     @Test
     public void testDifference4() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
         Construction cube1 = factory.cube(2, 2, 2, true).translate(1.5, 1.5, 1.5);
         Construction cube2 = factory.cube(2, 2, 2, true).translate(-1.5, -1.5, -1.5);

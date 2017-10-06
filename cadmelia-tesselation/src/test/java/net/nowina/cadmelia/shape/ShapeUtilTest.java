@@ -16,10 +16,10 @@
  */
 package net.nowina.cadmelia.shape;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
-import net.nowina.cadmelia.construction.ShapeBuilder;
+import net.nowina.cadmelia.construction.FactoryBuilder;
+import net.nowina.cadmelia.construction.ShapeFactory;
 import net.nowina.cadmelia.construction.Vector;
-import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplFactory;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class ShapeUtilTest {
 
     @BeforeClass
     public static void setUp() {
-        BuilderFactory.registerShapeBuilder(new ShapeImplBuilder());
+        FactoryBuilder.registerShapeFactory(new ShapeImplFactory());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class ShapeUtilTest {
         List<Vector> points = Arrays.asList(new Vector(5, 0), new Vector(6, 4),
                 new Vector(4, 5), new Vector(1, 5), new Vector(1, 0));
 
-        ShapeBuilder builder = BuilderFactory.getInstance().createShapeBuilder();
+        ShapeFactory builder = FactoryBuilder.getInstance().createShapeFactory();
 
         Assert.assertTrue(ShapeUtil.isCCW(builder.polygon(points).getPolygons().get(0).getExteriorRing()));
 

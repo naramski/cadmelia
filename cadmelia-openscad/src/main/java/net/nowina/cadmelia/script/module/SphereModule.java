@@ -16,9 +16,9 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.construction.SolidBuilder;
+import net.nowina.cadmelia.construction.SolidFactory;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
 import net.nowina.cadmelia.script.ModuleExec;
@@ -28,9 +28,9 @@ public class SphereModule extends ModuleExec {
 
     public static final String MODULE_NAME = "sphere";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public SphereModule(BuilderFactory factory) {
+    public SphereModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -56,7 +56,7 @@ public class SphereModule extends ModuleExec {
             }
         }
 
-        SolidBuilder builder = factory.createSolidBuilder();
+        SolidFactory builder = factory.createSolidFactory();
         return builder.sphere(radius, resolution, resolution / 2);
     }
 

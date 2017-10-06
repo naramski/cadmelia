@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +29,9 @@ public class ScriptModule extends ModuleExec {
 
     private boolean preview;
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public ScriptModule(Module module, boolean preview, BuilderFactory factory) {
+    public ScriptModule(Module module, boolean preview, FactoryBuilder factory) {
         super(module.getName());
         this.module = module;
         this.preview = preview;

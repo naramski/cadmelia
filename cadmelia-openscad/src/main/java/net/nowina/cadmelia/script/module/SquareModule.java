@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.Command;
@@ -28,9 +28,9 @@ public class SquareModule extends ModuleExec {
 
     public static final String MODULE_NAME = "square";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public SquareModule(BuilderFactory factory) {
+    public SquareModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -57,7 +57,7 @@ public class SquareModule extends ModuleExec {
             centered = center.evaluateAsBoolean(context);
         }
 
-        return factory.createShapeBuilder().square(sizeV.x(), sizeV.y(), centered);
+        return factory.createShapeFactory().square(sizeV.x(), sizeV.y(), centered);
     }
 
 }

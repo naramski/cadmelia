@@ -27,9 +27,9 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShapeImplBuilder implements ShapeBuilder {
+public class ShapeImplFactory implements ShapeFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShapeImplBuilder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShapeImplFactory.class);
 
     @Override
     public Shape offset(Construction c, double offset) {

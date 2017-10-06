@@ -17,7 +17,7 @@
 package net.nowina.cadmelia.shape.impl;
 
 import net.nowina.cadmelia.construction.Shape;
-import net.nowina.cadmelia.construction.ShapeBuilder;
+import net.nowina.cadmelia.construction.ShapeFactory;
 import net.nowina.cadmelia.construction.Vector;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,18 +25,18 @@ import org.junit.Test;
 
 import java.util.List;
 
-public abstract class ShapeBuilderTestAbstract {
+public abstract class ShapeFactoryTestAbstract {
 
     public static double EPSILON = 1e-8;
 
-    private ShapeBuilder builder;
+    private ShapeFactory builder;
 
     @Before
     public void setUp() {
         builder = createShapeBuilder();
     }
 
-    protected abstract ShapeBuilder createShapeBuilder();
+    protected abstract ShapeFactory createShapeBuilder();
 
     @Test
     public void testCreateSuare() {

@@ -17,34 +17,37 @@
 package net.nowina.cadmelia.model;
 
 import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.construction.Solid;
-import net.nowina.cadmelia.construction.SolidBuilder;
+import net.nowina.cadmelia.construction.Shape;
+import net.nowina.cadmelia.construction.ShapeFactory;
+import net.nowina.cadmelia.construction.Vector;
 
-public class ModelSolidBuilder implements SolidBuilder {
+import java.util.List;
+
+public class ModelShapeFactory implements ShapeFactory {
 
     @Override
-    public Solid cube(double sizeX, double sizeY, double sizeZ, boolean centered) {
-        return new Cube(sizeX, sizeY, sizeZ, centered);
+    public Shape offset(Construction c, double offset) {
+        return new Offset(c, offset);
     }
 
     @Override
-    public Solid sphere(double radius, int slices, int stacks) {
-        return new Sphere(radius, slices, stacks);
+    public Shape circle(double radius, int slices) {
+        return new Circle(radius, slices);
     }
 
     @Override
-    public Solid cylinder(double bottomRadius, double topRadius, double height, int slices, boolean centered) {
-        return new Cylinder(bottomRadius, topRadius, height, slices, centered);
+    public Shape square(double sizeX, double sizeY, boolean centered) {
+        return new Square(sizeX, sizeY, centered);
     }
 
     @Override
-    public Solid extrude(Construction shape, double height) {
-        return new Extrusion(shape, height);
+    public Shape polygon(List<Vector> points) {
+        return new Polygon(points);
     }
 
     @Override
-    public Solid hull(Construction solid) {
-        return new Hull(solid);
+    public Shape text(String text, int size, String font) {
+        return new Text(text, font, size);
     }
 
 }

@@ -37,7 +37,7 @@ public class GearTest {
         builder.usingComposite(false);
         builder.discardingInvalidPolygon(false);
 
-        CSGSolidBuilder factory = builder.build();
+        CSGSolidFactory factory = builder.build();
 
         Solid c1 = factory.cylinder(4, 66.4634, 63.5, 6, false);
         Solid c2 = factory.cylinder(0, 62.4634, 63.6, 6, false);
@@ -57,7 +57,7 @@ public class GearTest {
         builder.usingComposite(false);
         builder.discardingInvalidPolygon(false);
 
-        CSGSolidBuilder factory = builder.build();
+        CSGSolidFactory factory = builder.build();
 
         Solid c1 = factory.cylinder(0, 60, 60, 6, false);
         Solid c2 = factory.cylinder(0, 58, 60, 6, false);
@@ -77,7 +77,7 @@ public class GearTest {
         builder.usingComposite(false);
         builder.discardingInvalidPolygon(false);
 
-        CSGSolidBuilder factory = builder.build();
+        CSGSolidFactory factory = builder.build();
 
         Solid c1 = factory.cylinder( 60, 0,60, 6, false);
         Solid c2 = factory.cylinder( 58, 0,60, 6, false);
@@ -97,7 +97,7 @@ public class GearTest {
         builder.usingComposite(false);
         builder.discardingInvalidPolygon(false);
 
-        CSGSolidBuilder factory = builder.build();
+        CSGSolidFactory factory = builder.build();
 
         Solid c1 = factory.cylinder(0, 66.4634, 63.5, 6, false);
 

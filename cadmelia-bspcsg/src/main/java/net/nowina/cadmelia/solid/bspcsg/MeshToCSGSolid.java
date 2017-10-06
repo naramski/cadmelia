@@ -26,23 +26,23 @@ import java.util.List;
 
 public class MeshToCSGSolid implements MeshToInternal<CSGSolid> {
 
-    private CSGSolidBuilder builder;
+    private CSGSolidFactory factory;
 
-    public MeshToCSGSolid(CSGSolidBuilder builder) {
-        this.builder = builder;
+    public MeshToCSGSolid(CSGSolidFactory factory) {
+        this.factory = factory;
     }
 
     @Override
     public CSGSolid convert(List<Triangle> mesh) {
 
-        PolygonList polygons = builder.newPolygonList();
+        PolygonList polygons = factory.newPolygonList();
         for (Triangle triangle : mesh) {
-            VectorList vectors = builder.netVectorList(triangle.getPoints());
-            polygons.addPolygon(builder.newPolygon(vectors));
+            VectorList vectors = factory.netVectorList(triangle.getPoints());
+            polygons.addPolygon(factory.newPolygon(vectors));
         }
 
-        CSG csg = builder.newCSG(polygons);
-        return new CSGSolid(builder, csg);
+        CSG csg = factory.newCSG(polygons);
+        return new CSGSolid(factory, csg);
     }
 
 }

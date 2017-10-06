@@ -22,16 +22,14 @@ import net.nowina.cadmelia.stl.STLWriter;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.StringReader;
-
 public class SphereTest {
 
     @Test
     public void test2() throws Exception {
 
-        CSGSolidBuilder builder = new FactoryBuilder().build();
+        CSGSolidFactory factory = new FactoryBuilder().build();
 
-        Sphere sphere = new Sphere(builder, 1, 16, 8);
+        Sphere sphere = new Sphere(factory, 1, 16, 8);
 
         STLWriter.writeToFile("build/test-sphere.stl", sphere.buildSolid());
 
@@ -40,12 +38,12 @@ public class SphereTest {
     @Test
     public void testUnion() throws Exception {
 
-        CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingComposite(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingComposite(true).build();
 
-        CSGSolid sphere = (CSGSolid) builder.sphere(1, 16, 8).translate(-2, 0, 0);
+        CSGSolid sphere = (CSGSolid) factory.sphere(1, 16, 8).translate(-2, 0, 0);
         Assert.assertEquals(224, sphere.getCSG().getPolygons().size());
 
-        CSGSolid sphere2 = (CSGSolid) builder.sphere(1, 16, 8).translate(2, 0, 0);
+        CSGSolid sphere2 = (CSGSolid) factory.sphere(1, 16, 8).translate(2, 0, 0);
         Assert.assertEquals(224, sphere2.getCSG().getPolygons().size());
 
         CSGSolid union = (CSGSolid) sphere.union(sphere2);
@@ -56,12 +54,12 @@ public class SphereTest {
     @Test
     public void testUnion2() throws Exception {
 
-        CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).usingComposite(false).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).usingComposite(false).build();
 
-        CSGSolid sphere = (CSGSolid) builder.sphere(1, 16, 8).translate(-2, 0, 0);
+        CSGSolid sphere = (CSGSolid) factory.sphere(1, 16, 8).translate(-2, 0, 0);
         Assert.assertEquals(224, sphere.getCSG().getPolygons().size());
 
-        CSGSolid sphere2 = (CSGSolid) builder.sphere(1, 16, 8).translate(2, 0, 0);
+        CSGSolid sphere2 = (CSGSolid) factory.sphere(1, 16, 8).translate(2, 0, 0);
         Assert.assertEquals(224, sphere2.getCSG().getPolygons().size());
 
         CSGSolid union = (CSGSolid) sphere.union(sphere2);
@@ -72,7 +70,7 @@ public class SphereTest {
     @Test
     public void testDifference1() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).build();
 
         Construction sphere = factory.sphere(2, 32, 16).translate(0, 0, -1);
         Construction small = factory.sphere(1.5, 32, 16);
@@ -86,7 +84,7 @@ public class SphereTest {
     @Test
     public void testDifference2() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
         Construction sphere = factory.sphere(2, 32, 16).translate(0, 0, -1);
         Construction small = factory.sphere(1.5, 32, 16);
@@ -101,7 +99,7 @@ public class SphereTest {
     @Test
     public void testDifference3() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).withoutRecursion(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).withoutRecursion(true).build();
 
         Construction sphere = factory.sphere(2, 80, 40).translate(0, 0, -1);
         Construction small = factory.sphere(1.5, 80, 40);
@@ -115,7 +113,7 @@ public class SphereTest {
     @Test
     public void testDifference4() throws Exception {
 
-        CSGSolidBuilder factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).withoutRecursion(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).withoutRecursion(true).build();
 
         Construction cyl1 = factory.cylinder(4, 66.4633, 63.50, 6, false);
         Construction cyl2 = factory.cylinder(1, 62.4633, 63.6, 6, false).translate(0, 0, -0.05);

@@ -30,9 +30,9 @@ import net.nowina.cadmelia.construction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSGSolidBuilder extends Factory implements SolidBuilder {
+public class CSGSolidFactory extends Factory implements SolidFactory {
 
-    public CSGSolidBuilder(boolean usingComposite, boolean usingDecomposablePolygon, boolean withoutRecursion, boolean discardingInvalidPolygon) {
+    public CSGSolidFactory(boolean usingComposite, boolean usingDecomposablePolygon, boolean withoutRecursion, boolean discardingInvalidPolygon) {
         super(usingComposite, usingDecomposablePolygon, withoutRecursion, discardingInvalidPolygon);
     }
 

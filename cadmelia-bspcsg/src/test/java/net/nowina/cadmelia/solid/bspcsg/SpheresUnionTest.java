@@ -26,7 +26,7 @@ public class SpheresUnionTest {
     @Test
     public void test() throws IOException {
 
-        CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
         CSGSolid spheres = null;
 
@@ -35,7 +35,7 @@ public class SpheresUnionTest {
 
         for (int x = 0; x < 3; x++) {
 
-            CSGSolid sphere = (CSGSolid) new Sphere(builder, radius, 16, 8).buildSolid()
+            CSGSolid sphere = (CSGSolid) new Sphere(factory, radius, 16, 8).buildSolid()
                     .translate((x - 5) * (radius * 2 + spacing), 0, 0.0);
 
             if (spheres == null) {

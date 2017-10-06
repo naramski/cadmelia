@@ -16,9 +16,9 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.construction.SolidBuilder;
+import net.nowina.cadmelia.construction.SolidFactory;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
@@ -29,9 +29,9 @@ public class CubeModule extends ModuleExec {
 
     public static final String PARAM_SIZE = "size";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public CubeModule(BuilderFactory factory) {
+    public CubeModule(FactoryBuilder factory) {
         super("cube");
         this.factory = factory;
     }
@@ -39,7 +39,7 @@ public class CubeModule extends ModuleExec {
     @Override
     public Construction execute(Command op, ScriptContext context) {
 
-        SolidBuilder builder = factory.createSolidBuilder();
+        SolidFactory builder = factory.createSolidFactory();
 
         Vector sizeVector = new Vector(1, 1, 1);
         Expression unamedSize = op.getFirstUnamedArg();

@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.BuilderFactory;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.Command;
@@ -33,9 +33,9 @@ public class PolygonModule extends UnionModule {
 
     public static final String MODULE_NAME = "polygon";
 
-    private BuilderFactory factory;
+    private FactoryBuilder factory;
 
-    public PolygonModule(BuilderFactory factory) {
+    public PolygonModule(FactoryBuilder factory) {
         super(MODULE_NAME);
         this.factory = factory;
     }
@@ -50,7 +50,7 @@ public class PolygonModule extends UnionModule {
     }
 
     private Construction polygon(List<Vector> list, ScriptContext context) {
-        return factory.createShapeBuilder().polygon(list);
+        return factory.createShapeFactory().polygon(list);
     }
 
 }

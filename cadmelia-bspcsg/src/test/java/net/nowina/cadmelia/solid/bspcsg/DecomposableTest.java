@@ -19,7 +19,7 @@ package net.nowina.cadmelia.solid.bspcsg;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Solid;
 import net.nowina.cadmelia.construction.Vector;
-import net.nowina.cadmelia.shape.impl.ShapeImplBuilder;
+import net.nowina.cadmelia.shape.impl.ShapeImplFactory;
 import net.nowina.cadmelia.stl.STLWriter;
 import org.junit.Test;
 import java.io.FileOutputStream;
@@ -32,11 +32,11 @@ public class DecomposableTest {
     @Test
     public void testWithDecomposable() throws IOException {
 
-        CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
-        Construction sphere = builder.sphere(25, 10, 5);
+        Construction sphere = factory.sphere(25, 10, 5);
 
-        Solid cyl1 = (Solid) builder.cylinder(13, 13, 100, 10, true).rotate(90, 0, 0);
+        Solid cyl1 = (Solid) factory.cylinder(13, 13, 100, 10, true).rotate(90, 0, 0);
 
         Solid logo = (Solid) sphere.difference(cyl1);
 
@@ -44,7 +44,7 @@ public class DecomposableTest {
             new STLWriter().write(logo, w);
         }
 
-        Solid cyl2 = builder.cylinder(13, 13, 100, 10, true);
+        Solid cyl2 = factory.cylinder(13, 13, 100, 10, true);
 
         logo = (Solid) logo.difference(cyl2);
 
@@ -52,7 +52,7 @@ public class DecomposableTest {
             new STLWriter().write(logo, w);
         }
 
-        Solid cyl3 = (Solid) builder.cylinder(13, 13, 100, 10, true).rotate(0, 90, 0);
+        Solid cyl3 = (Solid) factory.cylinder(13, 13, 100, 10, true).rotate(0, 90, 0);
 
         logo = (Solid) logo.difference(cyl3);
 
@@ -60,7 +60,7 @@ public class DecomposableTest {
             new STLWriter().write(logo, w);
         }
 
-        logo = (Solid) logo.intersection(builder.cube(35, 35, 35, true)).union(builder.sphere(10, 30, 15));
+        logo = (Solid) logo.intersection(factory.cube(35, 35, 35, true)).union(factory.sphere(10, 30, 15));
 
         try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-4.stl"))) {
             new STLWriter().write(logo, w);
@@ -71,11 +71,11 @@ public class DecomposableTest {
     @Test
     public void testWithoutDecomposable() throws IOException {
 
-        CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).build();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(false).build();
 
-        Construction sphere = builder.sphere(25, 10, 5);
+        Construction sphere = factory.sphere(25, 10, 5);
 
-        Solid cyl1 = (Solid) builder.cylinder(13, 13, 100, 10, true).rotate(90, 0, 0);
+        Solid cyl1 = (Solid) factory.cylinder(13, 13, 100, 10, true).rotate(90, 0, 0);
 
         Solid logo = (Solid) sphere.difference(cyl1);
 
@@ -83,7 +83,7 @@ public class DecomposableTest {
             new STLWriter().write(logo, w);
         }
 
-        Solid cyl2 = builder.cylinder(13, 13, 100, 10, true);
+        Solid cyl2 = factory.cylinder(13, 13, 100, 10, true);
 
         logo = (Solid) logo.difference(cyl2);
 
@@ -91,7 +91,7 @@ public class DecomposableTest {
             new STLWriter().write(logo, w);
         }
 
-        Solid cyl3 = (Solid) builder.cylinder(13, 13, 100, 10, true).rotate(0, 90, 0);
+        Solid cyl3 = (Solid) factory.cylinder(13, 13, 100, 10, true).rotate(0, 90, 0);
 
         logo = (Solid) logo.difference(cyl3);
 
@@ -104,16 +104,16 @@ public class DecomposableTest {
     @Test
     public void testExtrude() throws IOException {
 
-        ShapeImplBuilder shapeBuilder = new ShapeImplBuilder();
-        CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        ShapeImplFactory shapeBuilder = new ShapeImplFactory();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
-        Construction extrude1 = builder.extrude(shapeBuilder.square(5, 5, true), 5);
+        Construction extrude1 = factory.extrude(shapeBuilder.square(5, 5, true), 5);
 
-        Construction extrude2 = builder.extrude(shapeBuilder.circle(1.5, 30), 10);
+        Construction extrude2 = factory.extrude(shapeBuilder.circle(1.5, 30), 10);
 
-        Construction extrude3 = builder.extrude(shapeBuilder.circle(1.5, 30), 10).rotate(90, 0, 0);
+        Construction extrude3 = factory.extrude(shapeBuilder.circle(1.5, 30), 10).rotate(90, 0, 0);
 
-        Construction sphere = builder.sphere(3, 16, 8);
+        Construction sphere = factory.sphere(3, 16, 8);
 
         Construction result = extrude1.difference(extrude2).difference(extrude3).intersection(sphere);
 
@@ -126,31 +126,31 @@ public class DecomposableTest {
     @Test
     public void testErrorDecomposable() throws IOException {
 
-        ShapeImplBuilder shapeBuilder = new ShapeImplBuilder();
-        CSGSolidBuilder builder = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
+        ShapeImplFactory shapeBuilder = new ShapeImplFactory();
+        CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
 
         Construction c1 =
-            builder.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2);
+            factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2);
 
         Construction c2 =
-            builder.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
+            factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
 
         Construction total = c1.union(c2);
 
         for(int i=1;i<=2;i++) {
 
             Construction c3 =
-                    builder.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2);
+                    factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2);
 
             Construction c4 =
-                    builder.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
+                    factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
 
             total = total.union(c3.union(c4).rotate(0, 0, 120 * i));
 
         }
 
-        total = total.difference(builder.cylinder(1.25, 1.25, 6, 16, false));
+        total = total.difference(factory.cylinder(1.25, 1.25, 6, 16, false));
 
         try(PrintWriter w = new PrintWriter(new FileOutputStream("build/error-decomposable.stl"))) {
             new STLWriter().write((Solid) total, w);

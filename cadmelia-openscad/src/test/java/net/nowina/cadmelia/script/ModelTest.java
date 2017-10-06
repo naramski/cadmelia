@@ -36,7 +36,7 @@ public class ModelTest {
     @Test
     public void testSimple() throws Exception {
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
 
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/simple.scad"));
         Script script = parser.Script();
@@ -55,7 +55,7 @@ public class ModelTest {
     @Test
     public void testMold() throws Exception {
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
 
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/mold.scad"));
         Script script = parser.Script();
@@ -74,7 +74,7 @@ public class ModelTest {
     @Test
     public void testIf() throws Exception {
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
 
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/if.scad"));
         Script script = parser.Script();
@@ -99,7 +99,7 @@ public class ModelTest {
 
         Assert.assertEquals(2, script.getInstructions().size());
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -119,7 +119,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/brace2.scad"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -139,7 +139,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/gears_helical.scad"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -159,7 +159,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/vase.scad"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -179,7 +179,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/stretchlet.scad"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -199,7 +199,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/cupsleeve.scad"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -219,7 +219,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new StringReader("hello(); module hello() { module world() { text(\"World\"); } text(\"Hello\"); world(); } text(\"!\"); "));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -239,7 +239,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new StringReader("var = 2; hello(); module hello() { var = 1; circle(var); } circle(var)"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -262,7 +262,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new StringReader("cylinder(1,2,3);"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
@@ -287,7 +287,7 @@ public class ModelTest {
         ScriptParser parser = new ScriptParser(new StringReader("cube(1,true);"));
         Script script = parser.Script();
 
-        ScriptScene scene = new ScriptScene(new ModelBuilderFactory());
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
         scene.executeScript(script);
 
         StringWriter buffer = new StringWriter();
