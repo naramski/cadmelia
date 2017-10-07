@@ -153,6 +153,11 @@ public class SampleTest {
     }
 
     @Test
+    public void testPerspective() throws Exception {
+        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/perspective.scad", "build/perspective.stl"});
+    }
+
+    @Test
     public void testPerspective2() throws Exception {
         CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/perspective2.scad", "build/perspective2.stl"});
     }

@@ -26,9 +26,12 @@ public class Extrusion extends ModelSolid {
 
     private double height;
 
-    public Extrusion(Construction shape, double height) {
+    private double scale;
+
+    public Extrusion(Construction shape, double height, double scale) {
         this.shape = (ModelConstruction) shape;
         this.height = height;
+        this.scale = scale;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class Extrusion extends ModelSolid {
         if (getTransform() != null) {
             writer.write("Transform{" + getTransform() + "} ");
         }
-        writer.println("Extrusion(height=" + height + ") {");
+        writer.println("Extrusion(height=" + height + ", scale=" + scale + ") {");
         shape.print(writer, paddingPrefix + "  ");
         writer.print(paddingPrefix);
         writer.println("}");

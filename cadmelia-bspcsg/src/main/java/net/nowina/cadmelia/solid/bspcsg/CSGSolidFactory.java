@@ -56,13 +56,13 @@ public class CSGSolidFactory extends Factory implements SolidFactory {
     }
 
     @Override
-    public Solid extrude(Construction shape, double height) {
+    public Solid extrude(Construction shape, double height, double scale) {
 
         if (!shape.isShape()) {
             return (Solid) shape;
         }
 
-        Solid solid = new Extrusion(this, (Shape) shape, height).buildSolid();
+        Solid solid = new Extrusion(this, (Shape) shape, height, scale).buildSolid();
         return solid;
     }
 

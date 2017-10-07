@@ -28,7 +28,7 @@ public interface SolidFactory {
 
     Solid cylinder(double bottomRadius, double topRadius, double height, int slices, boolean center);
 
-    Solid extrude(Construction shape, double height);
+    Solid extrude(Construction shape, double height, double scale);
 
     Solid hull(Construction solid);
 

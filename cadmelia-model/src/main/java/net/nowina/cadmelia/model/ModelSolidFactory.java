@@ -38,8 +38,8 @@ public class ModelSolidFactory implements SolidFactory {
     }
 
     @Override
-    public Solid extrude(Construction shape, double height) {
-        return new Extrusion(shape, height);
+    public Solid extrude(Construction shape, double height, double scale) {
+        return new Extrusion(shape, height, scale);
     }
 
     @Override

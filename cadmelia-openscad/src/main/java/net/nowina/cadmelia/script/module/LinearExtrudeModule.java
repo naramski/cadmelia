@@ -30,6 +30,7 @@ public class LinearExtrudeModule extends UnionModule {
 
     public static final String MODULE_NAME = "linear_extrude";
     public static final String HEIGHT_PARAM = "height";
+    public static final String SCALE_PARAM = "scale";
 
     private FactoryBuilder factory;
 
@@ -52,9 +53,18 @@ public class LinearExtrudeModule extends UnionModule {
             if (expH == null) {
                 expH = op.getFirstUnamedArg();
             }
+            if(expH == null) {
+                throw new IllegalArgumentException("Parameter '" + HEIGHT_PARAM + "' is not defined");
+            }
             double height = expH.evaluateAsDouble(context);
 
-            return factory.createSolidFactory().extrude(composition, height);
+            double scale = 1.0;
+            Expression scaleExpr = op.getArg(SCALE_PARAM);
+            if(scaleExpr != null) {
+                scale = scaleExpr.evaluateAsDouble(context);
+            }
+
+            return factory.createSolidFactory().extrude(composition, height, scale);
         }
     }
 

@@ -107,11 +107,11 @@ public class DecomposableTest {
         ShapeImplFactory shapeBuilder = new ShapeImplFactory();
         CSGSolidFactory factory = new FactoryBuilder().usingComposite(false).usingDecomposablePolygon(true).build();
 
-        Construction extrude1 = factory.extrude(shapeBuilder.square(5, 5, true), 5);
+        Construction extrude1 = factory.extrude(shapeBuilder.square(5, 5, true), 5, 1.0);
 
-        Construction extrude2 = factory.extrude(shapeBuilder.circle(1.5, 30), 10);
+        Construction extrude2 = factory.extrude(shapeBuilder.circle(1.5, 30), 10, 1.0);
 
-        Construction extrude3 = factory.extrude(shapeBuilder.circle(1.5, 30), 10).rotate(90, 0, 0);
+        Construction extrude3 = factory.extrude(shapeBuilder.circle(1.5, 30), 10, 1.0).rotate(90, 0, 0);
 
         Construction sphere = factory.sphere(3, 16, 8);
 
@@ -131,20 +131,20 @@ public class DecomposableTest {
 
 
         Construction c1 =
-            factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2);
+            factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2, 1.0);
 
         Construction c2 =
-            factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
+            factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5, 1.0).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
 
         Construction total = c1.union(c2);
 
         for(int i=1;i<=2;i++) {
 
             Construction c3 =
-                    factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2);
+                    factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(-3.5, 0), new Vector(3.5, 0), new Vector(-1.75, 12))), 2, 1.0);
 
             Construction c4 =
-                    factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
+                    factory.extrude(shapeBuilder.polygon(Arrays.asList(new Vector(3.5, 2), new Vector(-1, 2), new Vector(3.5, 5))), 2.5, 1.0).rotate(-90, 0, 0).translate(0, 0, -1.25).rotate(0, 0, -90);
 
             total = total.union(c3.union(c4).rotate(0, 0, 120 * i));
 

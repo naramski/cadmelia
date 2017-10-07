@@ -20,6 +20,7 @@ import javafx.embed.swing.JFXPanel;
 import net.nowina.cadmelia.TriangleMesh;
 import net.nowina.cadmelia.construction.Shape;
 import net.nowina.cadmelia.construction.ShapeFactory;
+import net.nowina.cadmelia.construction.Solid;
 import net.nowina.cadmelia.shape.impl.ShapeImplFactory;
 import net.nowina.cadmelia.stl.STLWriter;
 import org.junit.BeforeClass;
@@ -42,7 +43,7 @@ public class ExtrusionTesselationTest {
         ShapeFactory shapeBuilder = new ShapeImplFactory();
         Shape shape = shapeBuilder.text("Hello World !", 12, "Arial");
 
-        ExtrusionTesselation<?> extrusion = new ExtrusionTesselation<>(shape, 3, new MockMeshToSolid());
+        ExtrusionTesselation<MockSolid> extrusion = new ExtrusionTesselation<>(shape, 3, 1, new MockMeshToSolid());
 
         try (PrintWriter writer = new PrintWriter(new FileOutputStream("build/hello-world.stl"))) {
             new STLWriter().write(new TriangleMesh(extrusion.getPolygons()), writer);

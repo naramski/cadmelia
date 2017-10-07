@@ -21,4 +21,4 @@ module text3() {
 
 text1();
 text2();
-//text3();
+text3();

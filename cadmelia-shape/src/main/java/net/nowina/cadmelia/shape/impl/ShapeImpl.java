@@ -18,10 +18,8 @@ package net.nowina.cadmelia.shape.impl;
 
 import net.nowina.cadmelia.Transformation;
 import net.nowina.cadmelia.construction.*;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.MultiPolygon;
+import net.nowina.cadmelia.construction.Polygon;
+import org.locationtech.jts.geom.*;
 import org.poly2tri.Poly2Tri;
 import org.poly2tri.geometry.polygon.PolygonPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
@@ -175,18 +173,17 @@ public class ShapeImpl implements Shape, PolygonWithHoles, Polygon {
         Geometry union = null;
         for (PolygonWithHoles polygon : shape.getPolygons()) {
 
-            List<Coordinate> shell = new ArrayList<>();
-            for (Vector v : polygon.getExteriorRing().getPoints()) {
+            Polygon ring = polygon.getExteriorRing();
+            Coordinate[] loop = ringToCoordinates(t, ring);
 
-                Vector tr = t.transform(v);
-                shell.add(new Coordinate(tr.x(), tr.y()));
+            Geometry geometry = factory.createPolygon(loop);
 
+            for(Polygon hole : polygon.getHoles()) {
+                loop = ringToCoordinates(t, hole);
+                Geometry h = factory.createPolygon(loop);
+                geometry = geometry.difference(h);
             }
 
-            /* With Geometries, polygon must be closed, and first and last point must be the same */
-            shell.add(shell.get(0));
-
-            Geometry geometry = factory.createPolygon(shell.toArray(new Coordinate[shell.size()]));
             if (union == null) {
                 union = geometry;
             } else {
@@ -196,6 +193,20 @@ public class ShapeImpl implements Shape, PolygonWithHoles, Polygon {
         }
 
         return new ShapeImpl(union);
+    }
+
+    private Coordinate[] ringToCoordinates(Transformation t, Polygon ring) {
+        List<Coordinate> shell = new ArrayList<>();
+        for (Vector v : ring.getPoints()) {
+
+            Vector tr = t.transform(v);
+            shell.add(new Coordinate(tr.x(), tr.y()));
+
+        }
+
+        /* With Geometries, polygon must be closed, and first and last point must be the same */
+        shell.add(shell.get(0));
+        return shell.toArray(new Coordinate[shell.size()]);
     }
 
     @Override

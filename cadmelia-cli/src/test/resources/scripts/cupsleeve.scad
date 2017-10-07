@@ -23,7 +23,7 @@ spin=22.5;//[-90:90]
 //This is the amount the pattern is made to "spiral" around the cup, vs. stack straight up
 pattern_spin=9;//[0:10]
 
-part=1;//[1:Render,2:Final]
+part=2;//[1:Render,2:Final]
 
 ////////////////////////////////
 

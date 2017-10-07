@@ -30,7 +30,7 @@ public class ExtrusionTest {
     public void testSquare() throws Exception {
         ShapeFactory shapeBuilder = new ShapeImplFactory();
         Shape shape = shapeBuilder.square(5, 5, true);
-        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, new MockMeshToSolid());
+        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
         STLWriter.writeToFile("build/extrusion-square.stl", solid);
@@ -40,7 +40,7 @@ public class ExtrusionTest {
     public void testCircle() throws Exception {
         ShapeFactory shapeBuilder = new ShapeImplFactory();
         Shape shape = shapeBuilder.circle(4, 16);
-        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, new MockMeshToSolid());
+        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
         STLWriter.writeToFile("build/extrusion-circle.stl", solid);
@@ -94,7 +94,7 @@ public class ExtrusionTest {
 
         Shape shape = shapeBuilder.polygon(points);
 
-        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 25, new MockMeshToSolid());
+        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 25, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
         STLWriter.writeToFile("build/extrusion-battery-holder.stl", solid);
@@ -108,7 +108,7 @@ public class ExtrusionTest {
         Shape shape2 = shapeBuilder.square(2, 2, true);
 
         Shape shape = (Shape) shape1.difference(shape2);
-        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, new MockMeshToSolid());
+        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
         STLWriter.writeToFile("build/extrusion-donuts.stl", solid);
@@ -122,7 +122,7 @@ public class ExtrusionTest {
         Shape shape3 = (Shape) shapeBuilder.square(2, 2, true).translate(new Vector(1.5, 0, 0));
 
         Shape shape = (Shape) shape1.difference(shape2).difference(shape3);
-        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, new MockMeshToSolid());
+        ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
         STLWriter.writeToFile("build/extrusion-two-holes.stl", solid);

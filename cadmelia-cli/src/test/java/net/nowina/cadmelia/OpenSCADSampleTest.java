@@ -89,6 +89,38 @@ public class OpenSCADSampleTest {
     }
 
     @Test
+    public void testTextCenter() throws Exception {
+
+        app.setOutput(new File("build/base-text-center.stl"));
+        app.render(new StringReader("text(\"OpenSCAD\", valign=\"center\");"));
+
+    }
+
+    @Test
+    public void testTextExtrude() throws Exception {
+
+        app.setOutput(new File("build/base-text-extrude.stl"));
+        app.render(new StringReader("linear_extrude(height=5) text(\"OpenSCAD\");"));
+
+    }
+
+    @Test
+    public void testTextExtrude2() throws Exception {
+
+        app.setOutput(new File("build/base-text-extrude-2.stl"));
+        app.render(new StringReader("linear_extrude(height=30, scale=3) text(\"coucou\");"));
+
+    }
+
+    @Test
+    public void testTextExtrude3() throws Exception {
+
+        app.setOutput(new File("build/base-text-extrude-3.stl"));
+        app.render(new StringReader("linear_extrude(height=30) text(\"coucou\", valign=\"top\");"));
+
+    }
+
+    @Test
     public void testCube() throws Exception {
 
         app.setOutput(new File("build/base-cube.stl"));

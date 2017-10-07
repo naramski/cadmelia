@@ -21,8 +21,8 @@ import net.nowina.cadmelia.solid.ExtrusionTesselation;
 
 public class Extrusion extends ExtrusionTesselation<CSGSolid> {
 
-    public Extrusion(CSGSolidFactory factory, Shape shape, double height) {
-        super(shape, height, new MeshToCSGSolid(factory));
+    public Extrusion(CSGSolidFactory factory, Shape shape, double height, double scale) {
+        super(shape, height, scale, new MeshToCSGSolid(factory));
     }
 
 }

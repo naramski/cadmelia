@@ -16,9 +16,7 @@
  */
 package net.nowina.cadmelia.script.module;
 
-import net.nowina.cadmelia.construction.FactoryBuilder;
-import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.construction.ShapeFactory;
+import net.nowina.cadmelia.construction.*;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
 import net.nowina.cadmelia.script.ModuleExec;
@@ -55,7 +53,71 @@ public class TextModule extends ModuleExec {
             size = sizeExpr.evaluateAsInteger(context);
         }
 
-        return builder.text(text, size, "Arial");
+        String valign = "bottom";
+        Expression valignExpr = op.getArg("valign");
+        if (valignExpr != null) {
+            valign = valignExpr.evaluateAsString(context);
+        }
+
+        String halign = "left";
+        Expression halignExpr = op.getArg("halign");
+        if (halignExpr != null) {
+            halign = halignExpr.evaluateAsString(context);
+        }
+
+        Construction textShape = builder.text(text, size, "Arial");
+
+        switch (valign) {
+            case "bottom":
+                // default
+                break;
+            case "top":
+                textShape = textShape.translate(0,  -shapeHeight(textShape), 0);
+                break;
+            case "center":
+                textShape = textShape.translate(0, -shapeHeight(textShape) / 2, 0);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid value '" + valign + "' for param valign");
+        }
+
+        switch (halign) {
+            case "left":
+                // default
+                break;
+            case "right":
+                textShape = textShape.translate(-shapeWidth(textShape), 0, 0);
+                break;
+            case "center":
+                textShape = textShape.translate(-shapeWidth(textShape) / 2, 0, 0);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid value '" + halign + "' for param halign");
+        }
+
+        return textShape;
+    }
+
+    public double shapeHeight(Construction textShape) {
+        BoundMeshVisitor visitor = new BoundMeshVisitor();
+        textShape.visit(visitor);
+        return visitor.height;
+    }
+
+    public double shapeWidth(Construction textShape) {
+        BoundMeshVisitor visitor = new BoundMeshVisitor();
+        textShape.visit(visitor);
+        return visitor.width;
+    }
+
+    static class BoundMeshVisitor implements MeshVisitor {
+        double height = 0.0;
+        double width = 0.0;
+        @Override
+        public void triangle(Vector p1, Vector p2, Vector p3) {
+            width = Math.max(width, Math.max(p1.x(), Math.max(p2.x(), p3.x())));
+            height = Math.max(height, Math.max(p1.y(), Math.max(p2.y(), p3.y())));
+        }
     }
 
 }

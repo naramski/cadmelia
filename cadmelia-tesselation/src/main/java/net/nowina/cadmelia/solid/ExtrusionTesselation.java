@@ -34,10 +34,25 @@ public class ExtrusionTesselation<T extends Solid> extends Tesselation<T> {
 
     private final double height;
 
-    public ExtrusionTesselation(Shape shape, double height, MeshToInternal<T> meshToSolid) {
+    private final double scaleX;
+
+    private final double scaleY;
+
+    private final double slices = 1;
+
+    public ExtrusionTesselation(Shape shape, double height, double scale, MeshToInternal<T> meshToSolid) {
         super(meshToSolid);
         this.shape = shape;
         this.height = height;
+        this.scaleX = scale;
+        this.scaleY = scale;
+    }
+
+    public Vector slice(double slice, Vector p) {
+        double x = p.x() * scaleX;
+        double y = p.y() * scaleY;
+        double z = p.z() + height * slice;
+        return new Vector(x, y, z);
     }
 
     @Override
@@ -47,13 +62,10 @@ public class ExtrusionTesselation<T extends Solid> extends Tesselation<T> {
         LOGGER.info("Extrude " + shape + " with height " + height);
         List<PolygonWithHoles> polygons = shape.getPolygons();
 
-        shape.visit(new MeshVisitor() {
-            @Override
-            public void triangle(Vector p1, Vector p2, Vector p3) {
-                triangles.add(new Triangle(p3, p2, p1));
-                Vector top = new Vector(0, 0, height);
-                triangles.add(new Triangle(p1.plus(top), p2.plus(top), p3.plus(top)));
-            }
+        shape.visit((p1,p2,p3) -> {
+            triangles.add(new Triangle(p3, p2, p1));
+            double slice = 1.0;
+            triangles.add(new Triangle(slice(slice, p1), slice(slice, p2), slice(slice, p3)));
         });
 
         for (PolygonWithHoles polygon : polygons) {
@@ -104,7 +116,7 @@ public class ExtrusionTesselation<T extends Solid> extends Tesselation<T> {
     private List<Vector> newRing(List<Vector> points) {
         List<Vector> transformed = new ArrayList<>();
         for (Vector point : points) {
-            transformed.add(point.plus(new Vector(0, 0, height)));
+            transformed.add(slice(1.0, point));
         }
         return transformed;
     }
