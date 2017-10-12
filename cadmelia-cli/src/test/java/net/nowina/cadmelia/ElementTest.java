@@ -55,29 +55,4 @@ public class ElementTest {
         app.render(new StringReader("for(i=[0:4]) rotate([0,0,60*i/2*9/10]) translate([0,0,2*16.6158*i]) { for(i=[0:5]) rotate([0,0,i*60]) rotate([90,0,0]) difference() { cylinder(r1=4,r2=66.4633,h=63.5,$fn=6); translate([0,0,-.05]) cylinder(r1=1,r2=62.4633,h=63.6,$fn=6); } }"));
     }
 
-    @Test
-    public void testCup() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/elements/cup.scad", "build/elements-cup.stl"});
-    }
-
-    @Test
-    public void testCupwall() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/elements/cupwall.scad", "build/elements-cupwall.stl"});
-    }
-
-    @Test
-    public void testRing() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/elements/ring.scad", "build/elements-ring.stl"});
-    }
-
-    @Test
-    public void testCone() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/elements/cone.scad", "build/elements-cone.stl"});
-    }
-
-    @Test
-    public void testSleeve1() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/elements/sleeve1.scad", "build/elements-sleeve1.stl"});
-    }
-
 }

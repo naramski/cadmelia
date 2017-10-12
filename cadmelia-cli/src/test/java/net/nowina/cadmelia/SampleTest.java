@@ -17,154 +17,57 @@
 package net.nowina.cadmelia;
 
 import javafx.embed.swing.JFXPanel;
+import net.nowina.cadmelia.model.ModelConstruction;
+import net.nowina.cadmelia.model.ModelFactoryBuilder;
+import net.nowina.cadmelia.script.Script;
+import net.nowina.cadmelia.script.ScriptScene;
+import net.nowina.cadmelia.script.parser.ScriptParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.List;
+
+@RunWith(Parameterized.class)
 public class SampleTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SampleTest.class);
 
     @BeforeClass
     public static void initJavaFX() {
         new JFXPanel();
     }
 
-    @Test
-    public void testWheel() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/wheel.scad", "build/wheel.stl"});
+    @Parameterized.Parameter(0)
+    public /* NOT private */ File scriptFile;
+
+    @Parameterized.Parameters(name = "{0}")
+    public static List<File> testFiles() {
+        return Arrays.asList(new File("src/test/resources/scripts").listFiles((pathname) -> {
+            if(pathname == null || pathname.getName() == null) {
+                return false;
+            }
+            return pathname.getName().endsWith(".scad");
+        }));
     }
 
     @Test
-    public void testSampleScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/sample.scad", "build/sample-script.stl"});
-    }
+    public void test() throws Exception {
 
-    @Test
-    public void testBatteryHolderScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/battery-holder.scad", "build/battery-holder-script.stl"});
-    }
+        File buildDir = new File("build");
 
-    @Test
-    public void testCone() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/cone.scad", "build/cone-test.stl"});
-    }
+        File stlFile = new File(buildDir, scriptFile.getName().substring(0, scriptFile.getName().length()-5) + ".stl");
 
-    @Test
-    public void testCylinder() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/cyl.scad", "build/cylinder-test.stl"});
-    }
+        CompileToSTLApp.main(new String[]{"main", scriptFile.getPath(), stlFile.getPath()});
 
-    @Test
-    public void testCylinderRotate() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/cyl-rotate.scad", "build/cylinder-rotate-test.stl"});
-    }
-
-    @Test
-    public void testCylinderUnion() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/cyl-union.scad", "build/cylinder-union-test.stl"});
-    }
-
-    @Test
-    public void testSpheresPlaneScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/spheres-plane.scad", "build/spheres-plane.stl"});
-    }
-
-    @Test
-    public void testEggScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/egg.scad", "build/egg-script.stl"});
-    }
-
-    @Test
-    public void testHingeScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/hinge.scad", "build/hinge-script.stl"});
-    }
-
-    @Test
-    public void testHingeWithoutHullScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/hinge-without-hull.scad", "build/hinge-without-hull-script.stl"});
-    }
-
-    @Test
-    public void testLogoScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/logo.scad", "build/logo-script.stl"});
-    }
-
-    @Test
-    public void testMicroSDScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/micro-sd-card.scad", "build/micro-sd-card-script.stl"});
-    }
-
-    @Test
-    public void testMoldScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/mold.scad", "build/mold-script.stl"});
-    }
-
-    @Test
-    public void testPlaneWithHolesScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/plane-with-holes.scad", "build/plane-with-holes-script.stl"});
-    }
-
-    @Test
-    public void testServoHeadScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/servo-head-male.scad", "build/servo-head-male-script.stl"});
-    }
-
-    @Test
-    public void testServoFemaleScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/servo-head-female.scad", "build/servo-head-female-script.stl"});
-    }
-
-    @Test
-    public void testServoWheelScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/servo-wheel.scad", "build/servo-wheel-script.stl"});
-    }
-
-    @Test
-    public void testSphereScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/sphere.scad", "build/test-sphere.stl"});
-    }
-
-    @Test
-    public void testSpheresScript() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/spheres.scad", "build/spheres-script.stl"});
-    }
-
-    @Test
-    public void testSurfacePenHolder() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/samples/surface-pro-2-pen-holder.scad", "build/surface-pro-2-pen-holder-script.stl"});
-    }
-
-    @Test
-    public void testUnionThreeSpheres() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/union-three-spheres.scad", "build/union-three-spheres.stl"});
-    }
-
-    @Test
-    public void testHelloWorld() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/helloworld.scad", "build/helloworld.stl"});
-    }
-
-    @Test
-    public void testCupSleeve() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/cupsleeve.scad", "build/cupsleeve.stl"});
-    }
-
-    @Test
-    public void testGears() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/gears_helical.scad", "build/gears_helical.stl"});
-    }
-
-    @Test
-    public void testPerspective() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/perspective.scad", "build/perspective.stl"});
-    }
-
-    @Test
-    public void testPerspective2() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/perspective2.scad", "build/perspective2.stl"});
-    }
-
-    @Test
-    public void testRotation() throws Exception {
-        CompileToSTLApp.main(new String[]{"main", "src/test/resources/scripts/rotation.scad", "build/rotation.stl"});
     }
 
 }
