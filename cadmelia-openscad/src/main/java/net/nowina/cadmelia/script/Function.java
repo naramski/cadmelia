@@ -16,8 +16,40 @@
  */
 package net.nowina.cadmelia.script;
 
-public enum InstructionType {
+import java.util.ArrayList;
+import java.util.List;
 
-    DEFINE, COMMAND, MODULE, SCOPE, FUNCTION
+public class Function extends Instruction {
+
+    private String name;
+
+    final List<Parameter> args = new ArrayList<>();
+
+    private Expression expression;
+
+    public Function(String name) {
+        super(InstructionType.FUNCTION);
+        this.name = name;
+    }
+
+    public void addParam(Parameter arg) {
+        args.add(arg);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Parameter> getArgs() {
+        return args;
+    }
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
 
 }

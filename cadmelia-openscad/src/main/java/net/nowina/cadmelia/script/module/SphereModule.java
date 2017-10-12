@@ -48,11 +48,11 @@ public class SphereModule extends ModuleExec {
         double radius = 1;
         Expression sizeExpr = op.getArg("r");
         if (sizeExpr != null) {
-            radius = (double) sizeExpr.evaluate(context);
+            radius = sizeExpr.evaluateAsDouble(context);
         } else {
             sizeExpr = op.getFirstUnamedArg();
             if (sizeExpr != null) {
-                radius = (double) sizeExpr.evaluate(context);
+                radius = sizeExpr.evaluateAsDouble(context);
             }
         }
 

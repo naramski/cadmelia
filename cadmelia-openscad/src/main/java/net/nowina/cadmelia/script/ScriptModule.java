@@ -66,13 +66,26 @@ public class ScriptModule extends ModuleExec {
 
         CommandInterpreter builder = new CommandInterpreter(preview, childContext, factory);
         for (Instruction i : module.getInstructions()) {
-            if (i.getType() == InstructionType.MODULE) {
-                Module module = (Module) i;
-                childContext.registerModule(new ScriptModule(module, preview, factory));
-            } else if (i.getType() == InstructionType.DEFINE) {
-                Define define = (Define) i;
-                Object value = define.getExpression().evaluate(childContext);
-                childContext.defineVariableValue(define.getName(), value);
+            switch (i.getType()) {
+                case MODULE:
+                    Module module = (Module) i;
+                    childContext.registerModule(new ScriptModule(module, preview, factory));
+                    break;
+                case DEFINE:
+                    Define define = (Define) i;
+                    Object value = define.getExpression().evaluate(childContext);
+                    childContext.defineVariableValue(define.getName(), value);
+                    break;
+                case COMMAND:
+                    // Command are interpreted last
+                    break;
+                case FUNCTION:
+                    Function fun = (Function) i;
+                    childContext.registerFunction(fun);
+                    break;
+                default:
+                    LOGGER.warn("Instruction of type " + i.getType() + " is not recognized");
+                    break;
             }
         }
 

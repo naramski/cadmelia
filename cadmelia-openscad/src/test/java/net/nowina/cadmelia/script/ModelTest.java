@@ -34,185 +34,6 @@ public class ModelTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelTest.class);
 
     @Test
-    public void testSimple() throws Exception {
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/simple.scad"));
-        Script script = parser.Script();
-
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testMold() throws Exception {
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/mold.scad"));
-        Script script = parser.Script();
-
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testIf() throws Exception {
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/if.scad"));
-        Script script = parser.Script();
-
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testBrace() throws Exception {
-
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/brace.scad"));
-        Script script = parser.Script();
-
-        Assert.assertEquals(2, script.getInstructions().size());
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testBrace2() throws Exception {
-
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/brace2.scad"));
-        Script script = parser.Script();
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testGears() throws Exception {
-
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/gears_helical.scad"));
-        Script script = parser.Script();
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testVase() throws Exception {
-
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/vase.scad"));
-        Script script = parser.Script();
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testStretchlet() throws Exception {
-
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/stretchlet.scad"));
-        Script script = parser.Script();
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
-    public void testCupSleeve() throws Exception {
-
-
-        ScriptParser parser = new ScriptParser(new FileInputStream("src/test/resources/scripts/cupsleeve.scad"));
-        Script script = parser.Script();
-
-        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
-        scene.executeScript(script);
-
-        StringWriter buffer = new StringWriter();
-        PrintWriter writer = new PrintWriter(buffer);
-        ModelConstruction root = (ModelConstruction) scene.getRoot();
-
-        root.print(writer);
-
-        writer.close();
-        LOGGER.info("CSG Tree :\n" + buffer.toString());
-    }
-
-    @Test
     public void testModuleInModule() throws Exception {
 
 
@@ -303,6 +124,24 @@ public class ModelTest {
         Assert.assertEquals(1, root.getSizeY(), Vector.EPSILON);
         Assert.assertEquals(1, root.getSizeZ(), Vector.EPSILON);
         Assert.assertEquals(true, root.isCentered());
+
+    }
+
+    @Test
+    public void testEcho() throws Exception {
+
+
+        ScriptParser parser = new ScriptParser(new StringReader("echo(a=3);"));
+        parser.Script();
+
+        parser = new ScriptParser(new StringReader("echo(version=version());"));
+        parser.Script();
+
+        parser = new ScriptParser(new StringReader("echo(a=sin(3));"));
+        parser.Script();
+
+        parser = new ScriptParser(new StringReader("echo(a=version());"));
+        parser.Script();
 
     }
 

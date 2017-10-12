@@ -27,66 +27,6 @@ import java.io.StringReader;
 public class ScriptTest {
 
     @Test
-    public void test1() throws Exception {
-
-        try (FileInputStream in = new FileInputStream("src/test/resources/scripts/test1.scad")) {
-            ScriptParser parser = new ScriptParser(in);
-            Command command = null;
-            for (int i = 1; i <= 30; i++) {
-                command = parser.Chain();
-            }
-        }
-
-    }
-
-    @Test
-    public void test2() throws Exception {
-
-        try (FileInputStream in = new FileInputStream("src/test/resources/scripts/test2.scad")) {
-            ScriptParser parser = new ScriptParser(in);
-            for (int i = 0; i < 7; i++) {
-                parser.Assignment();
-            }
-        }
-
-    }
-
-    @Test
-    public void test3() throws Exception {
-
-        try (FileInputStream in = new FileInputStream("src/test/resources/scripts/test3.scad")) {
-            ScriptParser parser = new ScriptParser(in);
-            parser.Statement();
-            parser.Statement();
-            parser.Statement();
-            parser.Statement();
-        }
-
-    }
-
-    @Test
-    public void testMold() throws Exception {
-
-        try (FileInputStream in = new FileInputStream("src/test/resources/scripts/mold.scad")) {
-            ScriptParser parser = new ScriptParser(in);
-            for (int i = 0; i < 10; i++) {
-                parser.Statement();
-            }
-        }
-
-    }
-
-    @Test
-    public void testSphere() throws Exception {
-
-        try (FileInputStream in = new FileInputStream("src/test/resources/scripts/sphere.scad")) {
-            ScriptParser parser = new ScriptParser(in);
-            parser.Script();
-        }
-
-    }
-
-    @Test
     public void testSphere2() throws Exception {
 
         try (FileInputStream in = new FileInputStream("src/test/resources/scripts/sphere.scad")) {

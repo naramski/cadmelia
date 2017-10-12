@@ -27,6 +27,8 @@ public class ScriptContext {
 
     private Map<String, ModuleExec> modules = new HashMap<>();
 
+    private Map<String, Function> functions = new HashMap<>();
+
     private final ScriptContext parent;
 
     public ScriptContext() {
@@ -67,10 +69,25 @@ public class ScriptContext {
 
     }
 
+    public void registerFunction(Function fun) {
+
+        /* It is possible to override the existing modules */
+        functions.put(fun.getName(), fun);
+
+    }
+
     public ModuleExec getModule(String moduleName) {
         ModuleExec exec = modules.get(moduleName);
         if (exec == null && parent != null) {
             return parent.getModule(moduleName);
+        }
+        return exec;
+    }
+
+    public Function getFunction(String functionName) {
+        Function exec = functions.get(functionName);
+        if (exec == null && parent != null) {
+            return parent.getFunction(functionName);
         }
         return exec;
     }

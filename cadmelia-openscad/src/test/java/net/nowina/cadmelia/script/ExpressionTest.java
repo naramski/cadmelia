@@ -39,6 +39,7 @@ public class ExpressionTest {
         verify("4 - 3 * 3", -5d, context);
         verify(".5", .5d, context);
         verify("95/100*135", 128.25, context);
+        verify("+2.3", 2.3d, context);
     }
 
     private void verify(String expression, double expected, ScriptContext context) throws ParseException {

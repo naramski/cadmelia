@@ -48,7 +48,8 @@ SKIP: {
 
 TOKEN: {
    < MODULE : "module" >
- | < FUNCTION : "max" | "rand" | "rands" | "sin" | "cos" | "atan" | "round" | "tan" >
+// | < FUNCTION : "max" | "rand" | "rands" | "sin" | "cos" | "atan" | "round" | "tan" >
+ | < FUNCTION : "function" >
  | < BOOLEAN : "true" | "false" >
  | < FOR : "for" >
  | < IF : "if" >
@@ -357,14 +358,14 @@ Command Chain() :
 
 }
 
- Module Module() :
- {
+Module Module() :
+{
     String name;
     Module m;
     Instruction instruction;
     Parameter param;
- }
- {
+}
+{
     <MODULE> name = Name()
     { m = new Module(name); }
     <LP>
@@ -378,16 +379,47 @@ Command Chain() :
         )+
     <RBRACE>
     { return m; }
- }
+}
 
+
+Function FunctionDef() :
+{
+    String name;
+    Function fun;
+    Expression expression;
+    Parameter param;
+}
+{
+    <FUNCTION> name = Name()
+    { fun = new Function(name); }
+    <LP>
+         ((param = Parameter()
+            { fun.addParam(param); } )?
+         (<COMMA> param = Parameter()
+            { fun.addParam(param); } )* )
+    <RP>
+    <EQ>
+        expression = Expression()
+        { fun.setExpression(expression); }
+    <SEMICOLON>
+    { return fun; }
+}
+
+/* ScopeStatement parse statement that can be inside a scope {} */
 Instruction scopeStatement() :
 {
     Define def;
     Command op;
+    Function fun;
 }
 {
     def = Assignment()
     { return def; }
+
+    |
+
+    fun = FunctionDef()
+    { return fun; }
 
     |
 
@@ -398,6 +430,7 @@ Instruction scopeStatement() :
 
     op = control()
     { return op; }
+
 }
 
 Instruction Statement() :
@@ -432,12 +465,12 @@ Script Script() :
 Command Function() :
 {
     Command command;
-    Token t;
+    String f;
     Expression ex;
 }
 {
-    t = <FUNCTION>
-    { command = new Command(t.image); }
+    f = Name()
+    { command = new Command(f); }
     <LP>
         (ex = Expression()
         { command.addArg(ex); }
@@ -463,14 +496,14 @@ Expression Element() :
     value = Number()
     { return Expression.element(value); }
     |
+    function = Function()
+    { return Expression.elementFunction(function); }
+    |
     name = Name()
     { return Expression.element(name); }
     |
     list = VectorList()
     { return Expression.element(list); }
-    |
-    function = Function()
-    { return Expression.element(function); }
     |
     bool = Boolean()
     { return Expression.element(bool); }
@@ -488,6 +521,7 @@ Expression Unary() :
 }
 {
     <MINUS> expression = Element() { return expression.neg(); }
+    | <PLUS> expression = Element() { return expression; }
     | expression = Element() { return expression; }
 }
 
@@ -498,10 +532,12 @@ Expression Term() :
 }
 {
     expression = Unary()
-    ( <TIMES> term = Element()
-    { System.out.println("Mul " + expression + " by " + term); expression = expression.times(term); }
-    | <DIVIDE> term = Element()
-    { System.out.println("Dev " + expression + " by " + term); expression = expression.divide(term);} )*
+    (
+        <TIMES> term = Element()
+        { expression = expression.times(term); }
+        | <DIVIDE> term = Element()
+        { expression = expression.divide(term);}
+    )*
     { return expression; }
 }
 
@@ -513,11 +549,11 @@ Expression Factor() :
 {
     expression = Term()
     (
-    <PLUS> exp2 = Term()
-    { expression = expression.plus(exp2); }
-    |
-    <MINUS> exp2 = Term()
-    { expression = expression.minus(exp2); }
+        <PLUS> exp2 = Term()
+        { expression = expression.plus(exp2); }
+        |
+        <MINUS> exp2 = Term()
+        { expression = expression.minus(exp2); }
     )*
     { return expression; }
 }

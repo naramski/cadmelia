@@ -99,7 +99,7 @@ public interface ScriptParserConstants {
     "\"*/\"",
     "<token of kind 5>",
     "\"module\"",
-    "<FUNCTION>",
+    "\"function\"",
     "<BOOLEAN>",
     "\"for\"",
     "\"if\"",

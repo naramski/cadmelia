@@ -17,11 +17,15 @@
 package net.nowina.cadmelia.script;
 
 import net.nowina.cadmelia.construction.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Expression {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Expression.class);
 
     public abstract Object evaluate(ScriptContext context);
 
@@ -63,6 +67,10 @@ public abstract class Expression {
 
     public static Expression element(Command command) {
         return new ExpressionElement(command);
+    }
+
+    public static Expression elementFunction(Command command) {
+        return new ExpressionFunction(command);
     }
 
     public static Expression element(Boolean value) {
@@ -135,8 +143,44 @@ public abstract class Expression {
                 return Math.random();
             case "rands":
                 return new Vector(Math.random(), Math.random(), Math.random());
+            case "version":
+                return 0.4d;
             default:
-                throw new UnsupportedOperationException("Function not recognized " + command.getName());
+                return evaluateFunctionDef(command, context);
+        }
+    }
+
+    private static Object evaluateFunctionDef(Command command, ScriptContext context) {
+        Function fun = context.getFunction(command.getName());
+        if(fun == null) {
+            throw new UnsupportedOperationException("Function not recognized " + command.getName());
+        } else {
+            ScriptContext childContext = new ScriptContext(context);
+
+            boolean unamed = command.getUnamedArgCount() == fun.getArgs().size();
+
+            LOGGER.info("Execution of function " + command.getName());
+            for (int i = 0; i < fun.getArgs().size(); i++) {
+                Parameter param = fun.getArgs().get(i);
+                String name = param.getName();
+
+                Object value = param.getDefaultValue();
+                LOGGER.info("Received param " + name + " with default value " + value);
+
+                /* If the the argument was provided at the time of the call
+                   the default value is overrided
+                 */
+                Expression argumentValue = unamed ? command.getArg(i) : command.getArg(name);
+                if (argumentValue != null) {
+                    value = argumentValue.evaluate(context);
+                    LOGGER.info("Param " + name + " is overrided by param " + value);
+                }
+
+                childContext.defineVariableValue(name, value);
+            }
+
+            Expression exp = fun.getExpression();
+            return exp.evaluate(childContext);
         }
     }
 
@@ -491,6 +535,27 @@ public abstract class Expression {
         @Override
         public String toString() {
             return element;
+        }
+    }
+
+    static class ExpressionFunction extends ExpressionElement<Command> {
+
+        public ExpressionFunction(Command element) {
+            super(element);
+        }
+
+        @Override
+        public Object evaluate(ScriptContext scriptContext) {
+            Object value = element;
+            while (value instanceof Command) {
+                value = evaluateFunction((Command) value, scriptContext);
+            }
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return element.toString();
         }
     }
 

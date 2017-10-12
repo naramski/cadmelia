@@ -61,6 +61,13 @@ public class ScriptScene extends CommandInterpreter {
         }
 
         for (Instruction instruction : script.getInstructions()) {
+            if (instruction.getType() == InstructionType.FUNCTION) {
+                Function fun = (Function) instruction;
+                getContext().registerFunction(fun);
+            }
+        }
+
+        for (Instruction instruction : script.getInstructions()) {
             if (instruction.getType() == InstructionType.DEFINE) {
                 Define define = (Define) instruction;
                 getContext().defineVariableValue(define.getName(), define.getExpression().evaluate(getContext()));
