@@ -16,7 +16,7 @@
  */
 package net.nowina.bspcsg.collection;
 
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.construction.Vector;
 
 public class VectorDoubleArrayList implements VectorList {

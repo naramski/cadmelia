@@ -18,6 +18,7 @@ package net.nowina.cadmelia.solid;
 
 import net.nowina.cadmelia.Triangle;
 import net.nowina.cadmelia.construction.*;
+import net.nowina.cadmelia.math.Transformation;
 
 import java.util.List;
 
@@ -50,6 +51,11 @@ public class MockSolid implements Solid {
 
     @Override
     public Construction intersection(Construction other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Construction transform(Transformation tx) {
         throw new UnsupportedOperationException();
     }
 

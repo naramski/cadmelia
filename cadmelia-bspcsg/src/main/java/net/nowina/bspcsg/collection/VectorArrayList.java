@@ -17,7 +17,7 @@
 package net.nowina.bspcsg.collection;
 
 import net.nowina.bspcsg.Factory;
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.construction.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

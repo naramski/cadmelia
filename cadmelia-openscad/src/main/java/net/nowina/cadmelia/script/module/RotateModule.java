@@ -18,6 +18,7 @@ package net.nowina.cadmelia.script.module;
 
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Vector;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
 import net.nowina.cadmelia.script.ScriptContext;
@@ -30,6 +31,7 @@ public class RotateModule extends UnionModule {
 
     public static final String MODULE_NAME = "rotate";
     public static final String ANGLE_PARAM = "a";
+    public static final String VECTOR_PARAM = "v";
 
     public RotateModule() {
         super(MODULE_NAME);
@@ -45,10 +47,34 @@ public class RotateModule extends UnionModule {
             rotationExpr = op.getFirstUnamedArg();
         }
 
-        Vector rotation = rotationExpr.evaluateAsVector(context);
-        Vector openScadRotation = new Vector( -rotation.x(), -rotation.y(), -rotation.z());
-        LOGGER.info("Rotate composition of " + openScadRotation);
-        composition = composition.rotate(openScadRotation);
+        Vector openScadRotation = null;
+
+        Object rotation = rotationExpr.evaluate(context);
+        if(rotation instanceof Vector) {
+
+            Vector rot = (Vector) rotation;
+            openScadRotation = new Vector(-rot.x(), -rot.y(), -rot.z());
+            LOGGER.info("Rotate composition of " + openScadRotation);
+            composition = composition.rotate(openScadRotation);
+
+        } else {
+
+            double angle = (double) rotation;
+
+            Expression axisExpr = op.getArg(VECTOR_PARAM);
+            if (axisExpr == null) {
+                axisExpr = op.getArg(1);
+            }
+
+            Vector axis = axisExpr.evaluateAsVector(context);
+            axis = axis.normalized();
+
+            Transformation tx = Transformation.rotation(angle, axis);
+            LOGGER.info("Rotate composition of " + tx);
+            composition = composition.transform(tx);
+
+        }
+
         return composition;
     }
 

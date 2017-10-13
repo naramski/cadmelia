@@ -21,7 +21,7 @@ import net.nowina.bspcsg.CompositeCSG;
 import net.nowina.bspcsg.Polygon;
 import net.nowina.bspcsg.collection.PolygonList;
 import net.nowina.bspcsg.collection.PolygonListBrowser;
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.Triangle;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.MeshVisitor;
@@ -121,24 +121,9 @@ public class CSGSolid implements Solid {
     }
 
     @Override
-    public Construction rotate(Vector angle) {
+    public Construction transform(Transformation tx) {
 
-        Transformation t = Transformation.unity().rot(angle);
-        return new CSGSolid(factory, getCSG().transformed(t));
-    }
-
-    @Override
-    public Construction translate(Vector vector) {
-
-        Transformation t = Transformation.unity().translate(vector);
-        return new CSGSolid(factory, getCSG().transformed(t));
-    }
-
-    @Override
-    public Construction scale(Vector scale) {
-
-        Transformation t = Transformation.unity().scale(scale);
-        return new CSGSolid(factory, getCSG().transformed(t));
+        return new CSGSolid(factory, getCSG().transformed(tx));
     }
 
     @Override

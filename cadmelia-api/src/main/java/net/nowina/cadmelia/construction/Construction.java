@@ -16,6 +16,8 @@
  */
 package net.nowina.cadmelia.construction;
 
+import net.nowina.cadmelia.math.Transformation;
+
 public interface Construction {
 
     boolean isShape();
@@ -28,24 +30,32 @@ public interface Construction {
 
     Construction intersection(Construction other);
 
-    Construction rotate(Vector angle);
-
     void visit(MeshVisitor visitor);
+
+    default Construction rotate(Vector angle) {
+        return transform(Transformation.unity().rot(angle));
+    }
 
     default Construction rotate(double x, double y, double z) {
         return rotate(new Vector(x, y, z));
     }
 
-    Construction translate(Vector vector);
+    default Construction translate(Vector vector) {
+        return transform(Transformation.unity().translate(vector));
+    }
 
     default Construction translate(double x, double y, double z) {
         return translate(new Vector(x, y, z));
     }
 
-    Construction scale(Vector scale);
+    default Construction scale(Vector scale) {
+        return transform(Transformation.unity().scale(scale));
+    }
 
     default Construction scale(double x, double y, double z) {
         return scale(new Vector(x, y, z));
     }
+
+    Construction transform(Transformation tx);
 
 }

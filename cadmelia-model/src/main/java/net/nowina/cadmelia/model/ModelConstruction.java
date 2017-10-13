@@ -17,6 +17,7 @@
 package net.nowina.cadmelia.model;
 
 import net.nowina.cadmelia.construction.*;
+import net.nowina.cadmelia.math.Transformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public abstract class ModelConstruction implements Construction, Shape, Solid {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelConstruction.class);
 
-    private Transform transform;
+    private Transformation transform;
 
     @Override
     public Construction union(Construction other) {
@@ -78,28 +79,16 @@ public abstract class ModelConstruction implements Construction, Shape, Solid {
     }
 
     @Override
-    public Construction rotate(Vector angle) {
-        apply(new Transform().rotate(angle.x(), angle.y(), angle.z()));
+    public Construction transform(Transformation tx) {
+        apply(tx);
         return this;
     }
 
-    @Override
-    public Construction translate(Vector vector) {
-        apply(new Transform().translate(vector.x(), vector.y(), vector.z()));
-        return this;
-    }
-
-    @Override
-    public Construction scale(Vector scale) {
-        apply(new Transform().scale(scale.x(), scale.y(), scale.z()));
-        return this;
-    }
-
-    private void apply(Transform transform) {
+    private void apply(Transformation transform) {
         if (this.transform == null) {
             this.transform = transform;
         } else {
-            this.transform.appy(transform);
+            this.transform.apply(transform);
         }
     }
 
@@ -131,7 +120,7 @@ public abstract class ModelConstruction implements Construction, Shape, Solid {
         throw new UnsupportedOperationException();
     }
 
-    public Transform getTransform() {
+    public Transformation getTransform() {
         return transform;
     }
 

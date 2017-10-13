@@ -16,7 +16,7 @@
  */
 package net.nowina.cadmelia.shape.impl;
 
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.construction.*;
 import net.nowina.cadmelia.construction.Polygon;
 import org.locationtech.jts.geom.*;
@@ -135,6 +135,11 @@ public class ShapeImpl implements Shape, PolygonWithHoles, Polygon {
         ShapeImpl shape = (ShapeImpl) other;
 
         return new ShapeImpl(getGeometry().intersection(shape.getGeometry()));
+    }
+
+    @Override
+    public Construction transform(Transformation tx) {
+        return executeTransform(this, tx);
     }
 
     @Override

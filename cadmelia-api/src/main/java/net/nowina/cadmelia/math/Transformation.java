@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia;
+package net.nowina.cadmelia.math;
 
 import net.nowina.cadmelia.construction.Vector;
 
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
+import java.text.NumberFormat;
 
 public class Transformation {
 
@@ -28,6 +29,30 @@ public class Transformation {
     private Transformation() {
         matrix = new Matrix4d();
         matrix.setIdentity();
+    }
+
+    public static Transformation rotation(double a, Vector u) {
+
+        double cos = Math.cos(a);
+        double sin = Math.sin(a);
+
+        Transformation tx = new Transformation();
+        tx.matrix.set(new double[] {
+            cos + u.x() * u.x() * (1 - cos),
+            u.x() * u.y() * (1 - cos) - u.z() * sin,
+            u.x() * u.z() * (1 - cos) + u.y() * sin,
+            0,
+            u.y() * u.x() * (1 - cos) + u.z() * sin,
+            cos + u.y() * u.y() * (1 - cos),
+            u.y() * u.z() * (1 - cos) - u.x() * sin,
+            0,
+            u.z() * u.x() * (1 - cos) - u.y() * sin,
+            u.z() * u.y() * (1 - cos) + u.x() * sin,
+            cos + u.z() * u.z() * (1 - cos),
+            0, 0, 0, 0, 1
+        });
+        return tx;
+
     }
 
     public static Transformation unity() {
@@ -169,7 +194,12 @@ public class Transformation {
 
     @Override
     public String toString() {
-        return matrix.toString();
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        return "[ " + nf.format(matrix.m00) + ", " + nf.format(matrix.m01) + ", " + nf.format(matrix.m02) + ", " + nf.format(matrix.m03) + " ] [" +
+                nf.format(matrix.m10) + ", " + nf.format(matrix.m11) + ", " + nf.format(matrix.m12) + ", " + nf.format(matrix.m13) + "] [" +
+                nf.format(matrix.m20) + ", " + nf.format(matrix.m21) + ", " + nf.format(matrix.m22) + ", " + nf.format(matrix.m23) + "] [" +
+                nf.format(matrix.m30) + ", " + nf.format(matrix.m31) + ", " + nf.format(matrix.m32) + ", " + nf.format(matrix.m33) + "]";
+
     }
 
 }

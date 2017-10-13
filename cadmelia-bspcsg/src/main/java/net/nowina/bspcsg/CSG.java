@@ -20,12 +20,10 @@ import javafx.geometry.BoundingBox;
 import net.nowina.bspcsg.collection.PolygonList;
 import net.nowina.bspcsg.collection.PolygonListBrowser;
 import net.nowina.bspcsg.collection.VectorListBrowser;
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.construction.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.Future;
 
 public class CSG {
 

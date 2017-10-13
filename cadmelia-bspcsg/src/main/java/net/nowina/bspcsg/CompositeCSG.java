@@ -18,7 +18,7 @@ package net.nowina.bspcsg;
 
 import javafx.geometry.BoundingBox;
 import net.nowina.bspcsg.collection.PolygonList;
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

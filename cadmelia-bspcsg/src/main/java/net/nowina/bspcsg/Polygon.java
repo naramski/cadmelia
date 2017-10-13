@@ -18,7 +18,7 @@ package net.nowina.bspcsg;
 
 import net.nowina.bspcsg.collection.VectorList;
 import net.nowina.bspcsg.collection.VectorListBrowser;
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.Triangle;
 import net.nowina.cadmelia.construction.Vector;
 

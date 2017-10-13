@@ -17,7 +17,7 @@
 package net.nowina.bspcsg;
 
 import net.nowina.bspcsg.collection.VectorList;
-import net.nowina.cadmelia.Transformation;
+import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.construction.Vector;
 
 import java.util.ArrayList;
