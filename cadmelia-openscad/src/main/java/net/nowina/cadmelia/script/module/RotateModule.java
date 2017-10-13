@@ -41,6 +41,10 @@ public class RotateModule extends UnionModule {
     public Construction execute(Command op, ScriptContext context) {
 
         Construction composition = super.execute(op, context);
+        if(composition == null) {
+            LOGGER.warn("Cannot execute operation " + op + " on null");
+            return null;
+        }
 
         Expression rotationExpr = op.getArg(ANGLE_PARAM);
         if (rotationExpr == null) {
@@ -66,8 +70,13 @@ public class RotateModule extends UnionModule {
                 axisExpr = op.getArg(1);
             }
 
-            Vector axis = axisExpr.evaluateAsVector(context);
-            axis = axis.normalized();
+            Vector axis = null;
+            if(axisExpr != null) {
+                axis = axisExpr.evaluateAsVector(context);
+                axis = axis.normalized();
+            } else {
+                axis = Vector.Z;
+            }
 
             Transformation tx = Transformation.rotation(angle, axis);
             LOGGER.info("Rotate composition of " + tx);

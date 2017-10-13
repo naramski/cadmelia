@@ -20,7 +20,7 @@ public class Instruction {
 
     private final InstructionType type;
 
-    Instruction(InstructionType type) {
+    public Instruction(InstructionType type) {
         this.type = type;
     }
 

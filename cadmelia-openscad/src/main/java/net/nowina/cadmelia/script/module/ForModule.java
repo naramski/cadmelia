@@ -39,21 +39,15 @@ public class ForModule extends UnionModule {
 
         ForCommand op = (ForCommand) _op;
 
-        double start = (Double) op.getStart().evaluate(context);
-        Expression endExpr = op.getEnd();
-        double end = (Double) endExpr.evaluate(context);
-        Expression incExpression = op.getIncrement();
-        double increment = 1;
-        if (incExpression != null) {
-            increment = (Double) incExpression.evaluate(context);
-        }
-
         Construction iteration = null;
 
-        for (double i = start; i <= end; i += increment) {
+        for (Expression exp : op.getIterableDef().evaluate(context)) {
+
+            Object val = exp.evaluate(context);
+
             ScriptContext childContext = new ScriptContext(context);
-            childContext.defineVariableValue(op.getVariable(), i);
-            LOGGER.info("ForCommand " + op.getVariable() + "=" + i);
+            childContext.defineVariableValue(op.getVariable(), val);
+            LOGGER.info("ForCommand " + op.getVariable() + "=" + val);
 
             Instruction instruction = op.getInstruction();
 

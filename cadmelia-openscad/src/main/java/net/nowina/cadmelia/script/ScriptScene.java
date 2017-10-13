@@ -32,6 +32,7 @@ public class ScriptScene extends CommandInterpreter {
 
         this.factory = factory;
 
+        getContext().registerModule(new ChildrenModule());
         getContext().registerModule(new CircleModule(factory));
         getContext().registerModule(new CubeModule(factory));
         getContext().registerModule(new CylinderModule(factory));
@@ -42,13 +43,19 @@ public class ScriptScene extends CommandInterpreter {
         getContext().registerModule(new LinearExtrudeModule(factory));
         getContext().registerModule(new HullModule(factory));
         getContext().registerModule(new IfModule());
+        getContext().registerModule(new ImportModule());
         getContext().registerModule(new IntersectionModule());
+        getContext().registerModule(new IntersectionForModule());
         getContext().registerModule(new OffsetModule(factory));
+        getContext().registerModule(new ProjectionModule());
         getContext().registerModule(new PolygonModule(factory));
+        getContext().registerModule(new RenderModule());
         getContext().registerModule(new RotateModule());
+        getContext().registerModule(new RotateExtrudeModule());
         getContext().registerModule(new ScaleModule());
         getContext().registerModule(new SphereModule(factory));
         getContext().registerModule(new SquareModule(factory));
+        getContext().registerModule(new SurfaceModule());
         getContext().registerModule(new TextModule(factory));
         getContext().registerModule(new TranslateModule());
         getContext().registerModule(new UnionModule());

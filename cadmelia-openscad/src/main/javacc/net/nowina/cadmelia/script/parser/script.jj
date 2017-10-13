@@ -58,15 +58,19 @@ TOKEN: {
  | < BOOLEAN_EQUAL : "==" >
  | < BOOLEAN_NOT_EQUAL : "!=" >
  | < BOOLEAN_NOT : "!" >
+ | < USE : "use" >
  | < GT : ">" >
  | < LT : "<" >
  | < GTE : ">=" >
  | < LTE : "<=" >
  | < COLON : ":" >
+ | < HASH : "#" >
+ | < PERCENT : "%" >
  | < LP : "(" >
  | < RP : ")" >
  | < LB : "[" >
  | < RB : "]" >
+ | < QUESTION : "?" >
  | < LBRACE : "{" >
  | < RBRACE : "}" >
  | < EQ : "=" >
@@ -79,7 +83,8 @@ TOKEN: {
  | < TIMES: "*" >
  | < QUOTE: "\"" > : STRING_STATE
  | < NUMBER : ((["0"-"9"])+)? ("." (["0"-"9"])+)?("e"("+"|"-")?(["0"-"9"])+)? >
- | < NAME : (["0"-"9","a"-"z","A"-"Z","_","$"])+>
+ | <FILENAME : "<" (["0"-"9","a"-"z","A"-"Z","_","$",".","/","\\"])+ ">" >
+ | < NAME : (["0"-"9","a"-"z","A"-"Z","_","$"])+ >
 }
 
 <STRING_STATE> MORE:
@@ -95,7 +100,7 @@ TOKEN: {
 
 <ESC_STATE> TOKEN:
 {
-  <CNTRL_ESC:["\"","\\","/","b","f","n","r","t"]> : STRING_STATE
+  <CNTRL_ESC:["\"","\\","/","b","f","n","r","t","u"]> : STRING_STATE
 }
 
 Scope scope() :
@@ -152,14 +157,13 @@ IfCommand IfCommand() :
 ForCommand For() :
 {
     String variable;
-    Expression start;
-    Expression end;
+    IterableDef iterableDef;
     ForCommand it;
     Instruction instruction;
 }
 {
-    <FOR> <LP> variable = Name() <EQ> <LB> start = Expression() <COLON> end = Expression() <RB> <RP>
-    { it = new ForCommand(variable, start, Expression.element(1d), end); }
+    <FOR> <LP> variable = Name() <EQ> iterableDef = iterableDefinition() <RP>
+    { it = new ForCommand(variable, iterableDef); }
 
     (
         instruction = scope()
@@ -172,12 +176,22 @@ ForCommand For() :
     { return it; }
 }
 
-String Name() :
-{
+/**
+ * Return value of the <NAME> token
+ */
+String Name() : {
     Token t;
-}
-{
+} {
     t=<NAME> { return t.image; }
+}
+
+/**
+ * Return value of the <FILENAME> token
+ */
+String readFilename() : {
+    Token t;
+} {
+    t=<FILENAME> { return t.image; }
 }
 
 Double Number() :
@@ -232,6 +246,55 @@ Expression Vector() :
     { return Expression.element(x,y,z); }
 }
 
+IterableDef iterableDefinition() :
+{
+    IterableDef def;
+}
+{
+    def = listDefinition()
+    { return def; }
+    |
+    def = rangeDefinition()
+    { return def; }
+}
+
+ListIterableDef listDefinition() :
+{
+    ListIterableDef l = null;
+    Expression expr = null;
+}
+{
+    <LB>
+    expr = Expression()
+    { l = new ListIterableDef(); l.add(expr); }
+    (
+        <COMMA>
+        expr = Expression()
+        { l.add(expr); }
+    )*
+    <RB>
+    { return l; }
+}
+
+RangeIterableDef rangeDefinition() :
+{
+    Expression start;
+    Expression end;
+    Expression increment = null;
+}
+{
+    <LB>
+    start = Expression()
+    <COLON>
+    (
+        increment = Expression()
+        <COLON>
+    )?
+    end = Expression()
+    <RB>
+    { return new RangeIterableDef(start, end, increment); }
+}
+
 List VectorList() :
 {
     List l = null;
@@ -247,7 +310,6 @@ List VectorList() :
         { l.add(v); }
         )*
     <RB>
-
     { return l; }
 }
 
@@ -258,7 +320,7 @@ Argument Argument() :
 }
 {
     (LOOKAHEAD(3) name = Name() <EQ> )?
-    (value = Expression()| value = Vector())
+    (value = Expression())
     {
         return new Argument(name, value);
     }
@@ -301,6 +363,7 @@ Command Command() :
 }
 {
 
+    (<HASH> | <PERCENT>)?
     name = Name()
     { command = new Command(name); }
     <LP>
@@ -373,11 +436,22 @@ Module Module() :
             { m.addParam(param); } )?
          (<COMMA> param = Parameter()
             { m.addParam(param); } )* )
-    <RP> <LBRACE>
-        ( instruction = Statement()
-        { m.addInstruction(instruction); }
-        )+
-    <RBRACE>
+    <RP>
+    (
+        (
+            instruction = scopeStatement()
+            { m.addInstruction(instruction); }
+            (<SEMICOLON>)?
+        )
+    |
+        (
+        <LBRACE>
+            ( instruction = Statement()
+            { m.addInstruction(instruction); }
+            )+
+        <RBRACE>
+        )
+    )
     { return m; }
 }
 
@@ -444,8 +518,25 @@ Instruction Statement() :
 
     |
 
+    instruction = useFile()
+    { return instruction; }
+
+    |
+
     module = Module()
     { return module; }
+}
+
+Instruction useFile() :
+{
+    Instruction instr;
+    String filename;
+}
+{
+    <USE> filename = readFilename()
+    {
+        return new Instruction(InstructionType.USE);
+    }
 }
 
 Script Script() :
@@ -496,6 +587,9 @@ Expression Element() :
     value = Number()
     { return Expression.element(value); }
     |
+    expression = vectorElement()
+    { return expression; }
+    |
     function = Function()
     { return Expression.elementFunction(function); }
     |
@@ -505,6 +599,9 @@ Expression Element() :
     list = VectorList()
     { return Expression.element(list); }
     |
+    expression = Vector()
+    { return expression; }
+    |
     bool = Boolean()
     { return Expression.element(bool); }
     |
@@ -513,6 +610,21 @@ Expression Element() :
     |
     <LP> expression = Expression() <RP>
     { return expression; }
+}
+
+Expression vectorElement() :
+{
+    String variableName;
+    Expression index;
+}
+{
+    variableName = Name()
+    <LB>
+        index = Expression()
+    <RB>
+    {
+        return Expression.vectorElement(variableName, index);
+    }
 }
 
 Expression Unary() :
@@ -533,9 +645,9 @@ Expression Term() :
 {
     expression = Unary()
     (
-        <TIMES> term = Element()
+        <TIMES> term = Unary()
         { expression = expression.times(term); }
-        | <DIVIDE> term = Element()
+        | <DIVIDE> term = Unary()
         { expression = expression.divide(term);}
     )*
     { return expression; }
@@ -558,7 +670,7 @@ Expression Factor() :
     { return expression; }
 }
 
-Expression Expression() :
+Expression BooleanOrExpression() :
 {
     Expression exp;
     Expression exp2;
@@ -583,6 +695,24 @@ Expression Expression() :
         |
         <GT> exp2 = Factor()
         { exp = exp.greaterThan(exp2); }
+    )?
+    { return exp; }
+}
+
+Expression Expression() :
+{
+    Expression exp;
+    Expression thenExpr = null;
+    Expression elseExpr = null;
+}
+{
+    exp = BooleanOrExpression()
+    (
+        <QUESTION>
+        thenExpr = Term()
+        <COLON>
+        elseExpr = Term()
+        { return Expression.inlineIf(exp, thenExpr, elseExpr); }
     )?
     { return exp; }
 }
@@ -640,6 +770,8 @@ void ConsumeChar(StringBuilder builder):
         case 'n': builder.append((char) 10); break;
         case 'r': builder.append((char) 13); break;
         case 't': builder.append((char) 9); break;
+        case 'u':
+            builder.append('*'); break;
         default: builder.append(c);
       }
     }

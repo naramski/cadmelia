@@ -112,7 +112,6 @@ public abstract class ModelConstruction implements Construction, Shape, Solid {
 
     @Override
     public void visit(MeshVisitor visitor) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

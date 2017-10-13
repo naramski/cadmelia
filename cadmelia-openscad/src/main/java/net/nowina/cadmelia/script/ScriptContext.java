@@ -40,6 +40,9 @@ public class ScriptContext {
     }
 
     public Object getVariableValue(String variable) {
+        if("$children".equals(variable)) {
+            return Expression.element(0);
+        }
         Object local = variables.get(variable);
         if (local == null && parent != null) {
             return parent.getVariableValue(variable);

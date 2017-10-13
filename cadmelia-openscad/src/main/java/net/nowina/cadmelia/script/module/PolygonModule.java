@@ -44,6 +44,9 @@ public class PolygonModule extends UnionModule {
     public Construction execute(Command op, ScriptContext context) {
 
         Expression listExpression = op.getArg("points");
+        if(listExpression == null) {
+            listExpression = op.getFirstUnamedArg();
+        }
         List<Vector> list = (List<Vector>) listExpression.evaluate(context);
         return polygon(list, context);
 

@@ -49,7 +49,14 @@ public class ScaleModule extends UnionModule {
             throw new NullPointerException("a scale vector must be provided");
         }
 
-        Vector scale = scaleExpr.evaluateAsVector(context);
+        Object value = scaleExpr.evaluate(context);
+        Vector scale = null;
+        if(value instanceof Vector) {
+            scale = (Vector) value;
+        } else {
+            double d = (double) value;
+            scale = new Vector(d, d, d);
+        }
         LOGGER.info("Scale composition of " + scale);
         composition = composition.scale(scale);
         return composition;

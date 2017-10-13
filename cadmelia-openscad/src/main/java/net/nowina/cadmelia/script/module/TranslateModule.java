@@ -39,6 +39,10 @@ public class TranslateModule extends UnionModule {
     public Construction execute(Command op, ScriptContext context) {
 
         Construction composition = super.execute(op, context);
+        if(composition == null) {
+            LOGGER.warn("Cannot execute operation " + op + " on null");
+            return null;
+        }
 
         Expression translateExpr = op.getArg(VECTOR_PARAM);
         if (translateExpr == null) {

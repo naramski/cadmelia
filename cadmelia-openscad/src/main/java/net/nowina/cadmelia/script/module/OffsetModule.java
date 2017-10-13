@@ -44,6 +44,9 @@ public class OffsetModule extends UnionModule {
         Construction composition = super.execute(op, context);
 
         Expression exp = op.getArg("r");
+        if(exp==null) {
+            exp = op.getFirstUnamedArg();
+        }
         Double delta = (Double) exp.evaluate(context);
 
         Shape shape = (Shape) composition;

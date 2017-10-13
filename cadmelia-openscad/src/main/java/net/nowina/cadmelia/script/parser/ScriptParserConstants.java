@@ -31,55 +31,65 @@ public interface ScriptParserConstants {
   /** RegularExpression Id. */
   int BOOLEAN_NOT = 15;
   /** RegularExpression Id. */
-  int GT = 16;
+  int USE = 16;
   /** RegularExpression Id. */
-  int LT = 17;
+  int GT = 17;
   /** RegularExpression Id. */
-  int GTE = 18;
+  int LT = 18;
   /** RegularExpression Id. */
-  int LTE = 19;
+  int GTE = 19;
   /** RegularExpression Id. */
-  int COLON = 20;
+  int LTE = 20;
   /** RegularExpression Id. */
-  int LP = 21;
+  int COLON = 21;
   /** RegularExpression Id. */
-  int RP = 22;
+  int HASH = 22;
   /** RegularExpression Id. */
-  int LB = 23;
+  int PERCENT = 23;
   /** RegularExpression Id. */
-  int RB = 24;
+  int LP = 24;
   /** RegularExpression Id. */
-  int LBRACE = 25;
+  int RP = 25;
   /** RegularExpression Id. */
-  int RBRACE = 26;
+  int LB = 26;
   /** RegularExpression Id. */
-  int EQ = 27;
+  int RB = 27;
   /** RegularExpression Id. */
-  int SEMICOLON = 28;
+  int QUESTION = 28;
   /** RegularExpression Id. */
-  int COMMA = 29;
+  int LBRACE = 29;
   /** RegularExpression Id. */
-  int SP = 30;
+  int RBRACE = 30;
   /** RegularExpression Id. */
-  int PLUS = 31;
+  int EQ = 31;
   /** RegularExpression Id. */
-  int MINUS = 32;
+  int SEMICOLON = 32;
   /** RegularExpression Id. */
-  int DIVIDE = 33;
+  int COMMA = 33;
   /** RegularExpression Id. */
-  int TIMES = 34;
+  int SP = 34;
   /** RegularExpression Id. */
-  int QUOTE = 35;
+  int PLUS = 35;
   /** RegularExpression Id. */
-  int NUMBER = 36;
+  int MINUS = 36;
   /** RegularExpression Id. */
-  int NAME = 37;
+  int DIVIDE = 37;
   /** RegularExpression Id. */
-  int ENDQUOTE = 39;
+  int TIMES = 38;
   /** RegularExpression Id. */
-  int CHAR = 40;
+  int QUOTE = 39;
   /** RegularExpression Id. */
-  int CNTRL_ESC = 41;
+  int NUMBER = 40;
+  /** RegularExpression Id. */
+  int FILENAME = 41;
+  /** RegularExpression Id. */
+  int NAME = 42;
+  /** RegularExpression Id. */
+  int ENDQUOTE = 44;
+  /** RegularExpression Id. */
+  int CHAR = 45;
+  /** RegularExpression Id. */
+  int CNTRL_ESC = 46;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -108,15 +118,19 @@ public interface ScriptParserConstants {
     "\"==\"",
     "\"!=\"",
     "\"!\"",
+    "\"use\"",
     "\">\"",
     "\"<\"",
     "\">=\"",
     "\"<=\"",
     "\":\"",
+    "\"#\"",
+    "\"%\"",
     "\"(\"",
     "\")\"",
     "\"[\"",
     "\"]\"",
+    "\"?\"",
     "\"{\"",
     "\"}\"",
     "\"=\"",
@@ -129,6 +143,7 @@ public interface ScriptParserConstants {
     "\"*\"",
     "\"\\\"\"",
     "<NUMBER>",
+    "<FILENAME>",
     "<NAME>",
     "\"\\\\\"",
     "<ENDQUOTE>",

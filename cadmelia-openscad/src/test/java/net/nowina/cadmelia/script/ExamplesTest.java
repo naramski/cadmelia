@@ -18,6 +18,7 @@ package net.nowina.cadmelia.script;
 
 import net.nowina.cadmelia.model.*;
 import net.nowina.cadmelia.script.parser.ScriptParser;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -57,13 +58,17 @@ public class ExamplesTest {
             ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
             scene.executeScript(script);
 
-            StringWriter buffer = new StringWriter();
-            PrintWriter writer = new PrintWriter(buffer);
             ModelConstruction root = (ModelConstruction) scene.getRoot();
-            root.print(writer);
+            if(root == null) {
+                LOGGER.warn("Result is null");
+            } else {
+                StringWriter buffer = new StringWriter();
+                PrintWriter writer = new PrintWriter(buffer);
+                root.print(writer);
+                writer.close();
+                LOGGER.info("CSG Tree :\n" + buffer.toString());
+            }
 
-            writer.close();
-            LOGGER.info("CSG Tree :\n" + buffer.toString());
         }
     }
 

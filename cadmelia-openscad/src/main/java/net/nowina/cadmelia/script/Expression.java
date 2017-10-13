@@ -73,12 +73,20 @@ public abstract class Expression {
         return new ExpressionFunction(command);
     }
 
+    public static Expression inlineIf(Expression condition, Expression thenExpr, Expression elseExpr) {
+        return new ExpressionInlineIfElement(condition, thenExpr, elseExpr);
+    }
+
     public static Expression element(Boolean value) {
         return new ExpressionElement(value);
     }
 
     public static Expression element(List<Expression> list) {
         return new ExpressionList(list);
+    }
+
+    public static Expression vectorElement(String variableName, Expression index) {
+        return new ExpressionVectorElement(variableName, index);
     }
 
     public Expression neg() {
@@ -144,7 +152,14 @@ public abstract class Expression {
             case "rands":
                 return new Vector(Math.random(), Math.random(), Math.random());
             case "version":
+                // TODO
                 return 0.4d;
+            case "lookup":
+                // TODO
+                return 0.0d;
+            case "str":
+                // TODO
+                return "";
             default:
                 return evaluateFunctionDef(command, context);
         }
@@ -529,6 +544,9 @@ public abstract class Expression {
             while (value instanceof Command) {
                 value = evaluateFunction((Command) value, scriptContext);
             }
+            while (value instanceof Expression) {
+                value = ((Expression) value).evaluate(scriptContext);
+            }
             return value;
         }
 
@@ -556,6 +574,61 @@ public abstract class Expression {
         @Override
         public String toString() {
             return element.toString();
+        }
+    }
+
+    static class ExpressionVectorElement extends Expression {
+
+        private String variableName;
+
+        private Expression indexExpr;
+
+        public ExpressionVectorElement(String variableName, Expression index) {
+            this.variableName = variableName;
+            this.indexExpr = index;
+        }
+
+        @Override
+        public Object evaluate(ScriptContext scriptContext) {
+
+            Vector value = (Vector) scriptContext.getVariableValue(variableName);
+            int index = indexExpr.evaluateAsInteger(scriptContext);
+            return value.get(index);
+        }
+
+        @Override
+        public String toString() {
+            return variableName + "[" + indexExpr + "]";
+        }
+    }
+
+    static class ExpressionInlineIfElement extends Expression {
+
+        private Expression condition;
+
+        private Expression thenExpr;
+
+        private Expression elseExpr;
+
+        public ExpressionInlineIfElement(Expression condition, Expression thenExpr, Expression elseExpr) {
+            this.condition = condition;
+            this.thenExpr = thenExpr;
+            this.elseExpr = elseExpr;
+        }
+
+        @Override
+        public Object evaluate(ScriptContext scriptContext) {
+
+            if(condition.evaluateAsBoolean(scriptContext)) {
+                return thenExpr.evaluate(scriptContext);
+            } else {
+                return elseExpr.evaluate(scriptContext);
+            }
+        }
+
+        @Override
+        public String toString() {
+            return condition + "?" + thenExpr + ":" + elseExpr;
         }
     }
 

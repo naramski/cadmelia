@@ -40,6 +40,19 @@ public class ExpressionTest {
         verify(".5", .5d, context);
         verify("95/100*135", 128.25, context);
         verify("+2.3", 2.3d, context);
+        verify("true ? 1.0 : 2.0", 1d, context);
+        verify("1==1 ? 1.0 : 2.0", 1d, context);
+        verify("1<1 ? 1.0 : 2.0", 2d, context);
+        verify("sin(0)", 0d, context);
+        verify("cos(0)", 1d, context);
+        verify("-cos(0)", -1d, context);
+
+        context.defineVariableValue("t", 0d);
+        verify("100 * sin(360 * (t- 0.5)) + 60 ", 60d, context);
+        verify("100 * -sin(360 * (t- 0.5)) + 60 ", 60d, context);
+
+        verify("100 * -2 ", -200d, context);
+
     }
 
     private void verify(String expression, double expected, ScriptContext context) throws ParseException {
@@ -146,4 +159,36 @@ public class ExpressionTest {
         Assert.assertEquals(3, script.getInstructions().size());
 
     }
+
+    @Test
+    public void testVector() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("[ 50 * cos(360 * (t - 0.5)), 100 ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 50 * cos(360 * (t - 0.5)), 100 * 2 ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 2*r2*cos(360/n), 2*r2*sin(360/n) ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 50 * cos(360 * (t - 0.5)), 100 * sin(360 * (t- 0.5)) + 60 ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 1, 1 * 1 ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 1, +1 * 1 ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 1, 1 * +1 ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 1, 1 * -1 ]"));
+        parser.Vector();
+
+        parser = new ScriptParser(new StringReader("[ 50 * cos(360 * (t - 0.5)), 100 * -sin(360 * (t- 0.5)) + 60 ]"));
+        parser.Vector();
+    }
+
 }

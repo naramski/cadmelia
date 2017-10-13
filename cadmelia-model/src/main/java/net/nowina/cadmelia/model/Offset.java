@@ -38,7 +38,11 @@ public class Offset extends ModelShape {
             writer.write("Transform{" + getTransform() + "} ");
         }
         writer.println("Offset(delta=" + delta + ") {");
-        shape.print(writer, paddingPrefix + "  ");
+        if(shape != null) {
+            shape.print(writer, paddingPrefix + "  ");
+        } else {
+            writer.println(paddingPrefix + "  " + "null shape");
+        }
         writer.print(paddingPrefix);
         writer.println("}");
     }

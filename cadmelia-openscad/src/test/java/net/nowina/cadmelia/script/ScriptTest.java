@@ -168,4 +168,33 @@ public class ScriptTest {
 
     }
 
+    @Test
+    public void testModule() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("module test() { offset(.5) square(); }"));
+        Script s = parser.Script();
+
+        parser = new ScriptParser(new StringReader("module test() offset(.5) square();"));
+        s = parser.Script();
+
+        parser = new ScriptParser(new StringReader("module curve() polygon();"));
+        s = parser.Script();
+
+        parser = new ScriptParser(new StringReader("module curve() polygon([for (a = [ 0 : 0.004 : 1]) position(a)]);"));
+        s = parser.Script();
+
+    }
+
+    @Test
+    public void testUse() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("<test.txt>"));
+        String filename = parser.readFilename();
+        Assert.assertEquals("<test.txt>", filename);
+
+        parser = new ScriptParser(new StringReader("use <test.txt>"));
+        Instruction i1 = parser.useFile();
+
+    }
+
 }

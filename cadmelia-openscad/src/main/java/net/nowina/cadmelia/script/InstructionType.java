@@ -18,6 +18,6 @@ package net.nowina.cadmelia.script;
 
 public enum InstructionType {
 
-    DEFINE, COMMAND, MODULE, SCOPE, FUNCTION
+    DEFINE, COMMAND, MODULE, SCOPE, FUNCTION, USE
 
 }

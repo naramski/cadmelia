@@ -43,6 +43,10 @@ public class LinearExtrudeModule extends UnionModule {
     public Construction execute(Command op, ScriptContext context) {
 
         Construction composition = super.execute(op, context);
+        if(composition == null) {
+            LOGGER.warn("Cannot extrude null shape");
+            return null;
+        }
 
         if (!composition.isShape()) {
             LOGGER.warn("Extruded construction must be a Shape");

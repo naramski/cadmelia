@@ -20,32 +20,14 @@ public class ForCommand extends Command {
 
     private String variable;
 
-    private Expression start;
-
-    private Expression end;
-
-    private Expression increment;
+    private IterableDef iterableDef;
 
     private Instruction instruction;
 
-    public ForCommand(String variable, Expression start, Expression increment, Expression end) {
+    public ForCommand(String variable, IterableDef iterableDef) {
         super("for");
         this.variable = variable;
-        this.start = start;
-        this.increment = increment;
-        this.end = end;
-    }
-
-    public Expression getStart() {
-        return start;
-    }
-
-    public Expression getEnd() {
-        return end;
-    }
-
-    public Expression getIncrement() {
-        return increment;
+        this.iterableDef = iterableDef;
     }
 
     public String getVariable() {
@@ -58,6 +40,10 @@ public class ForCommand extends Command {
 
     public Instruction getInstruction() {
         return instruction;
+    }
+
+    public IterableDef getIterableDef() {
+        return iterableDef;
     }
 
 }

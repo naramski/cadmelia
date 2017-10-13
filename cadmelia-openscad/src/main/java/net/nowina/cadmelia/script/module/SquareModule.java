@@ -40,13 +40,19 @@ public class SquareModule extends ModuleExec {
 
         Vector sizeV = new Vector(1, 1, 0);
 
-        Expression size = op.getArg("size");
-        if (size == null && op.getArgCount() > 1) {
-            size = op.getArg(0);
+        Expression sizeExpr = op.getArg("size");
+        if (sizeExpr == null && op.getArgCount() > 1) {
+            sizeExpr = op.getArg(0);
         }
 
-        if (size != null) {
-            sizeV = size.evaluateAsVector(context);
+        if (sizeExpr != null) {
+            Object obj = sizeExpr.evaluate(context);
+            if(obj instanceof Vector) {
+                sizeV = (Vector) obj;
+            } else {
+                double size = (double) obj;
+                sizeV = new Vector(size, size, 0);
+            }
         }
 
         boolean centered = false;
