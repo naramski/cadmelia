@@ -18,6 +18,7 @@ package net.nowina.cadmelia.script.module;
 
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.*;
+import net.nowina.cadmelia.script.Expression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +44,7 @@ public class ForModule extends UnionModule {
 
         for (Expression exp : op.getIterableDef().evaluate(context)) {
 
-            Object val = exp.evaluate(context);
+            Object val = exp.evaluate(context).getValue();
 
             ScriptContext childContext = new ScriptContext(context);
             childContext.defineVariableValue(op.getVariable(), val);

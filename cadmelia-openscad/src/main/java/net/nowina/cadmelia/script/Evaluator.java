@@ -14,25 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.module;
+package net.nowina.cadmelia.script;
 
-import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
-import net.nowina.cadmelia.script.ModuleExec;
 import net.nowina.cadmelia.script.ScriptContext;
 
-public class SurfaceModule extends ModuleExec {
+public interface Evaluator {
 
-    public SurfaceModule() {
-        super("surface");
-    }
-
-    @Override
-    public Construction execute(Command op, ScriptContext context) {
-
-        // TODO
-        return null;
-
-    }
+    Object evaluate(Command command, ScriptContext context);
 
 }

@@ -18,7 +18,7 @@ package net.nowina.cadmelia.script;
 
 public class RangeIterableDef implements IterableDef {
 
-    private static final Expression DEFAULT_INCREMENT = Expression.element(1.0d);
+    private static final Expression DEFAULT_INCREMENT = ExpressionBuilder.element(1.0d);
 
     private final Expression start;
 

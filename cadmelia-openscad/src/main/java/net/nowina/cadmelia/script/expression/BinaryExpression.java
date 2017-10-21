@@ -14,25 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.module;
+package net.nowina.cadmelia.script.expression;
 
-import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.script.Command;
-import net.nowina.cadmelia.script.ModuleExec;
+import net.nowina.cadmelia.script.Expression;
 import net.nowina.cadmelia.script.ScriptContext;
 
-public class SurfaceModule extends ModuleExec {
+public class BinaryExpression extends Expression {
 
-    public SurfaceModule() {
-        super("surface");
+    final Expression xExpr;
+
+    final Expression yExpr;
+
+    final TwoArgsFunction<Double, Double, Double> function;
+
+    public BinaryExpression(Expression xExpr, Expression yExpr, TwoArgsFunction<Double, Double, Double> function) {
+        this.xExpr = xExpr;
+        this.yExpr = yExpr;
+        this.function = function;
     }
 
     @Override
-    public Construction execute(Command op, ScriptContext context) {
-
-        // TODO
-        return null;
-
+    protected Double doEvaluation(ScriptContext context) {
+        Double x = xExpr.evaluateAsDouble(context);
+        Double y = yExpr.evaluateAsDouble(context);
+        return function.apply(x, y);
     }
 
 }

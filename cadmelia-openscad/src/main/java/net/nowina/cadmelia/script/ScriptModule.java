@@ -57,7 +57,7 @@ public class ScriptModule extends ModuleExec {
              */
             Expression argumentValue = unamed ? op.getArg(i) : op.getArg(name);
             if (argumentValue != null) {
-                value = argumentValue.evaluate(context);
+                value = argumentValue.evaluate(context).getValue();
                 LOGGER.info("Param " + name + " is overrided by param " + value);
             }
 
@@ -73,7 +73,7 @@ public class ScriptModule extends ModuleExec {
                     break;
                 case DEFINE:
                     Define define = (Define) i;
-                    Object value = define.getExpression().evaluate(childContext);
+                    Object value = define.getExpression().evaluate(childContext).getValue();
                     childContext.defineVariableValue(define.getName(), value);
                     break;
                 case COMMAND:

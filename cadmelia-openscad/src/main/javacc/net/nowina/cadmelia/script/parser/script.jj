@@ -243,7 +243,7 @@ Expression Vector() :
         z = Expression())?
 
     <RB>
-    { return Expression.element(x,y,z); }
+    { return ExpressionBuilder.element(x,y,z); }
 }
 
 IterableDef iterableDefinition() :
@@ -334,7 +334,7 @@ Parameter Parameter() :
 {
     name = Name() (
         <EQ>
-        (value = Number() | value = LiteralVector() | value = Boolean())
+        (value = Number() | value = LiteralVector() | value = Boolean() | value = String())
     )?
     {
         return new Parameter(name, value);
@@ -585,28 +585,28 @@ Expression Element() :
 }
 {
     value = Number()
-    { return Expression.element(value); }
+    { return ExpressionBuilder.element(value); }
     |
     expression = vectorElement()
     { return expression; }
     |
     function = Function()
-    { return Expression.elementFunction(function); }
+    { return ExpressionBuilder.elementFunction(function); }
     |
     name = Name()
-    { return Expression.element(name); }
+    { return ExpressionBuilder.element(name); }
     |
     list = VectorList()
-    { return Expression.element(list); }
+    { return ExpressionBuilder.element(list); }
     |
     expression = Vector()
     { return expression; }
     |
     bool = Boolean()
-    { return Expression.element(bool); }
+    { return ExpressionBuilder.element(bool); }
     |
     text = String()
-    { return Expression.elementText(text); }
+    { return ExpressionBuilder.elementText(text); }
     |
     <LP> expression = Expression() <RP>
     { return expression; }
@@ -623,7 +623,7 @@ Expression vectorElement() :
         index = Expression()
     <RB>
     {
-        return Expression.vectorElement(variableName, index);
+        return ExpressionBuilder.vectorElement(variableName, index);
     }
 }
 
@@ -712,7 +712,7 @@ Expression Expression() :
         thenExpr = Term()
         <COLON>
         elseExpr = Term()
-        { return Expression.inlineIf(exp, thenExpr, elseExpr); }
+        { return ExpressionBuilder.inlineIf(exp, thenExpr, elseExpr); }
     )?
     { return exp; }
 }

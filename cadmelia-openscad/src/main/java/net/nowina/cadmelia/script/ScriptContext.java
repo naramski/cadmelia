@@ -16,8 +16,6 @@
  */
 package net.nowina.cadmelia.script;
 
-import net.nowina.cadmelia.construction.Vector;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,21 +39,13 @@ public class ScriptContext {
 
     public Object getVariableValue(String variable) {
         if("$children".equals(variable)) {
-            return Expression.element(0);
+            return ExpressionBuilder.element(0d);
         }
         Object local = variables.get(variable);
         if (local == null && parent != null) {
             return parent.getVariableValue(variable);
         }
         return local;
-    }
-
-    public Double getVariableAsDouble(String variable) {
-        return (Double) getVariableValue(variable);
-    }
-
-    public Vector getVariableAsVector(String variable) {
-        return (Vector) getVariableValue(variable);
     }
 
     public void defineVariableValue(String variable, Object valueOrExpr) {

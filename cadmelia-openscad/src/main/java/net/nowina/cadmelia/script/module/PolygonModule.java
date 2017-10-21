@@ -47,7 +47,7 @@ public class PolygonModule extends UnionModule {
         if(listExpression == null) {
             listExpression = op.getFirstUnamedArg();
         }
-        List<Vector> list = (List<Vector>) listExpression.evaluate(context);
+        List<Vector> list = (List<Vector>) listExpression.evaluate(context).asList();
         return polygon(list, context);
 
     }

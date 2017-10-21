@@ -47,7 +47,7 @@ public class OffsetModule extends UnionModule {
         if(exp==null) {
             exp = op.getFirstUnamedArg();
         }
-        Double delta = (Double) exp.evaluate(context);
+        Double delta = exp.evaluateAsDouble(context);
 
         Shape shape = (Shape) composition;
 

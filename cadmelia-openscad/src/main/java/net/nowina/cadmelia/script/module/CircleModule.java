@@ -40,14 +40,14 @@ public class CircleModule extends ModuleExec {
         int resolution = 16;
         Expression resolutionExpr = op.getArg("$fa");
         if (resolutionExpr != null) {
-            resolution = (int) resolutionExpr.evaluate(context);
+            resolution = resolutionExpr.evaluateAsInteger(context);
         }
 
         Expression size = op.getArg("r");
         if (size == null) {
             size = op.getArg(0);
         }
-        double radius = (double) size.evaluate(context);
+        double radius = size.evaluateAsDouble(context);
 
         return factory.createShapeFactory().circle(radius, resolution);
     }

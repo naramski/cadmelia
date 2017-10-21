@@ -19,10 +19,7 @@ package net.nowina.cadmelia.script.module;
 import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Vector;
-import net.nowina.cadmelia.script.Command;
-import net.nowina.cadmelia.script.Expression;
-import net.nowina.cadmelia.script.ModuleExec;
-import net.nowina.cadmelia.script.ScriptContext;
+import net.nowina.cadmelia.script.*;
 
 public class SquareModule extends ModuleExec {
 
@@ -46,11 +43,11 @@ public class SquareModule extends ModuleExec {
         }
 
         if (sizeExpr != null) {
-            Object obj = sizeExpr.evaluate(context);
-            if(obj instanceof Vector) {
-                sizeV = (Vector) obj;
+            Literal obj = sizeExpr.evaluate(context);
+            if(obj.isVector()) {
+                sizeV = obj.asVector();
             } else {
-                double size = (double) obj;
+                double size = obj.asDouble();
                 sizeV = new Vector(size, size, 0);
             }
         }

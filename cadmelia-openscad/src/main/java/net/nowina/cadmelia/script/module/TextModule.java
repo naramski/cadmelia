@@ -39,11 +39,11 @@ public class TextModule extends ModuleExec {
         String text = null;
         Expression textExpr = op.getFirstUnamedArg();
         if (textExpr != null) {
-            text = (String) textExpr.evaluate(context);
+            text = textExpr.evaluateAsString(context);
         } else {
             textExpr = op.getArg("text");
             if (textExpr != null) {
-                text = (String) textExpr.evaluate(context);
+                text = textExpr.evaluateAsString(context);
             }
         }
 

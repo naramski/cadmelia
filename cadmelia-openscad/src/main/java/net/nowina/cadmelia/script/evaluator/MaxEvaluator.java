@@ -14,25 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.module;
+package net.nowina.cadmelia.script.evaluator;
 
-import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
-import net.nowina.cadmelia.script.ModuleExec;
+import net.nowina.cadmelia.script.Evaluator;
 import net.nowina.cadmelia.script.ScriptContext;
+import net.nowina.cadmelia.script.Expression;
 
-public class SurfaceModule extends ModuleExec {
-
-    public SurfaceModule() {
-        super("surface");
-    }
+public class MaxEvaluator implements Evaluator {
 
     @Override
-    public Construction execute(Command op, ScriptContext context) {
-
-        // TODO
-        return null;
-
+    public Object evaluate(Command command, ScriptContext context) {
+        Expression exp0 = command.getArg(0);
+        double max = exp0.evaluateAsDouble(context);
+        for (int i = 1; i < command.getArgCount(); i++) {
+            Expression expi = command.getArg(i);
+            double value = expi.evaluateAsDouble(context);
+            if (value > max) {
+                max = value;
+            }
+        }
+        return max;
     }
 
 }

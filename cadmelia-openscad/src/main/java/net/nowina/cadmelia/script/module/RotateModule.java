@@ -21,9 +21,12 @@ import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.math.Transformation;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
+import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class RotateModule extends UnionModule {
 
@@ -53,17 +56,17 @@ public class RotateModule extends UnionModule {
 
         Vector openScadRotation = null;
 
-        Object rotation = rotationExpr.evaluate(context);
-        if(rotation instanceof Vector) {
+        Literal rotation = rotationExpr.evaluate(context);
+        if(rotation.isVector()) {
 
-            Vector rot = (Vector) rotation;
+            Vector rot = rotation.asVector();
             openScadRotation = new Vector(-rot.x(), -rot.y(), -rot.z());
             LOGGER.info("Rotate composition of " + openScadRotation);
             composition = composition.rotate(openScadRotation);
 
         } else {
 
-            double angle = (double) rotation;
+            double angle = rotation.asDouble();
 
             Expression axisExpr = op.getArg(VECTOR_PARAM);
             if (axisExpr == null) {

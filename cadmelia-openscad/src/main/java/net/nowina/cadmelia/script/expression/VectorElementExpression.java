@@ -14,27 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.module;
+package net.nowina.cadmelia.script.expression;
 
-import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.script.Command;
+import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.Expression;
-import net.nowina.cadmelia.script.ModuleExec;
 import net.nowina.cadmelia.script.ScriptContext;
 
-public class EchoModule extends ModuleExec {
+public class VectorElementExpression extends Expression {
 
-    public EchoModule() {
-        super("echo");
+    private String variableName;
+
+    private Expression indexExpr;
+
+    public VectorElementExpression(String variableName, Expression index) {
+        this.variableName = variableName;
+        this.indexExpr = index;
     }
 
     @Override
-    public Construction execute(Command op, ScriptContext context) {
+    protected Object doEvaluation(ScriptContext scriptContext) {
 
-        Expression arg = op.getArg(0);
-        System.out.println("ECHO: " + arg.evaluate(context).getValue());
-        return null;
-
+        Vector value = (Vector) scriptContext.getVariableValue(variableName);
+        int index = indexExpr.evaluateAsInteger(scriptContext);
+        return value.get(index);
     }
 
+    @Override
+    public String toString() {
+        return variableName + "[" + indexExpr + "]";
+    }
 }

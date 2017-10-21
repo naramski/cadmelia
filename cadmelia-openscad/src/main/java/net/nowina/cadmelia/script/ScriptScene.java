@@ -77,7 +77,8 @@ public class ScriptScene extends CommandInterpreter {
         for (Instruction instruction : script.getInstructions()) {
             if (instruction.getType() == InstructionType.DEFINE) {
                 Define define = (Define) instruction;
-                getContext().defineVariableValue(define.getName(), define.getExpression().evaluate(getContext()));
+                Object value = define.getExpression().evaluate(getContext()).getValue();
+                getContext().defineVariableValue(define.getName(), value);
             }
         }
 

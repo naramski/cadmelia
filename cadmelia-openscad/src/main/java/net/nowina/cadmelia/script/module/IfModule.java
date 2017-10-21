@@ -18,6 +18,7 @@ package net.nowina.cadmelia.script.module;
 
 import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.*;
+import net.nowina.cadmelia.script.Expression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

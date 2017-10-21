@@ -20,6 +20,7 @@ import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
+import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,12 +50,12 @@ public class ScaleModule extends UnionModule {
             throw new NullPointerException("a scale vector must be provided");
         }
 
-        Object value = scaleExpr.evaluate(context);
+        Literal value = scaleExpr.evaluate(context);
         Vector scale = null;
-        if(value instanceof Vector) {
-            scale = (Vector) value;
+        if(value.isVector()) {
+            scale = value.asVector();
         } else {
-            double d = (double) value;
+            double d = value.asDouble();
             scale = new Vector(d, d, d);
         }
         LOGGER.info("Scale composition of " + scale);

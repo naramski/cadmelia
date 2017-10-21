@@ -54,7 +54,7 @@ public class Range implements Iterable<Expression> {
         public Expression next() {
             double current = value;
             value += increment;
-            return Expression.element(current);
+            return ExpressionBuilder.element(current);
         }
 
     }

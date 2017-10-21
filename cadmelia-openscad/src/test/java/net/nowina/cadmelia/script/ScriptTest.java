@@ -63,7 +63,7 @@ public class ScriptTest {
         Assert.assertEquals(Command.class, op.getClass());
         Assert.assertEquals("translate", op.getName());
         Assert.assertEquals(1, op.getArgCount());
-        Assert.assertEquals(new Vector(1, 2, 3), op.getArg("v").evaluate(context));
+        Assert.assertEquals(new Vector(1, 2, 3), op.getArg("v").evaluateAsVector(context));
         Assert.assertEquals(1, op.getOperations().size());
         Command c = op.getOperations().get(0);
         Assert.assertEquals("sphere", c.getName());
@@ -71,7 +71,7 @@ public class ScriptTest {
         op = parser.Chain();
         Assert.assertEquals("cube", op.getName());
         Assert.assertEquals(1, op.getArgCount());
-        Assert.assertEquals(1d, op.getArg(0).evaluate(context));
+        Assert.assertEquals(1d, op.getArg(0).evaluate(context).asDouble(), 10e-8);
 
     }
 
@@ -180,6 +180,9 @@ public class ScriptTest {
         parser = new ScriptParser(new StringReader("module curve() polygon();"));
         s = parser.Script();
 
+        parser = new ScriptParser(new StringReader("module t(t, s = 18, style = \"\") { square([1, 2]); }"));
+        s = parser.Script();
+
         parser = new ScriptParser(new StringReader("module curve() polygon([for (a = [ 0 : 0.004 : 1]) position(a)]);"));
         s = parser.Script();
 
@@ -194,6 +197,14 @@ public class ScriptTest {
 
         parser = new ScriptParser(new StringReader("use <test.txt>"));
         Instruction i1 = parser.useFile();
+
+    }
+
+    @Test
+    public void testTranslateVector2D() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("rotate(45) translate([ 0, -15 ]) square([ 100, 30 ]);"));
+        Instruction instruction = parser.Statement();
 
     }
 

@@ -14,25 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.module;
+package net.nowina.cadmelia.script.evaluator;
 
-import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.script.Command;
-import net.nowina.cadmelia.script.ModuleExec;
+import net.nowina.cadmelia.script.Evaluator;
 import net.nowina.cadmelia.script.ScriptContext;
+import net.nowina.cadmelia.script.Expression;
 
-public class SurfaceModule extends ModuleExec {
+import java.util.function.Function;
 
-    public SurfaceModule() {
-        super("surface");
+public class SimpleFunctionEvaluator implements Evaluator {
+
+    private Function<Double, Double> function;
+
+    public SimpleFunctionEvaluator(Function<Double, Double> function) {
+        this.function = function;
     }
 
     @Override
-    public Construction execute(Command op, ScriptContext context) {
-
-        // TODO
-        return null;
-
+    public Object evaluate(Command command, ScriptContext context) {
+        Expression arg0 = command.getArg(0);
+        Double value = arg0.evaluateAsDouble(context);
+        return function.apply(value);
     }
 
 }

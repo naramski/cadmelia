@@ -14,27 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.module;
+package net.nowina.cadmelia.script.expression;
 
-import net.nowina.cadmelia.construction.Construction;
-import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
-import net.nowina.cadmelia.script.ModuleExec;
 import net.nowina.cadmelia.script.ScriptContext;
 
-public class EchoModule extends ModuleExec {
+public class InlineIfExpression extends Expression {
 
-    public EchoModule() {
-        super("echo");
+    private Expression condition;
+
+    private Expression thenExpr;
+
+    private Expression elseExpr;
+
+    public InlineIfExpression(Expression condition, Expression thenExpr, Expression elseExpr) {
+        this.condition = condition;
+        this.thenExpr = thenExpr;
+        this.elseExpr = elseExpr;
     }
 
     @Override
-    public Construction execute(Command op, ScriptContext context) {
+    protected Object doEvaluation(ScriptContext scriptContext) {
 
-        Expression arg = op.getArg(0);
-        System.out.println("ECHO: " + arg.evaluate(context).getValue());
-        return null;
-
+        if(condition.evaluateAsBoolean(scriptContext)) {
+            return thenExpr.evaluate(scriptContext).getValue();
+        } else {
+            return elseExpr.evaluate(scriptContext).getValue();
+        }
     }
 
+    @Override
+    public String toString() {
+        return condition + "?" + thenExpr + ":" + elseExpr;
+    }
 }
