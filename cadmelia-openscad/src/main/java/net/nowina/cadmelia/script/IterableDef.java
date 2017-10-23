@@ -18,6 +18,6 @@ package net.nowina.cadmelia.script;
 
 public interface IterableDef {
 
-    Iterable<Expression> evaluate(ScriptContext ctx);
+    Iterable<Expression> iterable(ScriptContext ctx);
 
 }

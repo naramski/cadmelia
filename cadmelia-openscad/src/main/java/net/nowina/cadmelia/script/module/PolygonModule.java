@@ -21,10 +21,12 @@ import net.nowina.cadmelia.construction.Construction;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
+import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PolygonModule extends UnionModule {
@@ -47,7 +49,10 @@ public class PolygonModule extends UnionModule {
         if(listExpression == null) {
             listExpression = op.getFirstUnamedArg();
         }
-        List<Vector> list = (List<Vector>) listExpression.evaluate(context).asList();
+        List<Vector> list = new ArrayList<>();
+        for(Object o : listExpression.evaluate(context).asList()) {
+            list.add(new Literal(o).asVector());
+        }
         return polygon(list, context);
 
     }

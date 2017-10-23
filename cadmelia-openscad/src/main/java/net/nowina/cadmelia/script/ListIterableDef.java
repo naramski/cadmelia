@@ -27,7 +27,7 @@ public class ListIterableDef implements IterableDef {
         list.add(exp);
     }
 
-    public Iterable<Expression> evaluate(ScriptContext ctx) {
+    public Iterable<Expression> iterable(ScriptContext ctx) {
         return list;
     }
 

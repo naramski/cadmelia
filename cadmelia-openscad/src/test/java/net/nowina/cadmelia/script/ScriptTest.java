@@ -188,6 +188,15 @@ public class ScriptTest {
 
     }
 
+
+    @Test
+    public void testFunction() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("function ngon(num, r) = [for (i=[0:num-1], a=i*360/num) [ r*cos(a), r*sin(a) ]];"));
+        Function f = parser.FunctionDef();
+
+    }
+
     @Test
     public void testUse() throws Exception {
 

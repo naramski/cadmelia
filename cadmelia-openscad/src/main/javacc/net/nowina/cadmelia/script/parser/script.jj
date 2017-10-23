@@ -26,6 +26,7 @@ package net.nowina.cadmelia.script.parser;
 
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.*;
+import net.nowina.cadmelia.script.expression.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,6 @@ SKIP: {
 
 TOKEN: {
    < MODULE : "module" >
-// | < FUNCTION : "max" | "rand" | "rands" | "sin" | "cos" | "atan" | "round" | "tan" >
  | < FUNCTION : "function" >
  | < BOOLEAN : "true" | "false" >
  | < FOR : "for" >
@@ -256,6 +256,9 @@ IterableDef iterableDefinition() :
     |
     def = rangeDefinition()
     { return def; }
+    |
+    def = listFor()
+    { return def; }
 }
 
 ListIterableDef listDefinition() :
@@ -293,6 +296,25 @@ RangeIterableDef rangeDefinition() :
     end = Expression()
     <RB>
     { return new RangeIterableDef(start, end, increment); }
+}
+
+InlineForExpression listFor() :
+{
+    String var;
+    IterableDef range = null;
+    Expression expr = null;
+}
+{
+    // [for (i=[0:num-1], a=i*360/num) [ r*cos(a), r*sin(a) ]]
+    <LB> <FOR> <LP>
+        var = Name()
+    <EQ>
+        range = iterableDefinition()
+    (<COMMA> Name() <EQ> Expression())*
+    <RP>
+        expr = Expression()
+    <RB>
+    { return new InlineForExpression(var, range, expr); }
 }
 
 List VectorList() :
@@ -586,6 +608,9 @@ Expression Element() :
 {
     value = Number()
     { return ExpressionBuilder.element(value); }
+    |
+    expression = listFor()
+    { return expression; }
     |
     expression = vectorElement()
     { return expression; }

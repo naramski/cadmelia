@@ -36,7 +36,7 @@ public class RangeIterableDef implements IterableDef {
         this(start, end, DEFAULT_INCREMENT);
     }
 
-    public Iterable<Expression> evaluate(ScriptContext ctx) {
+    public Iterable<Expression> iterable(ScriptContext ctx) {
         double start = this.start.evaluateAsDouble(ctx);
         double end = this.end.evaluateAsDouble(ctx);
         double increment = this.increment.evaluateAsDouble(ctx);

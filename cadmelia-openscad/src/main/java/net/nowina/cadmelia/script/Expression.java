@@ -51,7 +51,11 @@ public abstract class Expression {
 
     public Double evaluateAsDouble(ScriptContext context) {
         Object value = _evaluate(context);
-        return (Double) value;
+        if(value instanceof Integer) {
+            return new Double((Integer)value);
+        } else {
+            return (Double) value;
+        }
     }
 
     public int evaluateAsInteger(ScriptContext context) {

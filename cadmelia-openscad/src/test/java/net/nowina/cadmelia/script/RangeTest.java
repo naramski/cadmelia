@@ -16,8 +16,13 @@
  */
 package net.nowina.cadmelia.script;
 
+import net.nowina.cadmelia.script.expression.InlineForExpression;
+import net.nowina.cadmelia.script.parser.ScriptParser;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.StringReader;
+import java.util.List;
 
 public class RangeTest {
 
@@ -32,6 +37,26 @@ public class RangeTest {
         }
         Assert.assertEquals(10, count);
         Assert.assertEquals(55, (int) total);
+    }
+
+    @Test
+    public void test2() throws Exception {
+
+        ScriptContext context = new ScriptContext();
+        context.defineVariableValue("num", 10);
+        ScriptParser parser = new ScriptParser(new StringReader("[for (a=[0:num-1]) [ a, a*2 ]]"));
+        InlineForExpression expr = parser.listFor();
+
+        List list = expr.evaluateAsList(context);
+
+        Iterable<Expression> exps = expr.iterable(context);
+        for(Expression e : exps) {
+            Assert.assertNotNull(e.evaluate(context));
+        }
+
+        context = new ScriptContext();
+        parser = new ScriptParser(new StringReader("[for (i=[0:num-1], a=i*360/num) [ r*cos(a), r*sin(a) ]]"));
+        parser.listFor();
     }
 
 }

@@ -42,7 +42,7 @@ public class ForModule extends UnionModule {
 
         Construction iteration = null;
 
-        for (Expression exp : op.getIterableDef().evaluate(context)) {
+        for (Expression exp : op.getIterableDef().iterable(context)) {
 
             Object val = exp.evaluate(context).getValue();
 
