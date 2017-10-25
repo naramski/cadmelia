@@ -42,9 +42,8 @@ public class ForModule extends UnionModule {
 
         Construction iteration = null;
 
-        for (Expression exp : op.getIterableDef().iterable(context)) {
-
-            Object val = exp.evaluate(context).getValue();
+        Literal iterable = op.getIterableDef().evaluate(context);
+        for (Object val : iterable.asList()) {
 
             ScriptContext childContext = new ScriptContext(context);
             childContext.defineVariableValue(op.getVariable(), val);

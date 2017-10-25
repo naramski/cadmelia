@@ -22,6 +22,10 @@ public class Argument {
 
     private final Expression expression;
 
+    public Argument(Expression expression) {
+        this(null, expression);
+    }
+
     public Argument(String name, Expression expression) {
         this.name = name;
         this.expression = expression;

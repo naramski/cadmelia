@@ -17,7 +17,11 @@
 package net.nowina.cadmelia.script.expression;
 
 import net.nowina.cadmelia.script.Expression;
+import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BinaryExpression extends Expression {
 
@@ -34,10 +38,28 @@ public class BinaryExpression extends Expression {
     }
 
     @Override
-    protected Double doEvaluation(ScriptContext context) {
-        Double x = xExpr.evaluateAsDouble(context);
-        Double y = yExpr.evaluateAsDouble(context);
-        return function.apply(x, y);
+    protected Object doEvaluation(ScriptContext context) {
+        Literal x = xExpr.evaluate(context);
+        Literal y = yExpr.evaluate(context);
+        if(x.isList()) {
+            List<Double> doubleList = x.asList();
+            Double factor = y.asDouble();
+            return applyFunctionOnList(doubleList, factor);
+        } else if(y.isList()) {
+            List<Double> doubleList = y.asList();
+            Double factor = x.asDouble();
+            return applyFunctionOnList(doubleList, factor);
+        } else {
+            return function.apply(x.asDouble(), y.asDouble());
+        }
+    }
+
+    private List<Double> applyFunctionOnList(List<Double> doubleList, Double factor) {
+        List<Double> list = new ArrayList<>();
+        for(Double e : doubleList) {
+            list.add(function.apply(factor, e));
+        }
+        return list;
     }
 
 }

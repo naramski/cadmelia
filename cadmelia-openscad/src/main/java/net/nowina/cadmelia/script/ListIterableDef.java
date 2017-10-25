@@ -17,17 +17,39 @@
 package net.nowina.cadmelia.script;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ListIterableDef implements IterableDef {
+public class ListIterableDef extends IterableDef {
 
-    private final List<Expression> list = new ArrayList<>();
+    private final List<Expression> list;
+
+    public ListIterableDef(List<Expression> list) {
+        this.list = list;
+    }
+
+    public ListIterableDef() {
+        this(new ArrayList<>());
+    }
+
+    public ListIterableDef(Expression... list) {
+        this(Arrays.asList(list));
+    }
 
     public void add(Expression exp) {
         list.add(exp);
     }
 
     public Iterable<Expression> iterable(ScriptContext ctx) {
+        return list;
+    }
+
+    @Override
+    protected Object doEvaluation(ScriptContext context) {
+        List<Object> list = new ArrayList<>();
+        for(Expression e : iterable(context)) {
+            list.add(e.evaluate(context));
+        }
         return list;
     }
 

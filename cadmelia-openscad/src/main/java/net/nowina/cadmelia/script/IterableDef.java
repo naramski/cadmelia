@@ -16,8 +16,20 @@
  */
 package net.nowina.cadmelia.script;
 
-public interface IterableDef {
+import java.util.ArrayList;
+import java.util.List;
 
-    Iterable<Expression> iterable(ScriptContext ctx);
+public abstract class IterableDef extends Expression {
+
+    public abstract Iterable<Expression> iterable(ScriptContext ctx);
+
+    @Override
+    protected Object doEvaluation(ScriptContext context) {
+        List<Object> list = new ArrayList<>();
+        for(Expression e : iterable(context)) {
+            list.add(e.evaluate(context));
+        }
+        return list;
+    }
 
 }

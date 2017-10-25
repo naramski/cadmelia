@@ -17,6 +17,7 @@
 package net.nowina.cadmelia.script.expression;
 
 import net.nowina.cadmelia.script.Expression;
+import net.nowina.cadmelia.script.IterableDef;
 import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
 
@@ -25,18 +26,19 @@ import java.util.List;
 
 public class ListExpression extends Expression {
 
-    final List<Expression> list;
+    final IterableDef iterableDef;
 
-    public ListExpression(List<Expression> list){
-        this.list = list;
+    public ListExpression(IterableDef iterableDef) {
+        this.iterableDef = iterableDef;
     }
 
     @Override
     protected Object doEvaluation(ScriptContext scriptContext) {
         List<Object> values = new ArrayList<>();
-        for(Expression e : list) {
+        Iterable<Expression> iterable = iterableDef.iterable(scriptContext);
+        for(Expression e : iterable) {
             if(e == null) {
-                throw new NullPointerException("A element of the list is null ?!");
+                throw new NullPointerException("An element of the list is null ?!");
             }
             Literal evaluate = e.evaluate(scriptContext);
             if(evaluate == null) {
@@ -49,7 +51,7 @@ public class ListExpression extends Expression {
 
     @Override
     public String toString() {
-        return list.toString();
+        return iterableDef != null ? iterableDef.toString() : null;
     }
 
 }

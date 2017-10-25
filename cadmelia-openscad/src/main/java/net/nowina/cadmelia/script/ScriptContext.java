@@ -41,6 +41,9 @@ public class ScriptContext {
         if("$children".equals(variable)) {
             return ExpressionBuilder.element(0d);
         }
+        if("$t".equals(variable)) {
+            return ExpressionBuilder.element(0d);
+        }
         Object local = variables.get(variable);
         if (local == null && parent != null) {
             return parent.getVariableValue(variable);

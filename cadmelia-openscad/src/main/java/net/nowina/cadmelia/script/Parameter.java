@@ -27,6 +27,10 @@ public class Parameter {
         this.defaultValue = defaultValue;
     }
 
+    public Parameter(String name) {
+        this(name, null);
+    }
+
     public String getName() {
         return name;
     }

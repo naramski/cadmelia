@@ -4,8 +4,6 @@ package net.nowina.cadmelia.script.parser;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.*;
 import net.nowina.cadmelia.script.expression.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /** Token Manager. */
 @SuppressWarnings("unused")public class ScriptParserTokenManager implements ScriptParserConstants {

@@ -14,36 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.expression;
+package net.nowina.cadmelia.script.evaluator;
 
-import net.nowina.cadmelia.construction.Vector;
+import net.nowina.cadmelia.script.Command;
+import net.nowina.cadmelia.script.Evaluator;
 import net.nowina.cadmelia.script.Expression;
-import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
+import net.nowina.cadmelia.script.expression.TwoArgsFunction;
 
-import java.util.List;
+import java.util.function.Function;
 
-public class VectorElementExpression extends Expression {
+public class TwoArgsFunctionEvaluator implements Evaluator {
 
-    private String variableName;
+    private TwoArgsFunction<Double, Double, Double> function;
 
-    private Expression indexExpr;
-
-    public VectorElementExpression(String variableName, Expression index) {
-        this.variableName = variableName;
-        this.indexExpr = index;
+    public TwoArgsFunctionEvaluator(TwoArgsFunction<Double, Double, Double> function) {
+        this.function = function;
     }
 
     @Override
-    protected Object doEvaluation(ScriptContext scriptContext) {
-
-        List value = new Literal(scriptContext.getVariableValue(variableName)).asList();
-        int index = indexExpr.evaluateAsInteger(scriptContext);
-        return value.get(index);
+    public Object evaluate(Command command, ScriptContext context) {
+        Expression arg0 = command.getArg(0);
+        Double value0 = arg0.evaluateAsDouble(context);
+        Expression arg1 = command.getArg(1);
+        Double value1 = arg1.evaluateAsDouble(context);
+        return function.apply(value0, value1);
     }
 
-    @Override
-    public String toString() {
-        return variableName + "[" + indexExpr + "]";
-    }
 }

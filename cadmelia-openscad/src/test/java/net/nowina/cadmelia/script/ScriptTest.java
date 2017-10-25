@@ -16,7 +16,9 @@
  */
 package net.nowina.cadmelia.script;
 
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Vector;
+import net.nowina.cadmelia.model.ModelFactoryBuilder;
 import net.nowina.cadmelia.script.parser.ScriptParser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -84,7 +86,7 @@ public class ScriptTest {
         Module op = parser.Module();
         Assert.assertEquals(Module.class, op.getClass());
         Assert.assertEquals("mod1", op.getName());
-        Assert.assertEquals(0, op.getArgs().size());
+        Assert.assertEquals(0, op.getParameters().size());
         Assert.assertEquals(1, op.getInstructions().size());
         Instruction i = op.getInstructions().get(0);
         Assert.assertEquals(Command.class, i.getClass());
@@ -96,8 +98,8 @@ public class ScriptTest {
         op = parser.Module();
         Assert.assertEquals(Module.class, op.getClass());
         Assert.assertEquals("mod1", op.getName());
-        Assert.assertEquals(1, op.getArgs().size());
-        Parameter a = op.getArgs().get(0);
+        Assert.assertEquals(1, op.getParameters().size());
+        Parameter a = op.getParameters().get(0);
         Assert.assertEquals("a", a.getName());
         Assert.assertEquals(3d, a.getDefaultValue());
 
@@ -106,8 +108,8 @@ public class ScriptTest {
         op = parser.Module();
         Assert.assertEquals(Module.class, op.getClass());
         Assert.assertEquals("mod1", op.getName());
-        Assert.assertEquals(1, op.getArgs().size());
-        a = op.getArgs().get(0);
+        Assert.assertEquals(1, op.getParameters().size());
+        a = op.getParameters().get(0);
         Assert.assertEquals("a", a.getName());
         Assert.assertEquals(null, a.getDefaultValue());
 
@@ -215,6 +217,17 @@ public class ScriptTest {
         ScriptParser parser = new ScriptParser(new StringReader("rotate(45) translate([ 0, -15 ]) square([ 100, 30 ]);"));
         Instruction instruction = parser.Statement();
 
+        parser = new ScriptParser(new StringReader("translate(l * [cos(a), sin(a), 0]) { sphere(r = 2 * r); }"));
+        Script script = parser.Script();
+
+        ScriptScene scene = new ScriptScene(new ModelFactoryBuilder());
+
+        ScriptContext ctx = scene.getContext();
+        ctx.defineVariableValue("l", 1d);
+        ctx.defineVariableValue("a", 30d);
+        ctx.defineVariableValue("r", 2d);
+
+        scene.executeScript(script);
     }
 
 }

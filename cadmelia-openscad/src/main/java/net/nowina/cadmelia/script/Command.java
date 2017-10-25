@@ -69,11 +69,17 @@ public class Command extends Instruction {
         return args.size();
     }
 
+    /**
+     * Returns the amount of unamed argument before the first named argument
+     * @return
+     */
     public int getUnamedArgCount() {
         int count = 0;
         for (Argument arg : args) {
             if (arg.getName() == null) {
                 count++;
+            } else {
+                return count;
             }
         }
         return count;
@@ -95,7 +101,7 @@ public class Command extends Instruction {
     public String toString() {
         return "Command{" +
                 "name='" + name + '\'' +
-                ", args=" + args +
+                ", parameters=" + args +
                 '}';
     }
 

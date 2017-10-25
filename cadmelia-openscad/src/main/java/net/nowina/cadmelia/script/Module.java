@@ -23,7 +23,7 @@ public class Module extends Instruction {
 
     private String name;
 
-    final List<Parameter> args = new ArrayList<>();
+    final List<Parameter> parameters = new ArrayList<>();
 
     private List<Instruction> instructions;
 
@@ -38,7 +38,7 @@ public class Module extends Instruction {
     }
 
     public void addParam(Parameter arg) {
-        args.add(arg);
+        parameters.add(arg);
     }
 
     public List<Instruction> getInstructions() {
@@ -49,8 +49,8 @@ public class Module extends Instruction {
         return name;
     }
 
-    public List<Parameter> getArgs() {
-        return args;
+    public List<Parameter> getParameters() {
+        return parameters;
     }
 
 }

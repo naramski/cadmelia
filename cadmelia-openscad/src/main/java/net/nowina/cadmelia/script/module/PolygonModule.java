@@ -50,7 +50,8 @@ public class PolygonModule extends UnionModule {
             listExpression = op.getFirstUnamedArg();
         }
         List<Vector> list = new ArrayList<>();
-        for(Object o : listExpression.evaluate(context).asList()) {
+        Literal points = listExpression.evaluate(context);
+        for(Object o : points.asList()) {
             list.add(new Literal(o).asVector());
         }
         return polygon(list, context);

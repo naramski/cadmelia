@@ -20,11 +20,11 @@ public class ForCommand extends Command {
 
     private String variable;
 
-    private IterableDef iterableDef;
+    private Expression iterableDef;
 
     private Instruction instruction;
 
-    public ForCommand(String variable, IterableDef iterableDef) {
+    public ForCommand(String variable, Expression iterableDef) {
         super("for");
         this.variable = variable;
         this.iterableDef = iterableDef;
@@ -42,7 +42,7 @@ public class ForCommand extends Command {
         return instruction;
     }
 
-    public IterableDef getIterableDef() {
+    public Expression getIterableDef() {
         return iterableDef;
     }
 

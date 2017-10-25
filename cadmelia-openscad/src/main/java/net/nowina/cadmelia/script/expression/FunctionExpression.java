@@ -37,31 +37,52 @@ public class FunctionExpression extends Expression {
     }
 
     public static Object evaluateFunction(Command command, ScriptContext context) {
-        switch (command.getName()) {
-            case "max":
-                return new MaxEvaluator().evaluate(command, context);
-            case "sin":
-                return new SimpleFunctionEvaluator(a -> Math.sin(Math.toRadians(a))).evaluate(command, context);
-            case "cos":
-                return new SimpleFunctionEvaluator(a -> Math.cos(Math.toRadians(a))).evaluate(command, context);
-            case "round":
-                return new SimpleFunctionEvaluator(value -> (double) Math.round(value)).evaluate(command, context);
-            case "tan":
-                return new SimpleFunctionEvaluator(a -> Math.tan(Math.toRadians(a))).evaluate(command, context);
+        Evaluator builtInEvaluator = getEvaluator(command.getName());
+        if(builtInEvaluator != null) {
+            return builtInEvaluator.evaluate(command, context);
+        } else {
+            return evaluateFunctionDef(command, context);
+        }
+    }
+
+    public static Evaluator getEvaluator(String name) {
+        switch (name) {
+            case "abs":
+                return new SimpleFunctionEvaluator(a -> Math.abs(a));
+            case "acos":
+                return new SimpleFunctionEvaluator(a -> Math.toDegrees(Math.acos(a)));
+            case "asin":
+                return new SimpleFunctionEvaluator(a -> Math.toDegrees(Math.asin(a)));
             case "atan":
-                return new SimpleFunctionEvaluator(a -> Math.toDegrees(Math.atan(a))).evaluate(command, context);
-            case "rand":
-                return new RandEvaluator().evaluate(command, context);
-            case "rands":
-                return new RandsEvaluator().evaluate(command, context);
-            case "version":
-                return new VersionEvaluator().evaluate(command, context);
+                return new SimpleFunctionEvaluator(a -> Math.toDegrees(Math.atan(a)));
+            case "atan2":
+                return new TwoArgsFunctionEvaluator((a,b) -> Math.toDegrees(Math.atan2(a,b)));
+            case "ceil":
+                return new SimpleFunctionEvaluator(a -> Math.ceil(a));
+            case "cos":
+                return new SimpleFunctionEvaluator(a -> Math.cos(Math.toRadians(a)));
             case "lookup":
-                return new LookupEvaluator().evaluate(command, context);
+                return new LookupEvaluator();
+            case "max":
+                return new MaxEvaluator();
+            case "rand":
+                return new RandEvaluator();
+            case "rands":
+                return new RandsEvaluator();
+            case "round":
+                return new SimpleFunctionEvaluator(value -> (double) Math.round(value));
+            case "sin":
+                return new SimpleFunctionEvaluator(a -> Math.sin(Math.toRadians(a)));
+            case "sqrt":
+                return new SimpleFunctionEvaluator(value -> Math.sqrt(value));
             case "str":
-                return new StrEvaluator().evaluate(command, context);
+                return new StrEvaluator();
+            case "tan":
+                return new SimpleFunctionEvaluator(a -> Math.tan(Math.toRadians(a)));
+            case "version":
+                return new VersionEvaluator();
             default:
-                return evaluateFunctionDef(command, context);
+                return null;
         }
     }
 
@@ -71,8 +92,6 @@ public class FunctionExpression extends Expression {
             throw new UnsupportedOperationException("Function not recognized " + command.getName());
         } else {
             ScriptContext childContext = new ScriptContext(context);
-
-            boolean unamed = command.getUnamedArgCount() == fun.getArgs().size();
 
             LOGGER.info("Execution of evaluator " + command.getName());
             for (int i = 0; i < fun.getArgs().size(); i++) {
@@ -85,6 +104,7 @@ public class FunctionExpression extends Expression {
                 /* If the the argument was provided at the time of the call
                    the default value is overrided
                  */
+                boolean unamed = i <= command.getUnamedArgCount();
                 Expression argumentValue = unamed ? command.getArg(i) : command.getArg(name);
                 if (argumentValue != null) {
                     value = argumentValue.evaluate(context).getValue();

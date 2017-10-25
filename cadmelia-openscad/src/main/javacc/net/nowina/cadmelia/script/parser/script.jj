@@ -27,8 +27,6 @@ package net.nowina.cadmelia.script.parser;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.*;
 import net.nowina.cadmelia.script.expression.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScriptParser {
 
@@ -157,12 +155,12 @@ IfCommand IfCommand() :
 ForCommand For() :
 {
     String variable;
-    IterableDef iterableDef;
+    Expression iterableDef;
     ForCommand it;
     Instruction instruction;
 }
 {
-    <FOR> <LP> variable = Name() <EQ> iterableDef = iterableDefinition() <RP>
+    <FOR> <LP> variable = Name() <EQ> iterableDef = Element() <RP>
     { it = new ForCommand(variable, iterableDef); }
 
     (
@@ -275,6 +273,7 @@ ListIterableDef listDefinition() :
         expr = Expression()
         { l.add(expr); }
     )*
+    (<COMMA>)?
     <RB>
     { return l; }
 }
@@ -305,7 +304,6 @@ InlineForExpression listFor() :
     Expression expr = null;
 }
 {
-    // [for (i=[0:num-1], a=i*360/num) [ r*cos(a), r*sin(a) ]]
     <LB> <FOR> <LP>
         var = Name()
     <EQ>
@@ -315,24 +313,6 @@ InlineForExpression listFor() :
         expr = Expression()
     <RB>
     { return new InlineForExpression(var, range, expr); }
-}
-
-List VectorList() :
-{
-    List l = null;
-    Expression v = null;
-}
-{
-    <LB>
-        v = Vector()
-        { l = new ArrayList(); l.add(v); }
-    (
-    <COMMA>
-        v = Vector()
-        { l.add(v); }
-        )*
-    <RB>
-    { return l; }
 }
 
 Argument Argument() :
@@ -601,7 +581,7 @@ Expression Element() :
     String name;
     Boolean bool;
     String text;
-    List list;
+    IterableDef list;
     Command function;
     Expression expression;
 }
@@ -621,7 +601,7 @@ Expression Element() :
     name = Name()
     { return ExpressionBuilder.element(name); }
     |
-    list = VectorList()
+    list = iterableDefinition()
     { return ExpressionBuilder.element(list); }
     |
     expression = Vector()
@@ -691,6 +671,9 @@ Expression Factor() :
         |
         <MINUS> exp2 = Term()
         { expression = expression.minus(exp2); }
+        |
+        <PERCENT> exp2 = Term()
+        { expression = expression.modulo(exp2); }
     )*
     { return expression; }
 }

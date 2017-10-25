@@ -37,9 +37,9 @@ public class ExpressionBuilder {
 
     public static Expression element(Expression x, Expression y, Expression z) {
         if(z == null) {
-            return new ListExpression(Arrays.asList(x, y));
+            return new ListExpression(new ListIterableDef(x, y));
         } else {
-            return new ListExpression(Arrays.asList(x, y, z));
+            return new ListExpression(new ListIterableDef(x, y, z));
         }
     }
 
@@ -55,7 +55,7 @@ public class ExpressionBuilder {
         return new ExpressionElement(value);
     }
 
-    public static Expression element(List<Expression> list) {
+    public static Expression element(IterableDef list) {
         return new ListExpression(list);
     }
 

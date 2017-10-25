@@ -12,7 +12,11 @@ public class Literal {
         if(value == null) {
             throw new NullPointerException("Value must be defined");
         }
-        this.value = value;
+        if(value instanceof Literal) {
+            this.value = ((Literal)value).getValue();
+        } else {
+            this.value = value;
+        }
     }
 
     @Override
@@ -21,6 +25,9 @@ public class Literal {
     }
 
     public Double asDouble() {
+        if(isInteger()) {
+            return new Double((Integer) value);
+        }
         return (Double) value;
     }
 
@@ -37,7 +44,10 @@ public class Literal {
     }
 
     public Integer asInteger() {
-        return asDouble().intValue();
+        if(isDouble()) {
+            return ((Double) value).intValue();
+        }
+        return (Integer) value;
     }
 
     public boolean isInteger() {

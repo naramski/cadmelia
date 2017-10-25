@@ -21,6 +21,8 @@ import net.nowina.cadmelia.construction.Construction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class ScriptModule extends ModuleExec {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptModule.class);
@@ -40,29 +42,8 @@ public class ScriptModule extends ModuleExec {
 
     @Override
     public Construction execute(Command op, ScriptContext context) {
-        ScriptContext childContext = new ScriptContext(context);
 
-        boolean unamed = op.getUnamedArgCount() == module.getArgs().size();
-
-        LOGGER.info("Execution of module " + op.getName());
-        for (int i = 0; i < module.getArgs().size(); i++) {
-            Parameter param = module.getArgs().get(i);
-            String name = param.getName();
-
-            Object value = param.getDefaultValue();
-            LOGGER.info("Received param " + name + " with default value " + value);
-
-            /* If the the argument was provided at the time of the call
-               the default value is overrided
-             */
-            Expression argumentValue = unamed ? op.getArg(i) : op.getArg(name);
-            if (argumentValue != null) {
-                value = argumentValue.evaluate(context).getValue();
-                LOGGER.info("Param " + name + " is overrided by param " + value);
-            }
-
-            childContext.defineVariableValue(name, value);
-        }
+        ScriptContext childContext = populateContext(op, context);
 
         CommandInterpreter builder = new CommandInterpreter(preview, childContext, factory);
         for (Instruction i : module.getInstructions()) {
@@ -99,6 +80,33 @@ public class ScriptModule extends ModuleExec {
 
         return builder.getRoot();
 
+    }
+
+    ScriptContext populateContext(Command op, ScriptContext parentContext) {
+        ScriptContext childContext = new ScriptContext(parentContext);
+        List<Parameter> parameters = module.getParameters();
+
+        LOGGER.info("Execution of module " + op.getName());
+        for (int i = 0; i < parameters.size(); i++) {
+            Parameter param = parameters.get(i);
+            String name = param.getName();
+
+            Object value = param.getDefaultValue();
+            LOGGER.info("Received param " + name + " with default value " + value);
+
+            /* If the the argument was provided at the time of the call
+               the default value is overrided
+             */
+            boolean unamed = i <= op.getUnamedArgCount();
+            Expression argumentValue = unamed ? op.getArg(i) : op.getArg(name);
+            if (argumentValue != null) {
+                value = argumentValue.evaluate(parentContext).getValue();
+                LOGGER.info("Param " + name + " is overrided by param " + value);
+            }
+
+            childContext.defineVariableValue(name, value);
+        }
+        return childContext;
     }
 
 }

@@ -191,4 +191,12 @@ public class ExpressionTest {
         parser.Vector();
     }
 
+    @Test
+    public void testVectorElement() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("s[3][1]"));
+        Expression exp = parser.Expression();
+
+    }
+
 }

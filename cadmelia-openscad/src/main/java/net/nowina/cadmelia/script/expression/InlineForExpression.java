@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class InlineForExpression extends Expression implements IterableDef {
+public class InlineForExpression extends IterableDef {
 
     private final String variableName;
 

@@ -14,36 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.expression;
+package net.nowina.cadmelia.script.module;
 
+import net.nowina.cadmelia.construction.Construction;
+import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Vector;
+import net.nowina.cadmelia.script.Command;
 import net.nowina.cadmelia.script.Expression;
 import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class VectorElementExpression extends Expression {
+public class PolyhedronModule extends UnionModule {
 
-    private String variableName;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolyhedronModule.class);
 
-    private Expression indexExpr;
+    public static final String MODULE_NAME = "polyhedron";
 
-    public VectorElementExpression(String variableName, Expression index) {
-        this.variableName = variableName;
-        this.indexExpr = index;
+    private FactoryBuilder factory;
+
+    public PolyhedronModule(FactoryBuilder factory) {
+        super(MODULE_NAME);
+        this.factory = factory;
     }
 
     @Override
-    protected Object doEvaluation(ScriptContext scriptContext) {
+    public Construction execute(Command op, ScriptContext context) {
 
-        List value = new Literal(scriptContext.getVariableValue(variableName)).asList();
-        int index = indexExpr.evaluateAsInteger(scriptContext);
-        return value.get(index);
+        return null;
+
     }
 
-    @Override
-    public String toString() {
-        return variableName + "[" + indexExpr + "]";
-    }
 }
