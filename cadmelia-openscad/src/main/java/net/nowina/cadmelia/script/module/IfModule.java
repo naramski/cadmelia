@@ -38,9 +38,6 @@ public class IfModule extends UnionModule {
     @Override
     public Construction execute(Command op, ScriptContext context) {
 
-        if(!(op instanceof IfCommand)) {
-            System.out.println("Gni?");
-        }
         IfCommand ifCommand = (IfCommand) op;
         Expression conditionExpr = ifCommand.getCondition();
         boolean condition = conditionExpr.evaluateAsBoolean(context);

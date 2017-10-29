@@ -130,4 +130,12 @@ public abstract class Expression {
         return new ComparisonExpression(this, arg, (x,y) -> (double)x<=(double)y);
     }
 
+    public Expression or2(Expression arg) {
+        return new ComparisonExpression(this, arg, (x,y) -> (Boolean)x || (Boolean) y);
+    }
+
+    public Expression and2(Expression arg) {
+        return new ComparisonExpression(this, arg, (x,y) -> (Boolean)x && (Boolean) y);
+    }
+
 }

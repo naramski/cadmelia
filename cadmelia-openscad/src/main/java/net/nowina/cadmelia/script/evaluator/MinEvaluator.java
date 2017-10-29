@@ -14,36 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script.expression;
+package net.nowina.cadmelia.script.evaluator;
 
-import net.nowina.cadmelia.construction.Vector;
+import net.nowina.cadmelia.script.Command;
+import net.nowina.cadmelia.script.Evaluator;
 import net.nowina.cadmelia.script.Expression;
-import net.nowina.cadmelia.script.Literal;
 import net.nowina.cadmelia.script.ScriptContext;
 
-import java.util.List;
-
-public class VectorElementExpression extends Expression {
-
-    private Expression list;
-
-    private Expression indexExpr;
-
-    public VectorElementExpression(Expression list, Expression index) {
-        this.list = list;
-        this.indexExpr = index;
-    }
+public class MinEvaluator implements Evaluator {
 
     @Override
-    protected Object doEvaluation(ScriptContext scriptContext) {
-
-        List value = list.evaluate(scriptContext).asList();
-        int index = indexExpr.evaluateAsInteger(scriptContext);
-        return value.get(index);
+    public Object evaluate(Command command, ScriptContext context) {
+        Expression exp0 = command.getArg(0);
+        double min = exp0.evaluateAsDouble(context);
+        for (int i = 1; i < command.getArgCount(); i++) {
+            Expression expi = command.getArg(i);
+            double value = expi.evaluateAsDouble(context);
+            if (value < min) {
+                min = value;
+            }
+        }
+        return min;
     }
 
-    @Override
-    public String toString() {
-        return list + "[" + indexExpr + "]";
-    }
 }

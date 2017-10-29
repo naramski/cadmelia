@@ -59,8 +59,8 @@ public class ExpressionBuilder {
         return new ListExpression(list);
     }
 
-    public static Expression vectorElement(String variableName, Expression index) {
-        return new VectorElementExpression(variableName, index);
+    public static Expression vectorElement(Expression list, Expression index) {
+        return new VectorElementExpression(list, index);
     }
 
 }

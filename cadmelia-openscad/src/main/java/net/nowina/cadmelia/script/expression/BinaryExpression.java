@@ -41,7 +41,20 @@ public class BinaryExpression extends Expression {
     protected Object doEvaluation(ScriptContext context) {
         Literal x = xExpr.evaluate(context);
         Literal y = yExpr.evaluate(context);
-        if(x.isList()) {
+        if(x.isList() && y.isList()) {
+            List<Double> listX = x.asList();
+            List<Double> listY = y.asList();
+            if(listX.size() != listY.size()) {
+                throw new IllegalArgumentException("Only list of same size");
+            }
+            List<Double> result = new ArrayList<>();
+            for(int i=0;i<listX.size();i++) {
+                Double valX = listX.get(i);
+                Double valY = listY.get(i);
+                result.add(function.apply(valX, valY));
+            }
+            return result;
+        } else if(x.isList()) {
             List<Double> doubleList = x.asList();
             Double factor = y.asDouble();
             return applyFunctionOnList(doubleList, factor);

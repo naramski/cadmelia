@@ -114,6 +114,15 @@ public class ExpressionTest {
 
         Assert.assertEquals(2, script.getInstructions().size());
 
+        parser = new ScriptParser(new StringReader("if( i || j ) { cube(1) }"));
+        IfCommand ifCommand = parser.IfCommand();
+
+        parser = new ScriptParser(new StringReader("len1 >= 0.01 && len2 >= 0.01"));
+        Expression exp = parser.Expression();
+
+        parser = new ScriptParser(new StringReader("if (len1 >= 0.01 && len2 >= 0.01) { cube(1) }"));
+        ifCommand = parser.IfCommand();
+
     }
 
     @Test
@@ -195,6 +204,17 @@ public class ExpressionTest {
     public void testVectorElement() throws Exception {
 
         ScriptParser parser = new ScriptParser(new StringReader("s[3][1]"));
+        Expression exp = parser.Expression();
+
+        parser = new ScriptParser(new StringReader("x=s[3][1];"));
+        Define def = parser.Assignment();
+
+    }
+
+    @Test
+    public void testRange() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("f(a)-1"));
         Expression exp = parser.Expression();
 
     }

@@ -91,7 +91,11 @@ public class ScriptModule extends ModuleExec {
             Parameter param = parameters.get(i);
             String name = param.getName();
 
-            Object value = param.getDefaultValue();
+            Expression valueExpr = param.getDefaultValue();
+            Object value = null;
+            if(valueExpr != null) {
+                value = valueExpr._evaluate(parentContext);
+            }
             LOGGER.info("Received param " + name + " with default value " + value);
 
             /* If the the argument was provided at the time of the call

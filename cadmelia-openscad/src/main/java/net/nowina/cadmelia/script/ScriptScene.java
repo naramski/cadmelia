@@ -46,6 +46,7 @@ public class ScriptScene extends CommandInterpreter {
         getContext().registerModule(new ImportModule());
         getContext().registerModule(new IntersectionModule());
         getContext().registerModule(new IntersectionForModule());
+        getContext().registerModule(new MultMatrixModule());
         getContext().registerModule(new OffsetModule(factory));
         getContext().registerModule(new ProjectionModule());
         getContext().registerModule(new PolygonModule(factory));

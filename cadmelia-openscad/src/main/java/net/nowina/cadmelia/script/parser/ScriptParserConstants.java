@@ -37,59 +37,63 @@ public interface ScriptParserConstants {
   /** RegularExpression Id. */
   int LT = 18;
   /** RegularExpression Id. */
-  int GTE = 19;
+  int OR2 = 19;
   /** RegularExpression Id. */
-  int LTE = 20;
+  int AND2 = 20;
   /** RegularExpression Id. */
-  int COLON = 21;
+  int GTE = 21;
   /** RegularExpression Id. */
-  int HASH = 22;
+  int LTE = 22;
   /** RegularExpression Id. */
-  int PERCENT = 23;
+  int COLON = 23;
   /** RegularExpression Id. */
-  int LP = 24;
+  int HASH = 24;
   /** RegularExpression Id. */
-  int RP = 25;
+  int PERCENT = 25;
   /** RegularExpression Id. */
-  int LB = 26;
+  int LP = 26;
   /** RegularExpression Id. */
-  int RB = 27;
+  int RP = 27;
   /** RegularExpression Id. */
-  int QUESTION = 28;
+  int LB = 28;
   /** RegularExpression Id. */
-  int LBRACE = 29;
+  int RB = 29;
   /** RegularExpression Id. */
-  int RBRACE = 30;
+  int QUESTION = 30;
   /** RegularExpression Id. */
-  int EQ = 31;
+  int LBRACE = 31;
   /** RegularExpression Id. */
-  int SEMICOLON = 32;
+  int RBRACE = 32;
   /** RegularExpression Id. */
-  int COMMA = 33;
+  int EQ = 33;
   /** RegularExpression Id. */
-  int SP = 34;
+  int SEMICOLON = 34;
   /** RegularExpression Id. */
-  int PLUS = 35;
+  int COMMA = 35;
   /** RegularExpression Id. */
-  int MINUS = 36;
+  int SP = 36;
   /** RegularExpression Id. */
-  int DIVIDE = 37;
+  int PLUS = 37;
   /** RegularExpression Id. */
-  int TIMES = 38;
+  int MINUS = 38;
   /** RegularExpression Id. */
-  int QUOTE = 39;
+  int DIVIDE = 39;
   /** RegularExpression Id. */
-  int NUMBER = 40;
+  int TIMES = 40;
   /** RegularExpression Id. */
-  int FILENAME = 41;
+  int QUOTE = 41;
   /** RegularExpression Id. */
-  int NAME = 42;
+  int NUMBER = 42;
   /** RegularExpression Id. */
-  int ENDQUOTE = 44;
+  int FILENAME = 43;
   /** RegularExpression Id. */
-  int CHAR = 45;
+  int NAME = 44;
   /** RegularExpression Id. */
-  int CNTRL_ESC = 46;
+  int ENDQUOTE = 46;
+  /** RegularExpression Id. */
+  int CHAR = 47;
+  /** RegularExpression Id. */
+  int CNTRL_ESC = 48;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -121,6 +125,8 @@ public interface ScriptParserConstants {
     "\"use\"",
     "\">\"",
     "\"<\"",
+    "\"||\"",
+    "\"&&\"",
     "\">=\"",
     "\"<=\"",
     "\":\"",

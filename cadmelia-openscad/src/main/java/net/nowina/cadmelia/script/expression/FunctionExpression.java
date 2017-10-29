@@ -21,6 +21,8 @@ import net.nowina.cadmelia.script.evaluator.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+
 public class FunctionExpression extends Expression {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FunctionExpression.class);
@@ -33,7 +35,12 @@ public class FunctionExpression extends Expression {
 
     @Override
     protected Object doEvaluation(ScriptContext scriptContext) {
-        return evaluateFunction(command, scriptContext);
+        try {
+            return evaluateFunction(command, scriptContext);
+        } catch (ClassCastException ex) {
+            LOGGER.info("Cannot evaluate the function " + command + " : " + ex.getMessage());
+            throw ex;
+        }
     }
 
     public static Object evaluateFunction(Command command, ScriptContext context) {
@@ -47,6 +54,13 @@ public class FunctionExpression extends Expression {
 
     public static Evaluator getEvaluator(String name) {
         switch (name) {
+            case "8bit_polyfont":
+                return new Evaluator() {
+                    @Override
+                    public Object evaluate(Command command, ScriptContext context) {
+                        return Arrays.asList(Arrays.asList(0, 0, 0), Arrays.asList(0, 0, 0));
+                    }
+                };
             case "abs":
                 return new SimpleFunctionEvaluator(a -> Math.abs(a));
             case "acos":
@@ -61,10 +75,27 @@ public class FunctionExpression extends Expression {
                 return new SimpleFunctionEvaluator(a -> Math.ceil(a));
             case "cos":
                 return new SimpleFunctionEvaluator(a -> Math.cos(Math.toRadians(a)));
+            case "dxf_dim":
+            case "dxf_cross":
+                return new Evaluator() {
+                    @Override
+                    public Object evaluate(Command command, ScriptContext context) {
+                        return 0d;
+                    }
+                };
+            case "len":
+                return new Evaluator() {
+                    @Override
+                    public Object evaluate(Command command, ScriptContext context) {
+                        return 0d;
+                    }
+                };
             case "lookup":
                 return new LookupEvaluator();
             case "max":
                 return new MaxEvaluator();
+            case "min":
+                return new MinEvaluator();
             case "rand":
                 return new RandEvaluator();
             case "rands":
@@ -98,7 +129,11 @@ public class FunctionExpression extends Expression {
                 Parameter param = fun.getArgs().get(i);
                 String name = param.getName();
 
-                Object value = param.getDefaultValue();
+                Expression valueExpr = param.getDefaultValue();
+                Object value = null;
+                if(valueExpr != null) {
+                    value = valueExpr._evaluate(context);
+                }
                 LOGGER.info("Received param " + name + " with default value " + value);
 
                 /* If the the argument was provided at the time of the call

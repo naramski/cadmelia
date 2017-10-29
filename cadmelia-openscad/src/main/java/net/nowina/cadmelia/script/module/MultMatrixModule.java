@@ -14,35 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.nowina.cadmelia.script;
+package net.nowina.cadmelia.script.module;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.nowina.cadmelia.construction.Construction;
+import net.nowina.cadmelia.script.Command;
+import net.nowina.cadmelia.script.ModuleExec;
+import net.nowina.cadmelia.script.ScriptContext;
 
-public class ForCommand extends Command {
+public class MultMatrixModule extends ModuleExec {
 
-    List<Iteration> iterations = new ArrayList<>();
-
-    private Instruction instruction;
-
-    public ForCommand() {
-        super("for");
+    public MultMatrixModule() {
+        super("multmatrix");
     }
 
-    public void addIteration(Iteration iteration) {
-        this.iterations.add(iteration);
+    @Override
+    public Construction execute(Command op, ScriptContext context) {
 
-    }
-    public void setInstruction(Instruction instruction) {
-        this.instruction = instruction;
-    }
+        // TODO
+        return null;
 
-    public Instruction getInstruction() {
-        return instruction;
-    }
-
-    public List<Iteration> getIterations() {
-        return iterations;
     }
 
 }

@@ -42,12 +42,14 @@ public class ForModule extends UnionModule {
 
         Construction iteration = null;
 
-        Literal iterable = op.getIterableDef().evaluate(context);
+        Iteration it = op.getIterations().get(0);
+
+        Literal iterable = it.getIterableDef().evaluate(context);
         for (Object val : iterable.asList()) {
 
             ScriptContext childContext = new ScriptContext(context);
-            childContext.defineVariableValue(op.getVariable(), val);
-            LOGGER.info("ForCommand " + op.getVariable() + "=" + val);
+            childContext.defineVariableValue(it.getVariable(), val);
+            LOGGER.info("ForCommand " + it.getVariable() + "=" + val);
 
             Instruction instruction = op.getInstruction();
 

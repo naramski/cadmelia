@@ -17,8 +17,8 @@
 
 options {
     STATIC = false;
-    LOOKAHEAD = 4;
-    // FORCE_LA_CHECK = true;
+    LOOKAHEAD = 6;
+    FORCE_LA_CHECK = true;
 }
 
 PARSER_BEGIN(ScriptParser)
@@ -59,6 +59,8 @@ TOKEN: {
  | < USE : "use" >
  | < GT : ">" >
  | < LT : "<" >
+ | < OR2 : "||" >
+ | < AND2 : "&&" >
  | < GTE : ">=" >
  | < LTE : "<=" >
  | < COLON : ":" >
@@ -80,7 +82,7 @@ TOKEN: {
  | < DIVIDE: "/" >
  | < TIMES: "*" >
  | < QUOTE: "\"" > : STRING_STATE
- | < NUMBER : ((["0"-"9"])+)? ("." (["0"-"9"])+)?("e"("+"|"-")?(["0"-"9"])+)? >
+ | < NUMBER : ((["0"-"9"])+ ("." (["0"-"9"])+)?("e"("+"|"-")?(["0"-"9"])+)?)  | ("." ((["0"-"9"])+)?("e"("+"|"-")?(["0"-"9"])+)?)  >
  | <FILENAME : "<" (["0"-"9","a"-"z","A"-"Z","_","$",".","/","\\"])+ ">" >
  | < NAME : (["0"-"9","a"-"z","A"-"Z","_","$"])+ >
 }
@@ -151,17 +153,35 @@ IfCommand IfCommand() :
 
 }
 
-
-ForCommand For() :
+Iteration iteration() :
 {
     String variable;
     Expression iterableDef;
+    Iteration iteration;
+}
+{
+    variable = Name() <EQ> iterableDef = Element()
+    { return new Iteration(variable, iterableDef); }
+}
+
+ForCommand For() :
+{
     ForCommand it;
+    Iteration iteration;
     Instruction instruction;
 }
 {
-    <FOR> <LP> variable = Name() <EQ> iterableDef = Element() <RP>
-    { it = new ForCommand(variable, iterableDef); }
+    (<PERCENT>)?
+    <FOR>
+    { it = new ForCommand(); }
+    <LP>
+        iteration = iteration()
+        { it.addIteration(iteration); }
+        (
+            <COMMA> iteration = iteration()
+            { it.addIteration(iteration); }
+        )*
+    <RP>
 
     (
         instruction = scope()
@@ -206,24 +226,6 @@ Boolean Boolean() :
 }
 {
     t=<BOOLEAN> { return new Boolean(t.image); }
-}
-
-Vector LiteralVector() :
-{
-    Double x,y,z = null;
-}
-{
-    <LB>
-        x = Number()
-    <COMMA>
-        y = Number()
-
-    // Optional could be vector 2D or vector 2D
-    (<COMMA>
-        z = Number())?
-
-    <RB>
-    { return new Vector(x,y,z); }
 }
 
 Expression Vector() :
@@ -289,11 +291,18 @@ RangeIterableDef rangeDefinition() :
     start = Expression()
     <COLON>
     (
-        increment = Expression()
-        <COLON>
-    )?
-    end = Expression()
-    <RB>
+        (
+            end = Expression()
+            <RB>
+        )
+        |
+        (
+            increment = Expression()
+            <COLON>
+            end = Expression()
+            <RB>
+        )
+    )
     { return new RangeIterableDef(start, end, increment); }
 }
 
@@ -331,12 +340,12 @@ Argument Argument() :
 Parameter Parameter() :
 {
     String name = null;
-    Object value = null;
+    Expression value = null;
 }
 {
     name = Name() (
         <EQ>
-        (value = Number() | value = LiteralVector() | value = Boolean() | value = String())
+        (value = Expression())
     )?
     {
         return new Parameter(name, value);
@@ -559,18 +568,16 @@ Command Function() :
 {
     Command command;
     String f;
-    Expression ex;
+    Argument arg;
 }
 {
     f = Name()
     { command = new Command(f); }
     <LP>
-        (ex = Expression()
-        { command.addArg(ex); }
-        )?
-        (<COMMA> ex = Expression()
-        { command.addArg(ex); }
-        )*
+        ((arg = Argument()
+        { command.addArg(arg); } )?
+        (<COMMA> arg = Argument()
+        { command.addArg(arg); } )* )
     <RP>
     { return command; }
 }
@@ -620,16 +627,28 @@ Expression Element() :
 Expression vectorElement() :
 {
     String variableName;
+    Expression list;
     Expression index;
 }
 {
     variableName = Name()
-    <LB>
+    { list = ExpressionBuilder.element(variableName); }
+    list = indexVectorElement(list)
+    { return list; }
+}
+
+Expression indexVectorElement(Expression list) :
+{
+    Expression index;
+    Expression expr;
+}
+{
+    { expr = list; }
+    ( <LB>
         index = Expression()
-    <RB>
-    {
-        return ExpressionBuilder.vectorElement(variableName, index);
-    }
+        { expr = ExpressionBuilder.vectorElement(expr, index); }
+    <RB> )+
+    { return expr; }
 }
 
 Expression Unary() :
@@ -707,6 +726,23 @@ Expression BooleanOrExpression() :
     { return exp; }
 }
 
+Expression ExpressionAnd2Or2() :
+{
+    Expression exp;
+    Expression exp2;
+}
+{
+    exp = BooleanOrExpression()
+    (
+        <OR2> exp2 = BooleanOrExpression()
+        { exp = exp.or2(exp2); }
+        |
+        <AND2> exp2 = BooleanOrExpression()
+        { exp = exp.and2(exp2); }
+    )?
+    { return exp; }
+}
+
 Expression Expression() :
 {
     Expression exp;
@@ -714,7 +750,7 @@ Expression Expression() :
     Expression elseExpr = null;
 }
 {
-    exp = BooleanOrExpression()
+    exp = ExpressionAnd2Or2()
     (
         <QUESTION>
         thenExpr = Term()

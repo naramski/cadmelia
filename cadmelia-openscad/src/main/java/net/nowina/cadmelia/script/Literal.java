@@ -2,6 +2,7 @@ package net.nowina.cadmelia.script;
 
 import net.nowina.cadmelia.construction.Vector;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Literal {
@@ -36,7 +37,12 @@ public class Literal {
     }
 
     public List asList() {
-        return (List) value;
+        if(value instanceof Vector) {
+            Vector v = (Vector) value;
+            return Arrays.asList(v.x(), v.y(), v.z());
+        } else {
+            return (List) value;
+        }
     }
 
     public boolean isList() {

@@ -20,22 +20,26 @@ public class Parameter {
 
     private final String name;
 
-    private final Object defaultValue;
+    private final Expression defaultValue;
 
-    public Parameter(String name, Object defaultValue) {
+    public Parameter(String name, Expression defaultValue) {
         this.name = name;
         this.defaultValue = defaultValue;
     }
 
+    public Parameter(String name, Double defaultValue) {
+        this(name, ExpressionBuilder.element(defaultValue));
+    }
+
     public Parameter(String name) {
-        this(name, null);
+        this(name, (Expression) null);
     }
 
     public String getName() {
         return name;
     }
 
-    public Object getDefaultValue() {
+    public Expression getDefaultValue() {
         return defaultValue;
     }
 

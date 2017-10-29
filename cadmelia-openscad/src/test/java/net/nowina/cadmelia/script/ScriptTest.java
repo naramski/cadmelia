@@ -16,7 +16,6 @@
  */
 package net.nowina.cadmelia.script;
 
-import net.nowina.cadmelia.construction.FactoryBuilder;
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.model.ModelFactoryBuilder;
 import net.nowina.cadmelia.script.parser.ScriptParser;
@@ -101,7 +100,7 @@ public class ScriptTest {
         Assert.assertEquals(1, op.getParameters().size());
         Parameter a = op.getParameters().get(0);
         Assert.assertEquals("a", a.getName());
-        Assert.assertEquals(3d, a.getDefaultValue());
+        Assert.assertEquals(3d, a.getDefaultValue().evaluate(new ScriptContext()).asDouble(), 1e-8);
 
         parser = new ScriptParser(new StringReader("module mod1(a) { cube(1); }; "));
 
@@ -196,6 +195,45 @@ public class ScriptTest {
 
         ScriptParser parser = new ScriptParser(new StringReader("function ngon(num, r) = [for (i=[0:num-1], a=i*360/num) [ r*cos(a), r*sin(a) ]];"));
         Function f = parser.FunctionDef();
+
+    }
+
+    @Test
+    public void testFor() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("[0:1:4]"));
+        RangeIterableDef def = parser.rangeDefinition();
+
+        parser = new ScriptParser(new StringReader("[0:5]"));
+        def = parser.rangeDefinition();
+
+        parser = new ScriptParser(new StringReader("[0:len(hours)]"));
+        def = parser.rangeDefinition();
+
+        parser = new ScriptParser(new StringReader("[0:a-1]"));
+        def = parser.rangeDefinition();
+
+        parser = new ScriptParser(new StringReader("[0:f(a)-1]"));
+        def = parser.rangeDefinition();
+
+        parser = new ScriptParser(new StringReader("[0:(len(hours)-1)]"));
+        def = parser.rangeDefinition();
+
+        parser = new ScriptParser(new StringReader("for(i=[0:(len(hours)-1)]) echo(i);"));
+        ForCommand f = (ForCommand) parser.Statement();
+    }
+
+    @Test
+    public void functionCall() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("dxf_dim(file = \"example009.dxf\", name = \"bodywidth\");\n"));
+        parser.Statement();
+
+        parser = new ScriptParser(new StringReader("dxf_dim(file = \"example009.dxf\", name = \"bodywidth\");\n"));
+        parser.Function();
+
+        parser = new ScriptParser(new StringReader("bodywidth = dxf_dim(file = \"example009.dxf\", name = \"bodywidth\");\n"));
+        parser.Statement();
 
     }
 
