@@ -16,6 +16,8 @@
  */
 package net.nowina.cadmelia.script;
 
+import net.nowina.cadmelia.script.expression.BinaryExpression;
+import net.nowina.cadmelia.script.expression.InlineIfExpression;
 import net.nowina.cadmelia.script.parser.ParseException;
 import net.nowina.cadmelia.script.parser.ScriptParser;
 import org.junit.Assert;
@@ -216,6 +218,26 @@ public class ExpressionTest {
 
         ScriptParser parser = new ScriptParser(new StringReader("f(a)-1"));
         Expression exp = parser.Expression();
+
+    }
+
+    @Test
+    public void testExpr() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("s == true ? 1: 2"));
+        Expression exp = parser.Expression();
+
+        parser = new ScriptParser(new StringReader("1+1"));
+        exp = parser.Expression();
+
+        parser = new ScriptParser(new StringReader("s == true ? 1: 1+1"));
+        exp = parser.Expression();
+
+        Assert.assertTrue(exp instanceof InlineIfExpression);
+        InlineIfExpression inline = (InlineIfExpression) exp;
+        Expression exp2 = inline.getElseExpr();
+
+        Assert.assertTrue(exp2 instanceof BinaryExpression);
 
     }
 

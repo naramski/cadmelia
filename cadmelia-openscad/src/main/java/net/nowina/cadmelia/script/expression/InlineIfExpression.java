@@ -47,4 +47,17 @@ public class InlineIfExpression extends Expression {
     public String toString() {
         return condition + "?" + thenExpr + ":" + elseExpr;
     }
+
+    public Expression getElseExpr() {
+        return elseExpr;
+    }
+
+    public Expression getThenExpr() {
+        return thenExpr;
+    }
+
+    public Expression getCondition() {
+        return condition;
+    }
+
 }

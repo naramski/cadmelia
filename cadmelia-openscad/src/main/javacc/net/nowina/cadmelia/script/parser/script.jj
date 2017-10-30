@@ -48,6 +48,7 @@ SKIP: {
 TOKEN: {
    < MODULE : "module" >
  | < FUNCTION : "function" >
+ | < LET : "let" >
  | < BOOLEAN : "true" | "false" >
  | < FOR : "for" >
  | < IF : "if" >
@@ -311,9 +312,16 @@ InlineForExpression listFor() :
     String var;
     IterableDef range = null;
     Expression expr = null;
+    String variableName;
 }
 {
-    <LB> <FOR> <LP>
+    <LB>
+    (
+    <LET> <LP>
+        variableName = Name() <EQ> expr = Expression()
+        (<COMMA> variableName = Name() <EQ> expr = Expression())*
+    <RP>)?
+    <FOR> <LP>
         var = Name()
     <EQ>
         range = iterableDefinition()
@@ -500,22 +508,15 @@ Instruction scopeStatement() :
 {
     def = Assignment()
     { return def; }
-
     |
-
     fun = FunctionDef()
     { return fun; }
-
     |
-
     op = Chain()
     { return op; }
-
     |
-
     op = control()
     { return op; }
-
 }
 
 Instruction Statement() :
@@ -526,14 +527,10 @@ Instruction Statement() :
 {
     instruction = scopeStatement()
     { return instruction; }
-
     |
-
     instruction = useFile()
     { return instruction; }
-
     |
-
     module = Module()
     { return module; }
 }
@@ -599,6 +596,9 @@ Expression Element() :
     expression = listFor()
     { return expression; }
     |
+    list = iterableDefinition()
+    { return ExpressionBuilder.element(list); }
+    |
     expression = vectorElement()
     { return expression; }
     |
@@ -607,9 +607,6 @@ Expression Element() :
     |
     name = Name()
     { return ExpressionBuilder.element(name); }
-    |
-    list = iterableDefinition()
-    { return ExpressionBuilder.element(list); }
     |
     expression = Vector()
     { return expression; }
@@ -743,7 +740,23 @@ Expression ExpressionAnd2Or2() :
     { return exp; }
 }
 
-Expression Expression() :
+Expression letOrExpression() :
+{
+    String variableName;
+    Expression exp;
+}
+{
+    (
+    <LET> <LP>
+        variableName = Name() <EQ> exp = Expression()
+        (<COMMA> variableName = Name() <EQ> exp = Expression())*
+    <RP>
+    )?
+    exp = inlineIfExpression()
+    { return exp; }
+}
+
+Expression inlineIfExpression() :
 {
     Expression exp;
     Expression thenExpr = null;
@@ -753,11 +766,20 @@ Expression Expression() :
     exp = ExpressionAnd2Or2()
     (
         <QUESTION>
-        thenExpr = Term()
+        thenExpr = ExpressionAnd2Or2()
         <COLON>
-        elseExpr = Term()
+        elseExpr = ExpressionAnd2Or2()
         { return ExpressionBuilder.inlineIf(exp, thenExpr, elseExpr); }
     )?
+    { return exp; }
+}
+
+Expression Expression() :
+{
+    Expression exp;
+}
+{
+    exp = letOrExpression()
     { return exp; }
 }
 

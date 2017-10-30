@@ -18,14 +18,23 @@ package net.nowina.cadmelia.script;
 
 import net.nowina.cadmelia.construction.Vector;
 import net.nowina.cadmelia.script.expression.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public abstract class Expression {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Expression.class);
+
     public final Literal evaluate(ScriptContext context) {
-        Object value = _evaluate(context);
-        return new Literal(value);
+        try {
+            Object value = _evaluate(context);
+            return new Literal(value);
+        } catch (RuntimeException e) {
+            LOGGER.warn("Cannot evaluate expression " + this + ": " + e.getMessage());
+            throw e;
+        }
     }
 
     public final Object _evaluate(ScriptContext context) {
@@ -131,11 +140,24 @@ public abstract class Expression {
     }
 
     public Expression or2(Expression arg) {
-        return new ComparisonExpression(this, arg, (x,y) -> (Boolean)x || (Boolean) y);
+        return new ComparisonExpression(this, arg, (x,y) -> asBoolean(x) || asBoolean(y));
     }
 
     public Expression and2(Expression arg) {
-        return new ComparisonExpression(this, arg, (x,y) -> (Boolean)x && (Boolean) y);
+        return new ComparisonExpression(this, arg, (x,y) -> asBoolean(x) && asBoolean(y));
+    }
+
+    public Boolean asBoolean(Object val) {
+        if(val instanceof Double) {
+            Double d = (Double) val;
+            if(d == 0 || d == -0) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return (Boolean) val;
+        }
     }
 
 }

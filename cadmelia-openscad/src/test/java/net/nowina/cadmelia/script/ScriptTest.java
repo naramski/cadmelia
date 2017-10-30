@@ -196,6 +196,57 @@ public class ScriptTest {
         ScriptParser parser = new ScriptParser(new StringReader("function ngon(num, r) = [for (i=[0:num-1], a=i*360/num) [ r*cos(a), r*sin(a) ]];"));
         Function f = parser.FunctionDef();
 
+        parser = new ScriptParser(new StringReader("function v(a) = let (d = 360/num, v = floor((a+d/2)/d)*d) (r-rounding) * [cos(v), sin(v)];"));
+        f = parser.FunctionDef();
+
+        parser = new ScriptParser(new StringReader("function sum(values,s=0) = s == len(values) - 1 ? values[s] : values[s];"));
+        f = parser.FunctionDef();
+
+        parser = new ScriptParser(new StringReader("function sum(s) = s == true ? 1 : 1;"));
+        f = parser.FunctionDef();
+
+        parser = new ScriptParser(new StringReader("function sum(s) = s == true ? 1: 1+1;"));
+        f = parser.FunctionDef();
+
+        parser = new ScriptParser(new StringReader("function sum(s) = s == true ? 1+1: 1;"));
+        f = parser.FunctionDef();
+
+        parser = new ScriptParser(new StringReader("function sum(values,s=0) = s == len(values) - 1 ? values[s] : values[s] + sum(values,s+1);"));
+        f = parser.FunctionDef();
+    }
+
+    @Test
+    public void testLetInExpression() throws Exception {
+
+        ScriptParser parser = new ScriptParser(new StringReader("let (num=len(vertices)) vertices[(i+1)%num]"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("let (x = 7) x"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("let (areas = 3, sol = 6) [ areas, sol ]"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("let (areas = 3, sol = let (x = 7) x * 6) [ areas, sol ]"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("let (num=20) [ for (i=[0:num-1]) i ]"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("[ let (num=20) for (i=[0:num-1]) i ]"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("[ for (i=[0:num-1]) i ]"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("let (areas = [ for (i=[0:num-1]) i ]) x"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("let (areas = [ let (num=20) for (i=[0:num-1]) i ]) areas"));
+        parser.Expression();
+
+        parser = new ScriptParser(new StringReader("let (areas = [let (num=len(vertices)) for (i=[0:num-1]) triarea(vertices[i], vertices[(i+1)%num]) ]) areas"));
+        parser.Expression();
     }
 
     @Test

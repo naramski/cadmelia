@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ForModule extends UnionModule {
@@ -42,30 +43,48 @@ public class ForModule extends UnionModule {
 
         Construction iteration = null;
 
-        Iteration it = op.getIterations().get(0);
+        List<Iteration> iterations = op.getIterations();
 
-        Literal iterable = it.getIterableDef().evaluate(context);
-        for (Object val : iterable.asList()) {
+        iteration = executeIteration(context, op, iteration, iterations, 0);
+        return iteration;
+    }
 
-            ScriptContext childContext = new ScriptContext(context);
-            childContext.defineVariableValue(it.getVariable(), val);
-            LOGGER.info("ForCommand " + it.getVariable() + "=" + val);
+    Construction executeIteration(ScriptContext context, ForCommand op, Construction iteration, final List<Iteration> iterations, final int index) {
+
+        if(iterations.size() > index) {
+
+            Iteration it = iterations.get(index);
+            Literal iterable = it.getIterableDef().evaluate(context);
+            for (Object val : iterable.asList()) {
+
+                ScriptContext childContext = new ScriptContext(context);
+                childContext.defineVariableValue(it.getVariable(), val);
+                LOGGER.info("ForCommand " + it.getVariable() + "=" + val);
+
+                iteration = executeIteration(childContext, op, iteration, iterations, index+1);
+
+            }
+
+            LOGGER.info("Return " + it.getVariable());
+            return iteration;
+
+        } else {
 
             Instruction instruction = op.getInstruction();
 
             switch (instruction.getType()) {
                 case SCOPE:
-                    iteration = executeScope(iteration, childContext, (Scope) instruction);
+                    iteration = executeScope(iteration, context, (Scope) instruction);
                     break;
                 case COMMAND:
-                    iteration = executeCommand(iteration, childContext, (Command) instruction);
+                    iteration = executeCommand(iteration, context, (Command) instruction);
                     break;
             }
 
             LOGGER.info("Result of this iteration " + iteration);
-
+            return iteration;
         }
-        return iteration;
+
     }
 
     private Construction executeScope(Construction iteration, ScriptContext childContext, Scope instruction) {

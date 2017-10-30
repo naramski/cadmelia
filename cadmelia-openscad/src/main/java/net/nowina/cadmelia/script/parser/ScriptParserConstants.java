@@ -15,85 +15,87 @@ public interface ScriptParserConstants {
   /** RegularExpression Id. */
   int FUNCTION = 7;
   /** RegularExpression Id. */
-  int BOOLEAN = 8;
+  int LET = 8;
   /** RegularExpression Id. */
-  int FOR = 9;
+  int BOOLEAN = 9;
   /** RegularExpression Id. */
-  int IF = 10;
+  int FOR = 10;
   /** RegularExpression Id. */
-  int THEN = 11;
+  int IF = 11;
   /** RegularExpression Id. */
-  int ELSE = 12;
+  int THEN = 12;
   /** RegularExpression Id. */
-  int BOOLEAN_EQUAL = 13;
+  int ELSE = 13;
   /** RegularExpression Id. */
-  int BOOLEAN_NOT_EQUAL = 14;
+  int BOOLEAN_EQUAL = 14;
   /** RegularExpression Id. */
-  int BOOLEAN_NOT = 15;
+  int BOOLEAN_NOT_EQUAL = 15;
   /** RegularExpression Id. */
-  int USE = 16;
+  int BOOLEAN_NOT = 16;
   /** RegularExpression Id. */
-  int GT = 17;
+  int USE = 17;
   /** RegularExpression Id. */
-  int LT = 18;
+  int GT = 18;
   /** RegularExpression Id. */
-  int OR2 = 19;
+  int LT = 19;
   /** RegularExpression Id. */
-  int AND2 = 20;
+  int OR2 = 20;
   /** RegularExpression Id. */
-  int GTE = 21;
+  int AND2 = 21;
   /** RegularExpression Id. */
-  int LTE = 22;
+  int GTE = 22;
   /** RegularExpression Id. */
-  int COLON = 23;
+  int LTE = 23;
   /** RegularExpression Id. */
-  int HASH = 24;
+  int COLON = 24;
   /** RegularExpression Id. */
-  int PERCENT = 25;
+  int HASH = 25;
   /** RegularExpression Id. */
-  int LP = 26;
+  int PERCENT = 26;
   /** RegularExpression Id. */
-  int RP = 27;
+  int LP = 27;
   /** RegularExpression Id. */
-  int LB = 28;
+  int RP = 28;
   /** RegularExpression Id. */
-  int RB = 29;
+  int LB = 29;
   /** RegularExpression Id. */
-  int QUESTION = 30;
+  int RB = 30;
   /** RegularExpression Id. */
-  int LBRACE = 31;
+  int QUESTION = 31;
   /** RegularExpression Id. */
-  int RBRACE = 32;
+  int LBRACE = 32;
   /** RegularExpression Id. */
-  int EQ = 33;
+  int RBRACE = 33;
   /** RegularExpression Id. */
-  int SEMICOLON = 34;
+  int EQ = 34;
   /** RegularExpression Id. */
-  int COMMA = 35;
+  int SEMICOLON = 35;
   /** RegularExpression Id. */
-  int SP = 36;
+  int COMMA = 36;
   /** RegularExpression Id. */
-  int PLUS = 37;
+  int SP = 37;
   /** RegularExpression Id. */
-  int MINUS = 38;
+  int PLUS = 38;
   /** RegularExpression Id. */
-  int DIVIDE = 39;
+  int MINUS = 39;
   /** RegularExpression Id. */
-  int TIMES = 40;
+  int DIVIDE = 40;
   /** RegularExpression Id. */
-  int QUOTE = 41;
+  int TIMES = 41;
   /** RegularExpression Id. */
-  int NUMBER = 42;
+  int QUOTE = 42;
   /** RegularExpression Id. */
-  int FILENAME = 43;
+  int NUMBER = 43;
   /** RegularExpression Id. */
-  int NAME = 44;
+  int FILENAME = 44;
   /** RegularExpression Id. */
-  int ENDQUOTE = 46;
+  int NAME = 45;
   /** RegularExpression Id. */
-  int CHAR = 47;
+  int ENDQUOTE = 47;
   /** RegularExpression Id. */
-  int CNTRL_ESC = 48;
+  int CHAR = 48;
+  /** RegularExpression Id. */
+  int CNTRL_ESC = 49;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -114,6 +116,7 @@ public interface ScriptParserConstants {
     "<token of kind 5>",
     "\"module\"",
     "\"function\"",
+    "\"let\"",
     "<BOOLEAN>",
     "\"for\"",
     "\"if\"",
