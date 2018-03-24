@@ -45,7 +45,7 @@ public class ExtrusionTesselationTest {
 
         ExtrusionTesselation<MockSolid> extrusion = new ExtrusionTesselation<>(shape, 3, 1, new MockMeshToSolid());
 
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream("build/hello-world.stl"))) {
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream("target/hello-world.stl"))) {
             new STLWriter().write(new TriangleMesh(extrusion.getPolygons()), writer);
         }
 

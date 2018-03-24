@@ -69,7 +69,7 @@ public class NodeTest {
 
         TriangleMesh mesh = new TriangleMesh(triangles);
 
-        try (PrintWriter out = new PrintWriter(new FileOutputStream("build/node.stl"))) {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream("target/node.stl"))) {
             new STLWriter().write(mesh, out);
         }
 
@@ -108,7 +108,7 @@ public class NodeTest {
 
         TriangleMesh mesh = new TriangleMesh(triangles);
 
-        try (PrintWriter out = new PrintWriter(new FileOutputStream("build/node-iteration.stl"))) {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream("target/node-iteration.stl"))) {
             new STLWriter().write(mesh, out);
         }
 
@@ -147,7 +147,7 @@ public class NodeTest {
 
         TriangleMesh mesh = new TriangleMesh(triangles);
 
-        try (PrintWriter out = new PrintWriter(new FileOutputStream("build/node-recomposed.stl"))) {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream("target/node-recomposed.stl"))) {
             new STLWriter().write(mesh, out);
         }
 
@@ -186,7 +186,7 @@ public class NodeTest {
 
         TriangleMesh mesh = new TriangleMesh(triangles);
 
-        try (PrintWriter out = new PrintWriter(new FileOutputStream("build/node-iteration-recomposed.stl"))) {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream("target/node-iteration-recomposed.stl"))) {
             new STLWriter().write(mesh, out);
         }
 

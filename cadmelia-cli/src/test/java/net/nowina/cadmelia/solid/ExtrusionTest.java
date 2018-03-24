@@ -33,7 +33,7 @@ public class ExtrusionTest {
         ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
-        STLWriter.writeToFile("build/extrusion-square.stl", solid);
+        STLWriter.writeToFile("target/extrusion-square.stl", solid);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class ExtrusionTest {
         ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
-        STLWriter.writeToFile("build/extrusion-circle.stl", solid);
+        STLWriter.writeToFile("target/extrusion-circle.stl", solid);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class ExtrusionTest {
         ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 25, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
-        STLWriter.writeToFile("build/extrusion-battery-holder.stl", solid);
+        STLWriter.writeToFile("target/extrusion-battery-holder.stl", solid);
 
     }
 
@@ -111,7 +111,7 @@ public class ExtrusionTest {
         ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
-        STLWriter.writeToFile("build/extrusion-donuts.stl", solid);
+        STLWriter.writeToFile("target/extrusion-donuts.stl", solid);
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ExtrusionTest {
         ExtrusionTesselation extrusion = new ExtrusionTesselation(shape, 4, 1, new MockMeshToSolid());
         Solid solid = extrusion.buildSolid();
 
-        STLWriter.writeToFile("build/extrusion-two-holes.stl", solid);
+        STLWriter.writeToFile("target/extrusion-two-holes.stl", solid);
     }
 
 }

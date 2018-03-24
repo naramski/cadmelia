@@ -44,7 +44,7 @@ public class GearTest {
 
         Construction diff = c1.difference(c2.translate(0, 0, -0.05));
 
-        STLWriter.writeToFile("build/test-gear-cone.stl", diff);
+        STLWriter.writeToFile("target/test-gear-cone.stl", diff);
 
     }
 
@@ -64,7 +64,7 @@ public class GearTest {
 
         Construction diff = c1.difference(c2);
 
-        STLWriter.writeToFile("build/test-gear-cone-2.stl", diff);
+        STLWriter.writeToFile("target/test-gear-cone-2.stl", diff);
 
     }
 
@@ -84,7 +84,7 @@ public class GearTest {
 
         Construction diff = c1.difference(c2);
 
-        STLWriter.writeToFile("build/test-gear-cone-3.stl", diff);
+        STLWriter.writeToFile("target/test-gear-cone-3.stl", diff);
 
     }
 
@@ -101,7 +101,7 @@ public class GearTest {
 
         Solid c1 = factory.cylinder(0, 66.4634, 63.5, 6, false);
 
-        STLWriter.writeToFile("build/test-cone.stl", c1);
+        STLWriter.writeToFile("target/test-cone.stl", c1);
 
     }
 

@@ -83,7 +83,7 @@ public class OpenSCADSampleTest {
     @Test
     public void testText() throws Exception {
 
-        app.setOutput(new File("build/base-text.stl"));
+        app.setOutput(new File("target/base-text.stl"));
         app.render(new StringReader("text(\"OpenSCAD\");"));
 
     }
@@ -91,7 +91,7 @@ public class OpenSCADSampleTest {
     @Test
     public void testTextCenter() throws Exception {
 
-        app.setOutput(new File("build/base-text-center.stl"));
+        app.setOutput(new File("target/base-text-center.stl"));
         app.render(new StringReader("text(\"OpenSCAD\", valign=\"center\");"));
 
     }
@@ -99,7 +99,7 @@ public class OpenSCADSampleTest {
     @Test
     public void testTextExtrude() throws Exception {
 
-        app.setOutput(new File("build/base-text-extrude.stl"));
+        app.setOutput(new File("target/base-text-extrude.stl"));
         app.render(new StringReader("linear_extrude(height=5) text(\"OpenSCAD\");"));
 
     }
@@ -107,7 +107,7 @@ public class OpenSCADSampleTest {
     @Test
     public void testTextExtrude2() throws Exception {
 
-        app.setOutput(new File("build/base-text-extrude-2.stl"));
+        app.setOutput(new File("target/base-text-extrude-2.stl"));
         app.render(new StringReader("linear_extrude(height=30, scale=3) text(\"coucou\");"));
 
     }
@@ -115,7 +115,7 @@ public class OpenSCADSampleTest {
     @Test
     public void testTextExtrude3() throws Exception {
 
-        app.setOutput(new File("build/base-text-extrude-3.stl"));
+        app.setOutput(new File("target/base-text-extrude-3.stl"));
         app.render(new StringReader("linear_extrude(height=30) text(\"coucou\", valign=\"top\");"));
 
     }
@@ -123,7 +123,7 @@ public class OpenSCADSampleTest {
     @Test
     public void testCube() throws Exception {
 
-        app.setOutput(new File("build/base-cube.stl"));
+        app.setOutput(new File("target/base-cube.stl"));
         app.render(new StringReader("cube([18,28,8],true);"));
 
     }
@@ -131,7 +131,7 @@ public class OpenSCADSampleTest {
     @Test
     public void testRotation() throws Exception {
 
-        app.setOutput(new File("build/base-rotation.stl"));
+        app.setOutput(new File("target/base-rotation.stl"));
         app.render(new StringReader("cylinder(h=10); translate([10,0,0]) rotate([90,0,0]) cylinder(h=10);translate([20,0,0]) rotate([0,90,0]) cylinder(h=10); translate([35,0,0]) rotate([0,0,90]) cylinder(h=10); translate([50,0,0]) rotate([0,0,90]) rotate([0,90,0]) cylinder(h=10); "));
 
     }

@@ -62,7 +62,7 @@ public class SampleTest {
     @Test
     public void test() throws Exception {
 
-        File buildDir = new File("build");
+        File buildDir = new File("target");
 
         File stlFile = new File(buildDir, scriptFile.getName().substring(0, scriptFile.getName().length()-5) + ".stl");
 

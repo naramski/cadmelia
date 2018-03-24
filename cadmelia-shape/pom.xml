@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>net.nowina.cadmelia</groupId>
+		<artifactId>cadmelia-parent</artifactId>
+		<version>0.3.0</version>
+	</parent>
+
+	<artifactId>cadmelia-shape</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.nowina.cadmelia</groupId>
+			<artifactId>cadmelia-api</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.nowina.cadmelia</groupId>
+			<artifactId>cadmelia-core</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.locationtech.jts</groupId>
+			<artifactId>jts-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.orbisgis</groupId>
+			<artifactId>poly2tri-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

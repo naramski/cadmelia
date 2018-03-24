@@ -47,7 +47,7 @@ public class SpheresUnionTest {
         }
 
 
-        STLWriter.writeToFile("build/union-sphere.stl", spheres);
+        STLWriter.writeToFile("target/union-sphere.stl", spheres);
 
     }
 }

@@ -29,7 +29,7 @@ public class CubeTest {
         CSGSolidFactory factory = new FactoryBuilder().build();
         Cube cube = new Cube(factory, 1, 1, 1, true);
 
-        STLWriter.writeToFile("build/test-cube.stl", cube.buildSolid());
+        STLWriter.writeToFile("target/test-cube.stl", cube.buildSolid());
 
     }
 
@@ -43,7 +43,7 @@ public class CubeTest {
 
         Solid difference = (Solid) cube2.difference(cube1);
 
-        STLWriter.writeToFile("build/difference-cube-1.stl", difference);
+        STLWriter.writeToFile("target/difference-cube-1.stl", difference);
 
     }
 
@@ -57,7 +57,7 @@ public class CubeTest {
 
         Solid difference = (Solid) cube2.difference(cube1);
 
-        STLWriter.writeToFile("build/difference-cube-2.stl", difference);
+        STLWriter.writeToFile("target/difference-cube-2.stl", difference);
 
     }
 
@@ -75,7 +75,7 @@ public class CubeTest {
 
         Solid difference = (Solid) cube6.difference(cube1).difference(cube2).difference(cube3).difference(cube4.union(cube5));
 
-        STLWriter.writeToFile("build/difference-cube-3.stl", difference);
+        STLWriter.writeToFile("target/difference-cube-3.stl", difference);
 
     }
 
@@ -90,7 +90,7 @@ public class CubeTest {
 
         Solid difference = (Solid) cube6.difference(cube1).difference(cube2);
 
-        STLWriter.writeToFile("build/difference-cube-4.stl", difference);
+        STLWriter.writeToFile("target/difference-cube-4.stl", difference);
 
     }
 

@@ -40,7 +40,7 @@ public class DecomposableTest {
 
         Solid logo = (Solid) sphere.difference(cyl1);
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-1.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/logo-decomposed-1.stl"))) {
             new STLWriter().write(logo, w);
         }
 
@@ -48,7 +48,7 @@ public class DecomposableTest {
 
         logo = (Solid) logo.difference(cyl2);
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-2.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/logo-decomposed-2.stl"))) {
             new STLWriter().write(logo, w);
         }
 
@@ -56,13 +56,13 @@ public class DecomposableTest {
 
         logo = (Solid) logo.difference(cyl3);
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-3.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/logo-decomposed-3.stl"))) {
             new STLWriter().write(logo, w);
         }
 
         logo = (Solid) logo.intersection(factory.cube(35, 35, 35, true)).union(factory.sphere(10, 30, 15));
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-4.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/logo-decomposed-4.stl"))) {
             new STLWriter().write(logo, w);
         }
 
@@ -79,7 +79,7 @@ public class DecomposableTest {
 
         Solid logo = (Solid) sphere.difference(cyl1);
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-normal-1.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/logo-decomposed-normal-1.stl"))) {
             new STLWriter().write(logo, w);
         }
 
@@ -87,7 +87,7 @@ public class DecomposableTest {
 
         logo = (Solid) logo.difference(cyl2);
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-normal-2.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/logo-decomposed-normal-2.stl"))) {
             new STLWriter().write(logo, w);
         }
 
@@ -95,7 +95,7 @@ public class DecomposableTest {
 
         logo = (Solid) logo.difference(cyl3);
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/logo-decomposed-normal-3.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/logo-decomposed-normal-3.stl"))) {
             new STLWriter().write(logo, w);
         }
 
@@ -117,7 +117,7 @@ public class DecomposableTest {
 
         Construction result = extrude1.difference(extrude2).difference(extrude3).intersection(sphere);
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/extrude.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/extrude.stl"))) {
             new STLWriter().write((Solid) result, w);
         }
 
@@ -152,7 +152,7 @@ public class DecomposableTest {
 
         total = total.difference(factory.cylinder(1.25, 1.25, 6, 16, false));
 
-        try(PrintWriter w = new PrintWriter(new FileOutputStream("build/error-decomposable.stl"))) {
+        try(PrintWriter w = new PrintWriter(new FileOutputStream("target/error-decomposable.stl"))) {
             new STLWriter().write((Solid) total, w);
         }
 

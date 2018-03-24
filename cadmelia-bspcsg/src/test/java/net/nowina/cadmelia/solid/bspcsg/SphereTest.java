@@ -31,7 +31,7 @@ public class SphereTest {
 
         Sphere sphere = new Sphere(factory, 1, 16, 8);
 
-        STLWriter.writeToFile("build/test-sphere.stl", sphere.buildSolid());
+        STLWriter.writeToFile("target/test-sphere.stl", sphere.buildSolid());
 
     }
 
@@ -77,7 +77,7 @@ public class SphereTest {
 
         Solid difference = (Solid) sphere.difference(small);
 
-        STLWriter.writeToFile("build/difference-spheres-1.stl", difference);
+        STLWriter.writeToFile("target/difference-spheres-1.stl", difference);
 
     }
 
@@ -91,7 +91,7 @@ public class SphereTest {
 
         Solid difference = (Solid) sphere.difference(small);
 
-        STLWriter.writeToFile("build/difference-spheres-2.stl", difference);
+        STLWriter.writeToFile("target/difference-spheres-2.stl", difference);
 
     }
 
@@ -106,7 +106,7 @@ public class SphereTest {
 
         Solid difference = (Solid) sphere.difference(small);
 
-        STLWriter.writeToFile("build/difference-spheres-3.stl", difference);
+        STLWriter.writeToFile("target/difference-spheres-3.stl", difference);
 
     }
 
@@ -120,7 +120,7 @@ public class SphereTest {
 
         Solid difference = (Solid) cyl1.difference(cyl2);
 
-        STLWriter.writeToFile("build/difference-cone.stl", difference);
+        STLWriter.writeToFile("target/difference-cone.stl", difference);
 
     }
 

@@ -33,25 +33,25 @@ public class ElementTest {
 
     @Test
     public void union1() throws Exception {
-        app.setOutput(new File("build/testCup-union.stl"));
+        app.setOutput(new File("target/testCup-union.stl"));
         app.render(new StringReader("union() { cylinder(r1=4,r2=66.4633,h=63.5,$fn=6); translate([0,0,-.05]) cylinder(r1=1,r2=62.4633,h=63.6,$fn=6); }"));
     }
 
     @Test
     public void difference2() throws Exception {
-        app.setOutput(new File("build/testCup-difference.stl"));
+        app.setOutput(new File("target/testCup-difference.stl"));
         app.render(new StringReader("difference() { cylinder(r1=4,r2=66.4633,h=63.5,$fn=6); translate([0,0,-.05]) cylinder(r1=1,r2=62.4633,h=63.6,$fn=6); }"));
     }
 
     @Test
     public void differenceRing() throws Exception {
-        app.setOutput(new File("build/testCup-ring.stl"));
+        app.setOutput(new File("target/testCup-ring.stl"));
         app.render(new StringReader("for(i=[0:5]) rotate([0,0,i*60]) rotate([90,0,0]) difference() { cylinder(r1=4,r2=66.4633,h=63.5,$fn=6); translate([0,0,-.05]) cylinder(r1=1,r2=62.4633,h=63.6,$fn=6); }"));
     }
 
     @Test
     public void differenceShape() throws Exception {
-        app.setOutput(new File("build/testCup-shape.stl"));
+        app.setOutput(new File("target/testCup-shape.stl"));
         app.render(new StringReader("for(i=[0:4]) rotate([0,0,60*i/2*9/10]) translate([0,0,2*16.6158*i]) { for(i=[0:5]) rotate([0,0,i*60]) rotate([90,0,0]) difference() { cylinder(r1=4,r2=66.4633,h=63.5,$fn=6); translate([0,0,-.05]) cylinder(r1=1,r2=62.4633,h=63.6,$fn=6); } }"));
     }
 
