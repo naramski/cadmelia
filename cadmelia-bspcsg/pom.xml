@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>net.nowina.cadmelia</groupId>
 		<artifactId>cadmelia-parent</artifactId>
-		<version>0.3.0</version>
+		<version>0.4.0</version>
 	</parent>
 
 	<artifactId>cadmelia-bspcsg</artifactId>
@@ -15,17 +15,17 @@
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-api</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-core</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-tesselation</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.quickhull3d</groupId>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-shape</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -5,8 +5,32 @@
 
 	<groupId>net.nowina.cadmelia</groupId>
 	<artifactId>cadmelia-parent</artifactId>
-	<version>0.3.0</version>
+	<version>0.4.0</version>
 	<packaging>pom</packaging>
+
+	<name>CADmelia</name>
+  <description>A Java CSG framework</description>
+  <url>https://github.com/naramski/cadmelia</url>
+
+	<licenses>
+	  <license>
+	    <name>European Union Public License</name>
+	    <url>https://opensource.org/licenses/EUPL-1.1</url>
+	  </license>
+	</licenses>
+
+	<developers>
+    <developer>
+      <name>David Naramski</name>
+      <organizationUrl>https://github.com/naramski</organizationUrl>
+    </developer>
+  </developers>
+
+	<scm>
+	  <connection>scm:git:git://github.com/naramski/cadmelia.git</connection>
+	  <developerConnection>scm:git:ssh://github.com:naramski/cadmelia.git</developerConnection>
+	  <url>https://github.com/naramski/cadmelia/tree/master</url>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +49,55 @@
     <module>cadmelia-tesselation</module>
   </modules>
 
+	<build>
+	  <plugins>
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-source-plugin</artifactId>
+	      <version>2.2.1</version>
+	      <executions>
+	        <execution>
+	          <id>attach-sources</id>
+	          <goals>
+	            <goal>jar-no-fork</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-javadoc-plugin</artifactId>
+	      <version>2.9.1</version>
+	      <executions>
+	        <execution>
+	          <id>attach-javadocs</id>
+	          <goals>
+	            <goal>jar</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
+	    <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+				 <execution>
+				   <id>sign-artifacts</id>
+				   <phase>verify</phase>
+				   <goals>
+				     <goal>sign</goal>
+				   </goals>
+				 </execution>
+				</executions>
+				<configuration>
+	        <keyname>${gpg.keyname}</keyname>
+	        <passphraseServerId>${gpg.keyname}</passphraseServerId>
+	      </configuration>
+			</plugin>
+	  </plugins>
+	</build>
+
   <repositories>
     <repository>
       <id>locationtech</id>
@@ -32,7 +105,18 @@
     </repository>
   </repositories>
 
-  <dependencyManagement>
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	  <repository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	  </repository>
+	</distributionManagement>
+
+	<dependencyManagement>
 		<dependencies>
       <dependency>
   			<groupId>com.github.quickhull3d</groupId>

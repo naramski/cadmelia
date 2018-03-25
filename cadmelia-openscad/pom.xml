@@ -6,20 +6,24 @@
 	<parent>
 		<groupId>net.nowina.cadmelia</groupId>
 		<artifactId>cadmelia-parent</artifactId>
-		<version>0.3.0</version>
+		<version>0.4.0</version>
 	</parent>
 
 	<artifactId>cadmelia-openscad</artifactId>
 
         <build>
             <plugins>
+							      <plugin>
+							        <groupId>org.apache.maven.plugins</groupId>
+							        <artifactId>maven-javadoc-plugin</artifactId>
+							        <configuration>
+							          <excludePackageNames>net.nowina.cadmelia.script.parser</excludePackageNames>
+							        </configuration>
+							      </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>javacc-maven-plugin</artifactId>
                     <version>2.6</version>
-                    <configuration>
-                        <outputDirectory>src/main/java</outputDirectory>
-                    </configuration>
                     <executions>
                         <execution>
                             <id>javacc</id>
@@ -37,7 +41,7 @@
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-api</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -51,7 +55,7 @@
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-model</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

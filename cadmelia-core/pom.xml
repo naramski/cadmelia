@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>net.nowina.cadmelia</groupId>
 		<artifactId>cadmelia-parent</artifactId>
-		<version>0.3.0</version>
+		<version>0.4.0</version>
 	</parent>
 
 	<artifactId>cadmelia-core</artifactId>
@@ -15,22 +15,22 @@
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-api</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-openscad</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-tesselation</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.nowina.cadmelia</groupId>
 			<artifactId>cadmelia-model</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.orbisgis</groupId>

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>net.nowina.cadmelia</groupId>
 		<artifactId>cadmelia-parent</artifactId>
-		<version>0.3.0</version>
+		<version>0.4.0</version>
 	</parent>
 
 	<artifactId>cadmelia-api</artifactId>

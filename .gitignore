@@ -1,4 +1,5 @@
-*.versionBackup
+target
+*.versionsBackup
 cadmelia-ide/dist
 */build
 out
