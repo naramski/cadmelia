@@ -66,7 +66,7 @@ public class SampleTest {
 
         File stlFile = new File(buildDir, scriptFile.getName().substring(0, scriptFile.getName().length()-5) + ".stl");
 
-        CompileToSTLApp.main(new String[]{"main", scriptFile.getPath(), stlFile.getPath()});
+        CompileToSTLApp.main(new String[]{scriptFile.getPath(), stlFile.getPath()});
 
     }
 

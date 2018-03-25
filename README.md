@@ -3,8 +3,6 @@
 CADmelia is an open-source CAD tool for creating 3D CAD models. It focus on the CAD aspects of
 3D modelling, and the goal is to help creating 3D printed objects (CAM : Computer Aided Manufacturing)
 
-![CADmelia](screenshots/screenshot-mold.png)
-
 Like OpenSCAD it is not an interactive modeller. Instead it is something like a 3D-compiler that
 reads in a script file that describes the object and renders the 3D model from this script file.
 This gives you (the designer) full control over the modelling process and enables you to easily change
@@ -26,26 +24,17 @@ CADmelia uses the modeling language defined by OpenSCAD (see [The_OpenSCAD_Langu
 
 ![http://www.openscad.org/cheatsheet/index.html](screenshots/openSCAD_cheat_sheet.png)
 
-It is free software, licensed under EUPL, and available for Windows and MacOSX (not tested under Linux
-but should work as it is based on Java).
+It is free software, licensed under EUPL.
 
-# Download
+# Usage (Command Line)
 
-Download Windows 64-bits and MacOSX version from the [release page](https://github.com/naramski/cadmelia/releases).
+To compile a OpenSCAD script, the command line is :
+
+    java -jar cadmelia-cli-<version>.jar <openscad.script> <output.stl>
 
 # How to Build
 
-## Requirements
-
-The build requires Gradle and Java => 1.8.
-
-## Command Line
-
-The project is managed with [Gradle](http://www.gradle.org/).
-
-    gradle assemble
-
-The cadmelia-ide is built with Netbeans 8.2
+The build requires Maven and Java => 1.8.
 
 # License
 
