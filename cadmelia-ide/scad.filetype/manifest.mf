@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-AutoUpdate-Show-In-Client: true
-OpenIDE-Module: net.nowina.cadmelia.ide.openscad
-OpenIDE-Module-Localizing-Bundle: net/nowina/cadmelia/ide/openscad/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
