@@ -37,9 +37,9 @@ public class CompileToSTLApp {
 
         CompileToSTLApp app = new CompileToSTLApp();
 
-        File input = new File(argv[1]);
+        File input = new File(argv[0]);
         app.setInput(input);
-        File output = new File(argv[2]);
+        File output = new File(argv[1]);
         app.setOutput(output);
 
         app.render();
